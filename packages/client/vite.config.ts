@@ -17,6 +17,7 @@ export default defineConfig({
     react(),
     alias({
       entries: {
+        '@': path.resolve(__dirname, './src'),
         '@app': path.resolve(__dirname, 'src/app/'),
         '@processes': path.resolve(__dirname, 'src/processes/'),
         '@pages': path.resolve(__dirname, 'src/pages/'),

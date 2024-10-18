@@ -3,7 +3,7 @@ import { router } from './router'
 
 export const App = () => {
   return (
-    <div className="App">
+    <div className="flex flex-col h-screen justify-center items-center">
       <RouterProvider router={router} />
     </div>
   )
