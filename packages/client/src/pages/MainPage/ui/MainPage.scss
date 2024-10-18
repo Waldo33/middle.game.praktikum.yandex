@@ -1,0 +1,207 @@
+.index-wrapper {
+  @apply py-[30px] relative min-h-[100dvh] lg:pt-[60px];
+  background: rgb(250, 204, 20);
+  background: linear-gradient(
+    157deg,
+    rgba(250, 204, 20, 1) 0%,
+    rgba(5, 165, 237, 1) 100%
+  );
+
+  &:before {
+    @apply block absolute top-0 bottom-0 left-0 right-0;
+    content: '';
+    background: url('./assets/bg-pattern.jpg') repeat 0 0;
+    background-size: 500px;
+    opacity: 0.1;
+  }
+  main {
+    @apply relative z-10 bg-white max-w-[980px];
+    @apply rounded-2xl lg:rounded-3xl;
+    @apply mx-2 md:mx-5 lg:mx-auto p-4 md:p-8 lg:p-20 lg:pb-8 md:mt-10;
+  }
+
+  .intro {
+    @apply relative md:min-h-[240px] lg:min-h-[280px];
+
+    &__title {
+      @apply relative font-black text-black italic;
+      font-size: 48px;
+      line-height: 1;
+
+      @media (min-width: 768px) {
+        margin-top: 0.5rem;
+      }
+      @media (min-width: 992px) {
+        font-size: 64px;
+        margin-top: -2rem;
+      }
+
+      span {
+        @apply text-primary block;
+        font-size: 22px;
+      }
+    }
+
+    &__nav {
+      @apply mt-3 mx-0.5 md:mt-8;
+
+      ul {
+        @apply flex gap-4 justify-between md:justify-start;
+        @apply font-bold text-sm;
+      }
+      a {
+        @apply text-black hover:text-primary underline underline-offset-2 hover:no-underline;
+      }
+    }
+
+    &__score {
+      @apply bg-primary rounded-[10px] lg:rounded-3xl p-6 md:p-12;
+      @apply relative mt-8;
+      @apply flex flex-col items-center justify-center;
+      @apply font-black text-black;
+
+      @media (min-width: 768px) {
+        @apply absolute left-[50%] right-4 mt-0;
+        top: -5rem;
+      }
+      @media (min-width: 992px) {
+        top: -6rem;
+      }
+
+      &_num {
+        font-size: 120px;
+      }
+      &_descr {
+        font-size: 32px;
+      }
+    }
+
+    &__cta {
+      @apply text-black font-medium;
+      @apply flex flex-col gap-2 mt-8;
+      font-size: 18px;
+      line-height: 1;
+
+      &_name {
+        @apply font-black italic;
+      }
+    }
+
+    &__btn {
+      @apply mt-1 w-full md:mt-10;
+
+      a {
+        @apply w-full md:w-auto md:px-8;
+      }
+    }
+  }
+
+  .section {
+    @apply relative pt-20 md:pt-24;
+
+    &__title {
+      @apply font-black italic mb-8 lg:mb-12;
+      font-size: 40px;
+      line-height: 1;
+
+      @media (min-width: 992px) {
+        font-size: 48px;
+      }
+    }
+  }
+
+  .rules {
+    &__item {
+      &_img {
+        width: 90px;
+        margin: auto;
+      }
+    }
+  }
+
+  .cta {
+    @apply text-center pt-4;
+
+    a {
+      @apply w-full;
+    }
+  }
+
+  .why {
+    @apply relative;
+
+    &:before {
+      @apply block absolute;
+      @apply bg-contain bg-no-repeat bg-right;
+      content: '';
+      background-image: url('./assets/section-bg.svg');
+      width: 300px;
+      height: 300px;
+      top: 260px;
+      right: -1rem;
+
+      @media (min-width: 768px) {
+        width: 500px;
+        height: 500px;
+        top: 200px;
+        right: -2rem;
+      }
+      @media (min-width: 992px) {
+        width: 700px;
+        height: 700px;
+        top: 85px;
+        right: -5rem;
+      }
+    }
+
+    &__descr {
+      @apply flex flex-col gap-2 md:gap-4;
+      @apply text-black relative;
+      font-size: 18px;
+      line-height: 1.2;
+
+      @media (min-width: 768px) {
+        font-size: 24px;
+      }
+
+      &_title {
+        @apply font-black;
+        font-size: 20px;
+
+        @media (min-width: 768px) {
+          font-size: 34px;
+        }
+      }
+      &_post {
+        @apply font-black italic mt-4;
+
+        @media (min-width: 768px) {
+          font-size: 28px;
+        }
+      }
+    }
+  }
+
+  .team {
+    @apply pb-8;
+
+    &__item {
+      &_img {
+        @apply rounded-sm bg-primary flex items-center justify-center;
+        @apply w-[90px] h-[90px];
+      }
+
+      &_title {
+        @apply font-black italic;
+      }
+
+      &_descr {
+        @apply mt-2;
+      }
+    }
+  }
+
+  .footer {
+    @apply my-2 font-bold text-gray-600 text-sm text-center p-4 bg-secondary rounded-xl;
+  }
+}
