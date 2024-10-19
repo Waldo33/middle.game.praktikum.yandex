@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signupThunk, userThunk } from '../model/thunks'
 import { selectAuthLoading } from '../model/selectors'
@@ -7,15 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@shared/components/ui/button'
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Form,
-} from '@shared/components/ui/form'
-import { Input } from '@shared/components/ui/input'
+import { Form } from '@shared/components/ui/form'
 import { validationRules } from '@shared/config/validationRules'
 import { useNavigate } from 'react-router-dom'
 
@@ -65,25 +57,6 @@ const SignupForm: FC = () => {
       })
     }
   }
-
-  const renderFormField = useCallback(
-    (name: keyof z.infer<typeof formSchema>, label: string) => (
-      <FormField
-        control={form.control}
-        name={name}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>{label}</FormLabel>
-            <FormControl>
-              <Input {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    ),
-    [form.control]
-  )
 
   return (
     <Form {...form}>
