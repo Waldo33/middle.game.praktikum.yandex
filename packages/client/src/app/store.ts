@@ -7,15 +7,15 @@ export interface Signin {
 }
 
 export interface User {
-  id: number
+  id?: number
   first_name: string
   second_name: string
-  display_name: string
+  display_name?: string
   login: string
   email: string
   password: string
   phone: string
-  avatar: string
+  avatar?: string
   reason?: string
 }
 
@@ -28,6 +28,8 @@ export interface Auth {
 export interface Store {
   auth: Auth
 }
+
+export type AppDispatch = typeof store.dispatch
 
 const store = configureStore({
   reducer: {

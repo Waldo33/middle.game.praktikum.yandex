@@ -9,23 +9,14 @@ const initialState: Auth = {
   loading: false,
 }
 
+interface RejectedAction {
+  payload: string | undefined
+}
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    signin(state) {
-      state.isAuthenticated = undefined
-      state.user = null
-    },
-    signup(state) {
-      state.isAuthenticated = undefined
-      state.user = null
-    },
-    logout(state) {
-      state.isAuthenticated = undefined
-      state.user = null
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(signinThunk.pending, state => {
@@ -36,9 +27,10 @@ const authSlice = createSlice({
         state.loading = false
         state.isAuthenticated = true
       })
-      .addCase(signinThunk.rejected, (state: any, action) => {
+      .addCase(signinThunk.rejected, (state, action: RejectedAction) => {
+        console.log('here', action)
         state.loading = false
-        state.error = action.payload
+        state.error = action.payload || 'An unknown error occurred'
       })
 
     builder
@@ -50,9 +42,9 @@ const authSlice = createSlice({
         state.loading = false
         state.isAuthenticated = true
       })
-      .addCase(signupThunk.rejected, (state: any, action) => {
+      .addCase(signupThunk.rejected, (state: Auth, action: RejectedAction) => {
         state.loading = false
-        state.error = action.payload
+        state.error = action.payload || 'An unknown error occurred'
       })
 
     builder
@@ -65,10 +57,10 @@ const authSlice = createSlice({
         state.isAuthenticated = true
         state.user = action.payload
       })
-      .addCase(userThunk.rejected, (state: any, action) => {
+      .addCase(userThunk.rejected, (state, action: RejectedAction) => {
         state.loading = false
         state.isAuthenticated = false
-        state.error = action.payload
+        state.error = action.payload || 'An unknown error occurred'
       })
 
     builder
@@ -81,12 +73,11 @@ const authSlice = createSlice({
         state.isAuthenticated = false
         state.user = null
       })
-      .addCase(logoutThunk.rejected, (state: any, action) => {
+      .addCase(logoutThunk.rejected, (state, action: RejectedAction) => {
         state.loading = false
-        state.error = action.payload
+        state.error = action.payload || 'An unknown error occurred'
       })
   },
 })
 
-export const { signin, signup } = authSlice.actions
 export default authSlice.reducer

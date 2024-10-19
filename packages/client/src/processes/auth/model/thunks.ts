@@ -2,50 +2,54 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { logout, signin, signup, user } from '../api/authApi'
 import { Signin, User } from '@app/store'
 
-export const signinThunk: any = createAsyncThunk(
+interface RejectedValue {
+  rejectValue: string
+}
+
+export const signinThunk = createAsyncThunk<boolean, Signin, RejectedValue>(
   'auth/signin',
-  async (values: Signin, { rejectWithValue }) => {
+  async (values, { rejectWithValue }) => {
     try {
       const response = await signin(values)
       return response
-    } catch (err: any) {
-      return rejectWithValue(err.message)
+    } catch (err) {
+      return rejectWithValue((err as Error).message)
     }
   }
 )
 
-export const signupThunk: any = createAsyncThunk(
+export const signupThunk = createAsyncThunk<boolean, User, RejectedValue>(
   'auth/signup',
-  async (values: User, { rejectWithValue }) => {
+  async (values, { rejectWithValue }) => {
     try {
       const response = await signup(values)
       return response
-    } catch (err: any) {
-      return rejectWithValue(err.message)
+    } catch (err) {
+      return rejectWithValue((err as Error).message)
     }
   }
 )
 
-export const userThunk: any = createAsyncThunk(
+export const userThunk = createAsyncThunk<User, void, RejectedValue>(
   'auth/user',
   async (_, { rejectWithValue }) => {
     try {
       const response = await user()
       return response
-    } catch (err: any) {
-      return rejectWithValue(err.message)
+    } catch (err) {
+      return rejectWithValue((err as Error).message)
     }
   }
 )
 
-export const logoutThunk: any = createAsyncThunk(
+export const logoutThunk = createAsyncThunk<boolean, void, RejectedValue>(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
       const response = await logout()
       return response
-    } catch (err: any) {
-      return rejectWithValue(err.message)
+    } catch (err) {
+      return rejectWithValue((err as Error).message)
     }
   }
 )

@@ -20,6 +20,7 @@ import {
 import { Input } from '@shared/components/ui/input'
 import { validationRules } from '@shared/config/validationRules'
 import { useToast } from '../../../hooks/use-toast'
+import { AppDispatch } from '@app/store'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -27,7 +28,7 @@ const formSchema = z.object({
 })
 
 const SigninForm: FC = () => {
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -45,7 +46,7 @@ const SigninForm: FC = () => {
     const resultAction = await dispatch(signinThunk(values))
 
     if (resultAction.payload === true) {
-      dispatch(userThunk(values))
+      dispatch(userThunk())
       navigate('/game')
     } else {
       toast({
