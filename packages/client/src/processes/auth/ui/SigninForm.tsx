@@ -21,6 +21,7 @@ import { Input } from '@shared/components/ui/input'
 import { validationRules } from '@shared/config/validationRules'
 import { useToast } from '../../../hooks/use-toast'
 import { AppDispatch } from '@app/store'
+import { ROUTES } from '@shared/config/routes'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -47,7 +48,7 @@ const SigninForm: FC = () => {
 
     if (resultAction.payload === true) {
       dispatch(userThunk())
-      navigate('/game')
+      navigate(ROUTES.GAME)
     } else {
       toast({
         description: resultAction.payload,

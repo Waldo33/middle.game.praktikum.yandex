@@ -7,6 +7,7 @@ import { NotFoundPage } from '@pages/NotFoundPage'
 import { ProfilePage } from '@pages/ProfilePage'
 import { SignInPage } from '@pages/SignInPage'
 import { SignUpPage } from '@pages/SignUpPage'
+import { ROUTES } from '@shared/config/routes'
 import ProtectedRoute from '@shared/lib/ProtectedRoute'
 import PublicRoute from '@shared/lib/PublicRoute'
 import { createBrowserRouter } from 'react-router-dom'
@@ -20,27 +21,27 @@ export const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: 'signin',
+        path: ROUTES.SIGNIN,
         element: <PublicRoute element={<SignInPage />} />,
       },
       {
-        path: 'signup',
+        path: ROUTES.SIGNUP,
         element: <PublicRoute element={<SignUpPage />} />,
       },
       {
-        path: 'profile',
+        path: ROUTES.PROFILE,
         element: <ProtectedRoute element={<ProfilePage />} />,
       },
       {
-        path: 'game',
+        path: ROUTES.GAME,
         element: <ProtectedRoute element={<GamePage />} />,
       },
       {
-        path: 'leaderboard',
+        path: ROUTES.LEADERBOARD,
         element: <ProtectedRoute element={<LeaderboardPage />} />,
       },
       {
-        path: 'forum',
+        path: ROUTES.FORUM,
         children: [
           {
             index: true,
@@ -53,7 +54,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: '*',
+        path: ROUTES.NOT_FOUND,
         element: <NotFoundPage />,
       },
     ],
