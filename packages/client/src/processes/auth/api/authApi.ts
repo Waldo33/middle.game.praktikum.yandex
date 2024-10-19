@@ -1,48 +1,66 @@
-// /src/processes/auth/api/authApi.js
+import { Signin, User } from '@app/store'
 
-const API_DOMAIN = 'https://ya-praktikum.tech/api/v2/auth'
+const BASE_AUTH_API = 'https://ya-praktikum.tech/api/v2/auth'
 
-export const signin = async (credentials: any) => {
-  const response = await fetch(`${API_DOMAIN}/signin`, {
+export const signin = async (credentials: Signin) => {
+  const response = await fetch(`${BASE_AUTH_API}/signin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
+    credentials: 'include',
   })
 
   if (!response.ok) {
-    throw new Error('Failed to log in')
+    const data = await response.json()
+    throw new Error(data.reason)
   }
 
-  const data = await response.json()
-  return data
+  return true
 }
 
-export const signup = async (credentials: any) => {
-  const response = await fetch(`${API_DOMAIN}/signup`, {
+export const signup = async (credentials: User) => {
+  const response = await fetch(`${BASE_AUTH_API}/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
+    credentials: 'include',
   })
 
   if (!response.ok) {
-    throw new Error('Failed to log in')
+    const data = await response.json()
+    throw new Error(data.reason)
   }
 
-  const data = await response.json()
-  return data
+  return true
 }
 
-export const user = async (credentials: any) => {
-  const response = await fetch(`${API_DOMAIN}/user`, {
+export const user = async () => {
+  const response = await fetch(`${BASE_AUTH_API}/user`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
+    credentials: 'include',
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.reason)
+  }
+
+  return data
+}
+
+export const logout = async () => {
+  const response = await fetch(`${BASE_AUTH_API}/logout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
   })
 
   if (!response.ok) {
-    throw new Error('Failed to log in')
+    const data = await response.json()
+    throw new Error(data.reason)
   }
 
-  const data = await response.json()
-  return data
+  return true
 }

@@ -1,10 +1,9 @@
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { signinThunk } from '../model/thunks'
-import {
-  selectAuthLoading,
-  // selectAuthError
-} from '../model/selectors'
+import { signinThunk, userThunk } from '../model/thunks'
+import { selectAuthLoading } from '../model/selectors'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -20,6 +19,7 @@ import {
 } from '@shared/components/ui/form'
 import { Input } from '@shared/components/ui/input'
 import { validationRules } from '@shared/config/validationRules'
+import { useToast } from '../../../hooks/use-toast'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -28,8 +28,10 @@ const formSchema = z.object({
 
 const SigninForm: FC = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { toast } = useToast()
+
   const loading = useSelector(selectAuthLoading)
-  // const error = useSelector(selectAuthError)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,11 +41,19 @@ const SigninForm: FC = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    dispatch(signinThunk(values))
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const resultAction = await dispatch(signinThunk(values))
 
+    if (resultAction.payload === true) {
+      dispatch(userThunk(values))
+      navigate('/game')
+    } else {
+      toast({
+        description: resultAction.payload,
+        variant: 'destructive',
+      })
+    }
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

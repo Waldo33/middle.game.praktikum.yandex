@@ -1,4 +1,7 @@
-export const selectIsAuthenticated = (state: any) => state.auth.isAuthenticated
-export const selectUser = (state: any) => state.auth.user
-export const selectAuthLoading = (state: any) => state.auth.loading
-export const selectAuthError = (state: any) => state.auth.error
+import { Store } from '@app/store'
+
+export const selectIsAuthenticated = (state: Store) =>
+  state.auth.isAuthenticated
+export const selectUser = (state: Store) => state.auth.user
+export const selectAuthLoading = (state: Store) => state.auth.loading
+export const selectAuthError = (state: Store) => state.auth.error
