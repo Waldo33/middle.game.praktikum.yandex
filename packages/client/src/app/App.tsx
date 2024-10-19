@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { userThunk } from '@processes/auth/model/thunks'
 import { LoadingSpinner } from '@shared/components/ui/loading-spinner'
-import { Toaster } from '../components/ui/toaster'
+import { Toaster } from '../shared/components/ui/toaster'
 import { AppDispatch } from './store'
 
 export const App = () => {

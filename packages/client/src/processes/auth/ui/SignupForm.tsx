@@ -18,9 +18,10 @@ import {
 import { Input } from '@shared/components/ui/input'
 import { validationRules } from '@shared/config/validationRules'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from '../../../hooks/use-toast'
+
 import { AppDispatch } from '@app/store'
 import { ROUTES } from '@shared/config/routes'
+import { useToast } from '@shared/hooks/use-toast'
 
 const formSchema = z.object({
   login: validationRules.login,
