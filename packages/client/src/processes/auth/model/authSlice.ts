@@ -1,6 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { logoutThunk, signinThunk, signupThunk, userThunk } from './thunks'
-import { Auth } from '@app/store'
+
+export interface Signin {
+  login: string
+  password: string
+}
+
+export interface User {
+  id?: number
+  first_name: string
+  second_name: string
+  display_name?: string
+  login: string
+  email: string
+  password: string
+  phone: string
+  avatar?: string
+  reason?: string
+}
+
+export interface Auth {
+  isAuthenticated: undefined | boolean
+  user: null | User
+  error: null | string
+  loading: boolean
+}
 
 const initialState: Auth = {
   isAuthenticated: undefined,

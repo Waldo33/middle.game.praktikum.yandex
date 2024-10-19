@@ -1,4 +1,4 @@
-import { Signin, User } from '@app/store'
+import { Signin, User } from '../model/authSlice'
 
 const BASE_AUTH_API = 'https://ya-praktikum.tech/api/v2/auth'
 

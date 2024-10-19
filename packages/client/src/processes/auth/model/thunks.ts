@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { logout, signin, signup, user } from '../api/authApi'
-import { Signin, User } from '@app/store'
+import { Signin, User } from './authSlice'
 
 interface RejectedValue {
   rejectValue: string
