@@ -1,15 +1,17 @@
 import { FC } from 'react'
 import './MainPage.scss'
-
-import { Link } from 'react-router-dom'
+import { Route, Rule, Teammate } from '@pages/MainPage/types'
+import { Rules } from './Rules'
+import { Cta } from './Cta'
+import { Teammates } from '@pages/MainPage/ui/Teammates'
+import { SectionIntro } from '@pages/MainPage/ui/SectionIntro'
+import RulesImg1 from '@pages/MainPage/ui/assets/rules-img-1.svg'
+import RulesImg2 from '@pages/MainPage/ui/assets/rules-img-2.svg'
+import RulesImg3 from '@pages/MainPage/ui/assets/rules-img-3.svg'
 import { Button } from '@shared/components/ui/button'
-import { Card, CardContent, CardHeader } from '@shared/components/ui/card'
+import { Link } from 'react-router-dom'
 
-import RulesImg1 from './assets/rules-img-1.svg'
-import RulesImg2 from './assets/rules-img-2.svg'
-import RulesImg3 from './assets/rules-img-3.svg'
-
-const rules = [
+const rules: Rule[] = [
   {
     imageSrc: RulesImg1,
     imageAlt: 'начало игры',
@@ -27,7 +29,7 @@ const rules = [
   },
 ]
 
-const innerRoutes = [
+const innerRoutes: Route[] = [
   {
     text: 'это твой профиль. новая аватарка каждый день? 🎉  да!',
     link: '/profile',
@@ -45,7 +47,7 @@ const innerRoutes = [
   },
 ]
 
-const teammates = [
+const teammates: Teammate[] = [
   {
     name: 'Николай Галицкий',
     about: 'тим-лид, пишет код',
@@ -76,70 +78,21 @@ export const MainPage: FC = () => {
   return (
     <div className="index-wrapper">
       <main>
-        <section className="intro">
-          <h1 className="intro__title">
-            <span>привет,</span> username
-          </h1>
-          <div className="intro__score">
-            <div className="intro__score_num">42</div>
-            <div className="intro__score_descr">твой счет</div>
-          </div>
-          <div className="intro__btn">
-            <Button asChild>
-              <Link to="/game">играть →</Link>
-            </Button>
-          </div>
-          <nav className="intro__nav">
-            <ul>
-              <li>
-                <Link to="/profile">профиль</Link>
-              </li>
-              <li className="">&middot;</li>
-              <li>
-                <Link to="/leaderboard">лидерборд</Link>
-              </li>
-              <li className="">&middot;</li>
-              <li>
-                <Link to="/forum">форум</Link>
-              </li>
-            </ul>
-          </nav>
-        </section>
+        <SectionIntro />
+
         <section id="rules" className="section rules">
           <h2 className="section__title">как играть</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {rules.map(({ imageSrc, imageAlt, text }) => (
-              <Card className="rules__item">
-                <CardHeader className="text-center pt-8">
-                  <img
-                    src={imageSrc}
-                    alt={imageAlt}
-                    className="rules__item_img"
-                  />
-                </CardHeader>
-                <CardContent className="text-center pb-8">
-                  <p>{text}</p>
-                </CardContent>
-              </Card>
-            ))}
+            <Rules list={rules} />
           </div>
         </section>
+
         <section className="section cta">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {innerRoutes.map(({ text, link, linkTitle }) => (
-              <Card className="flex flex-col justify-between">
-                <CardHeader>
-                  <p>{text}</p>
-                </CardHeader>
-                <CardContent>
-                  <Button asChild>
-                    <Link to={link}>{linkTitle} →</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+            <Cta list={innerRoutes} />
           </div>
         </section>
+
         <section id="why" className="section why">
           <h3 className="section__title text-primary">зачем играть</h3>
           <div className="why__descr">
@@ -160,28 +113,14 @@ export const MainPage: FC = () => {
             </div>
           </div>
         </section>
+
         <section id="team" className="section team">
           <h4 className="section__title">команда</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 md:max-w-[600px] gap-4">
-            {teammates.map(({ name, about, imageAlt, imageSrc }) => (
-              <Card className="team__item" key={name}>
-                <CardHeader>
-                  <div className="team__item_img">
-                    {imageSrc ? (
-                      <img src={imageSrc} alt={imageAlt} />
-                    ) : (
-                      imageAlt
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="team__item_title">{name}</p>
-                  <p className="team__item_descr">{about}</p>
-                </CardContent>
-              </Card>
-            ))}
+            <Teammates list={teammates} />
           </div>
         </section>
+
         <div className="footer">
           проект создан в рамках учебного курса яндекс.практикума в 2024 году
         </div>
