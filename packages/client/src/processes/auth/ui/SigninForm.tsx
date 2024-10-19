@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,15 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@shared/components/ui/button'
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Form,
-} from '@shared/components/ui/form'
-import { Input } from '@shared/components/ui/input'
+import { Form } from '@shared/components/ui/form'
+
 import { validationRules } from '@shared/config/validationRules'
 
 import { AppDispatch } from '@app/store'
