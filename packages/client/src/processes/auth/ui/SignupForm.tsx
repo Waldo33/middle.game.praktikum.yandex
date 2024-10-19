@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signupThunk, userThunk } from '../model/thunks'
 import { selectAuthLoading } from '../model/selectors'
@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppDispatch } from '@app/store'
 import { ROUTES } from '@shared/config/routes'
 import { useToast } from '@shared/hooks/use-toast'
+import { FormFieldWrapper } from './formFieldHelpers'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -64,88 +65,47 @@ const SignupForm: FC = () => {
       })
     }
   }
+
+  const renderFormField = useCallback(
+    (name: keyof z.infer<typeof formSchema>, label: string) => (
+      <FormField
+        control={form.control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    ),
+    [form.control]
+  )
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="login"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Login</FormLabel>
-              <FormControl>
-                <Input {...field} className="haha" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
+        <FormFieldWrapper control={form.control} name="login" label="Login" />
+        <FormFieldWrapper
           control={form.control}
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Password"
         />
-        <FormField
+        <FormFieldWrapper
           control={form.control}
           name="first_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Firstname</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="First Name"
         />
-        <FormField
+        <FormFieldWrapper
           control={form.control}
           name="second_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Secondname</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Second Name"
         />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormFieldWrapper control={form.control} name="email" label="Email" />
+        <FormFieldWrapper control={form.control} name="phone" label="Phone" />
         <Button className="w-full" type="submit">
           {loading ? 'Logging in...' : 'Submit'}
         </Button>

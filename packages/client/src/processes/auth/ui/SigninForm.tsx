@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,7 @@ import { validationRules } from '@shared/config/validationRules'
 import { AppDispatch } from '@app/store'
 import { ROUTES } from '@shared/config/routes'
 import { useToast } from '@shared/hooks/use-toast'
+import { FormFieldWrapper } from './formFieldHelpers'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -57,35 +58,15 @@ const SigninForm: FC = () => {
       })
     }
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="login"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Login</FormLabel>
-              <FormControl>
-                <Input {...field} className="haha" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
+        <FormFieldWrapper control={form.control} name="login" label="Login" />
+        <FormFieldWrapper
           control={form.control}
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Password"
         />
         <Button className="w-full" type="submit">
           {loading ? 'Logging in...' : 'Submit'}
