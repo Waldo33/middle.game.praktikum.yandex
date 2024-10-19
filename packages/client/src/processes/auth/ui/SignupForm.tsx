@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppDispatch } from '@app/store'
 import { ROUTES } from '@shared/config/routes'
 import { useToast } from '@shared/hooks/use-toast'
-import { FormFieldWrapper } from './formFieldHelpers'
+import { FormFieldWrapper } from './FormFieldWrapper'
 
 const formSchema = z.object({
   login: validationRules.login,
