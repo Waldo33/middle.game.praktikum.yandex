@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Button } from '@shared/components/ui/button'
 import { Link } from 'react-router-dom'
 
-export const SectionIntro: FC = () => {
+export const Intro: FC = () => {
   return (
     <section className="intro">
       <h1 className="intro__title">

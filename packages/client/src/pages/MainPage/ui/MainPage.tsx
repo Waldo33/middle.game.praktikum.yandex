@@ -4,7 +4,7 @@ import { Route, Rule, Teammate } from '@pages/MainPage/types'
 import { Rules } from './Rules'
 import { Cta } from './Cta'
 import { Teammates } from '@pages/MainPage/ui/Teammates'
-import { SectionIntro } from '@pages/MainPage/ui/SectionIntro'
+import { Intro } from '@pages/MainPage/ui/Intro'
 import RulesImg1 from '@pages/MainPage/ui/assets/rules-img-1.svg'
 import RulesImg2 from '@pages/MainPage/ui/assets/rules-img-2.svg'
 import RulesImg3 from '@pages/MainPage/ui/assets/rules-img-3.svg'
@@ -76,55 +76,53 @@ const teammates: Teammate[] = [
 
 export const MainPage: FC = () => {
   return (
-    <div className="index-wrapper">
-      <main>
-        <SectionIntro />
+    <main className="index-wrapper">
+      <Intro />
 
-        <section id="rules" className="section rules">
-          <h2 className="section__title">как играть</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Rules list={rules} />
-          </div>
-        </section>
-
-        <section className="section cta">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Cta list={innerRoutes} />
-          </div>
-        </section>
-
-        <section id="why" className="section why">
-          <h3 className="section__title text-primary">зачем играть</h3>
-          <div className="why__descr">
-            <p className="why__descr_title">
-              игра развивает 🧠 память
-              <br />и концентрацию
-            </p>
-            <p>
-              а еще улучшает внимание,
-              <br />
-              что полезно для всех возрастов 🧒👵
-            </p>
-            <p className="why__descr_post">Альцгеймер подождет!</p>
-            <div className="mt-8">
-              <Button asChild>
-                <Link to="/game">играть →</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        <section id="team" className="section team">
-          <h4 className="section__title">команда</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 md:max-w-[600px] gap-4">
-            <Teammates list={teammates} />
-          </div>
-        </section>
-
-        <div className="footer">
-          проект создан в рамках учебного курса яндекс.практикума в 2024 году
+      <section id="rules" className="section rules">
+        <h2 className="section__title">как играть</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Rules list={rules} />
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="section cta">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Cta list={innerRoutes} />
+        </div>
+      </section>
+
+      <section id="why" className="section why">
+        <h3 className="section__title text-primary">зачем играть</h3>
+        <div className="why__descr">
+          <p className="h5">
+            игра развивает 🧠 память
+            <br />и концентрацию
+          </p>
+          <p>
+            а еще улучшает внимание,
+            <br />
+            что полезно для всех возрастов 🧒👵
+          </p>
+          <p className="h5 italic">Альцгеймер подождет!</p>
+          <div>
+            <Button asChild>
+              <Link to="/game">играть →</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="team" className="section team">
+        <h4 className="section__title">команда</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 md:max-w-[600px] gap-4">
+          <Teammates list={teammates} />
+        </div>
+      </section>
+
+      <div className="footer">
+        проект создан в рамках учебного курса яндекс.практикума в 2024 году
+      </div>
+    </main>
   )
 }
