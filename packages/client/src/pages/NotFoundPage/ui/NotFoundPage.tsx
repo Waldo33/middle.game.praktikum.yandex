@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './NotFoundPage.scss'
+import '@shared/components/ui/ErrorPage.scss'
 
 export const NotFoundPage: FC = () => {
   const navigate = useNavigate()

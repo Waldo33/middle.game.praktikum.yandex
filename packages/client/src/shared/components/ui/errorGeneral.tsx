@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import './ErrorPage.scss'
 
 interface ErrorGeneralProps {
   title: string
@@ -7,9 +8,9 @@ interface ErrorGeneralProps {
 
 export const ErrorGeneral: FC<ErrorGeneralProps> = ({ title, message }) => {
   return (
-    <div className="max-w-[600px] m-auto">
+    <div className="error-page">
       <h1 className="text-primary">{title}</h1>
-      <p>{message}</p>
+      <div className="error-page__text">{message}</div>
     </div>
   )
 }
