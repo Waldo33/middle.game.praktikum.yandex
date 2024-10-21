@@ -1,14 +1,7 @@
 import { FC } from 'react'
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@shared/components/ui/table'
-import { Leaderboard } from '@pages/LeaderboardPage/types'
+import { Leaderboard } from '../types'
 import { Intro } from '@pages/MainPage/ui/Intro'
-import { LeaderboardBody } from '@pages/LeaderboardPage/ui/LeaderboardBody'
+import { LeaderboardTable } from './LeaderboardTable'
 
 const players: Leaderboard[] = [
   {
@@ -47,20 +40,8 @@ export const LeaderboardPage: FC = () => {
   return (
     <main className="index-wrapper">
       <Intro />
-      <h1>Лидерборд</h1>
-
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[50px]"></TableHead>
-            <TableHead>Игрок</TableHead>
-            <TableHead className="w-[150px]">Счет</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <LeaderboardBody list={players} />
-        </TableBody>
-      </Table>
+      <h1 className="mt-4">Лидерборд</h1>
+      <LeaderboardTable list={players} />
     </main>
   )
 }
