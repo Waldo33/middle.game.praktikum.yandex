@@ -20,16 +20,16 @@ export interface User {
 }
 
 export interface Auth {
-  isAuthenticated: undefined | boolean
+  isAuthenticated: boolean
   user: null | User
   error: undefined | string
   loading: boolean
 }
 
 const initialState: Auth = {
-  isAuthenticated: undefined,
+  isAuthenticated: false,
   user: null,
-  error: undefined,
+  error: '',
   loading: false,
 }
 
@@ -40,19 +40,28 @@ interface RejectedAction {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.loading = false
+      state.user = action.payload
+      state.isAuthenticated = true
+    },
+    setError: state => {
+      state.loading = false
+      state.isAuthenticated = false
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(signinThunk.pending, state => {
         state.loading = true
-        state.error = undefined
+        state.error = ''
       })
       .addCase(signinThunk.fulfilled, state => {
         state.loading = false
         state.isAuthenticated = true
       })
       .addCase(signinThunk.rejected, (state, action: RejectedAction) => {
-        console.log('here', action)
         state.loading = false
         state.error = action.payload
       })
@@ -60,7 +69,7 @@ const authSlice = createSlice({
     builder
       .addCase(signupThunk.pending, state => {
         state.loading = true
-        state.error = undefined
+        state.error = ''
       })
       .addCase(signupThunk.fulfilled, state => {
         state.loading = false
@@ -74,7 +83,7 @@ const authSlice = createSlice({
     builder
       .addCase(userThunk.pending, state => {
         state.loading = true
-        state.error = undefined
+        state.error = ''
       })
       .addCase(userThunk.fulfilled, (state, action) => {
         state.loading = false
@@ -90,7 +99,7 @@ const authSlice = createSlice({
     builder
       .addCase(logoutThunk.pending, state => {
         state.loading = true
-        state.error = undefined
+        state.error = ''
       })
       .addCase(logoutThunk.fulfilled, state => {
         state.loading = false
@@ -103,5 +112,7 @@ const authSlice = createSlice({
       })
   },
 })
+
+export const { setUser, setError } = authSlice.actions
 
 export default authSlice.reducer

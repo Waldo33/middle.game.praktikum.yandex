@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { signinThunk, userThunk } from '../model/thunks'
+import { signinThunk } from '../model/thunks'
 import { selectAuthLoading } from '../model/selectors'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -42,7 +42,6 @@ const SigninForm: FC = () => {
     const resultAction = await dispatch(signinThunk(values))
 
     if (resultAction.payload === true) {
-      dispatch(userThunk())
       navigate(ROUTES.GAME)
     } else {
       toast({
