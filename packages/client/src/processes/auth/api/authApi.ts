@@ -1,6 +1,6 @@
 import { Signin, User } from '../model/authSlice'
 
-const BASE_AUTH_API = 'https://ya-praktikum.tech/api/v2/auth'
+const BASE_AUTH_API = `${import.meta.env.VITE_API_URL}/auth`
 
 export const signin = async (credentials: Signin) => {
   const response = await fetch(`${BASE_AUTH_API}/signin`, {

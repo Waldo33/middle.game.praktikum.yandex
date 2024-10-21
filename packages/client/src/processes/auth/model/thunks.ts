@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { logout, signin, signup, user } from '../api/authApi'
 import { Signin, User } from './authSlice'
+import { getErrorMessageOrDefault } from '@shared/lib/errorHelpers'
 
 interface RejectedValue {
   rejectValue: string
@@ -13,7 +14,7 @@ export const signinThunk = createAsyncThunk<boolean, Signin, RejectedValue>(
       const response = await signin(values)
       return response
     } catch (err) {
-      return rejectWithValue((err as Error).message)
+      return rejectWithValue(getErrorMessageOrDefault(err))
     }
   }
 )
@@ -25,7 +26,7 @@ export const signupThunk = createAsyncThunk<boolean, User, RejectedValue>(
       const response = await signup(values)
       return response
     } catch (err) {
-      return rejectWithValue((err as Error).message)
+      return rejectWithValue(getErrorMessageOrDefault(err))
     }
   }
 )
@@ -37,7 +38,7 @@ export const userThunk = createAsyncThunk<User, void, RejectedValue>(
       const response = await user()
       return response
     } catch (err) {
-      return rejectWithValue((err as Error).message)
+      return rejectWithValue(getErrorMessageOrDefault(err))
     }
   }
 )
@@ -49,7 +50,7 @@ export const logoutThunk = createAsyncThunk<boolean, void, RejectedValue>(
       const response = await logout()
       return response
     } catch (err) {
-      return rejectWithValue((err as Error).message)
+      return rejectWithValue(getErrorMessageOrDefault(err))
     }
   }
 )
