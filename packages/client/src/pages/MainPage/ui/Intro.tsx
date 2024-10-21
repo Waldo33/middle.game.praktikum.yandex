@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 export const Intro: FC = () => {
   return (
     <section className="intro">
-      <h1 className="intro__title">
+      <h2 className="h1 intro__title">
         <span>привет,</span> username
-      </h1>
+      </h2>
       <div className="intro__score">
         <div className="intro__score_num">42</div>
         <div className="intro__score_descr">твой счет</div>
