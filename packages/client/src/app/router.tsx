@@ -7,6 +7,9 @@ import { NotFoundPage } from '@pages/NotFoundPage'
 import { ProfilePage } from '@pages/ProfilePage'
 import { SignInPage } from '@pages/SignInPage'
 import { SignUpPage } from '@pages/SignUpPage'
+import { ROUTES } from '@shared/config/routes'
+import ProtectedRoute from '@shared/lib/ProtectedRoute'
+import PublicRoute from '@shared/lib/PublicRoute'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([
@@ -18,40 +21,40 @@ export const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: 'signin',
-        element: <SignInPage />,
+        path: ROUTES.SIGNIN,
+        element: <PublicRoute element={<SignInPage />} />,
       },
       {
-        path: 'signup',
-        element: <SignUpPage />,
+        path: ROUTES.SIGNUP,
+        element: <PublicRoute element={<SignUpPage />} />,
       },
       {
-        path: 'profile',
-        element: <ProfilePage />,
+        path: ROUTES.PROFILE,
+        element: <ProtectedRoute element={<ProfilePage />} />,
       },
       {
-        path: 'game',
-        element: <GamePage />,
+        path: ROUTES.GAME,
+        element: <ProtectedRoute element={<GamePage />} />,
       },
       {
-        path: 'leaderboard',
-        element: <LeaderboardPage />,
+        path: ROUTES.LEADERBOARD,
+        element: <ProtectedRoute element={<LeaderboardPage />} />,
       },
       {
-        path: 'forum',
+        path: ROUTES.FORUM,
         children: [
           {
             index: true,
-            element: <ForumPage />,
+            element: <ProtectedRoute element={<ForumPage />} />,
           },
           {
             path: ':id',
-            element: <ForumTopicPage />,
+            element: <ProtectedRoute element={<ForumTopicPage />} />,
           },
         ],
       },
       {
-        path: '*',
+        path: ROUTES.NOT_FOUND,
         element: <NotFoundPage />,
       },
     ],
