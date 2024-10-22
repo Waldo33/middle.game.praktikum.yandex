@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Image } from '../types'
 
 interface FigureProps {
-  image: Image['image']
+  image: Image
 }
 
 export const Figure: FC<FigureProps> = ({ image }) => {
