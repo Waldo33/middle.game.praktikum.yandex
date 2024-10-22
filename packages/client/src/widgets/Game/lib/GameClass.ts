@@ -1,25 +1,28 @@
+import { EventBus } from '@shared/lib/classes/EventBus'
 import { GameBoard } from './GameBoardClass'
 import { Player } from './PlayerClass'
 import { Round } from './RoundClass'
 import { Timer } from './TimerClass'
+import { GameEventBus, GameEventBusType } from './GameEventBus'
 
 export class Game {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
   private gameBoard: GameBoard
-  private players: Player[]
+  private currentPlayer: Player
   private timer: Timer
   private currentRound: Round
-  private onEndGameHandler: (result: number) => void = () => null
+  private bus: GameEventBusType
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
     // TODO: Необходимо вынести логику рассчета размеров
-    const gridSize = 6
-    const padding = 10
-    const cardSize = 100
-    this.canvas.width = gridSize * (cardSize + padding)
-    this.canvas.height = gridSize * (cardSize + padding)
+    const rows = 5
+    const columns = 8
+    const padding = 7
+    const cardSize = 95
+    this.canvas.width = columns * (cardSize + padding)
+    this.canvas.height = rows * (cardSize + padding)
 
     const ctx = this.canvas.getContext('2d')
 
@@ -30,28 +33,18 @@ export class Game {
     this.ctx = ctx
 
     this.gameBoard = new GameBoard(this.ctx, {
-      rows: gridSize,
-      columns: gridSize,
+      rows,
+      columns,
       cardWidth: cardSize,
       cardHeight: cardSize,
       padding,
     })
-    this.players = this.initializePlayers()
-    this.timer = new Timer(90, this.endGame.bind(this))
+    this.currentPlayer = new Player(1)
+
+    this.timer = new Timer(150)
+    this.bus = GameEventBus.getInstance()
+
     this.currentRound = new Round(this.gameBoard)
-  }
-
-  private initializePlayers(): Player[] {
-    // TODO: Изменить мок на реальные данные
-    return [new Player(1)]
-  }
-
-  public addOnEndGameHandler(handler: (result: number) => void) {
-    this.onEndGameHandler = handler
-  }
-
-  public getTimeLeft() {
-    return this.timer.getTimeLeft()
   }
 
   private addEventListeners() {
@@ -67,6 +60,13 @@ export class Game {
   }
 
   public start() {
+    this.bus.on('timer-end', this.endGame.bind(this))
+    this.bus.on('end-game', () => {
+      this.timer.stopTimer()
+      this.currentRound.reset()
+      this.removeEventListeners()
+    })
+
     this.addEventListeners()
     this.timer.start()
     this.currentRound.start()
@@ -74,13 +74,7 @@ export class Game {
   }
 
   private endGame() {
-    const score = this.players[0].getScore()
-    console.log(`Game Over! Final score: ${score}`)
-    this.timer.stopTimer()
-    this.currentRound.reset()
-    this.removeEventListeners()
-
-    this.onEndGameHandler?.(score)
+    this.bus.emit('end-game')
   }
 
   private onRoundComplete() {
@@ -91,7 +85,7 @@ export class Game {
 
   private handleInput(event: MouseEvent | TouchEvent) {
     const position = this.getEventPosition(event)
-    this.gameBoard.handleCardClick(position, this.players[0])
+    this.gameBoard.handleCardClick(position, this.currentPlayer)
 
     if (this.gameBoard.checkAllCardsMatched()) {
       this.onRoundComplete()

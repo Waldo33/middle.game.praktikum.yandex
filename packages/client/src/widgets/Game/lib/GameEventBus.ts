@@ -1,6 +1,9 @@
 import { EventBus } from '@shared/lib/classes/EventBus'
 
-export type GameEvents = 'end-game' | 'score-update' | 'timer-tick'
+type ScoreEvents = 'score-update'
+type TimerEvents = 'timer-tick' | 'timer-end' | 'timer-reset'
+export type GameEvents = 'end-game' | ScoreEvents | TimerEvents
+
 export type GameEventBusType = EventBus<GameEvents>
 
 export class GameEventBus {
