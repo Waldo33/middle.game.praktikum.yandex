@@ -8,6 +8,7 @@ import { AppDispatch } from './store'
 import { User, setUser, setError } from '@processes/auth/model/authSlice'
 import { LoadingSpinner } from '@shared/components/ui/loading-spinner'
 import { selectAuthLoading } from '@processes/auth/model/selectors'
+import ErrorBoundary from '@shared/components/ErrorBoundary'
 
 export const App = () => {
   const dispatch: AppDispatch = useDispatch()
@@ -23,10 +24,12 @@ export const App = () => {
   }, [userData, dispatch])
 
   return (
-    <div className="flex flex-col h-screen justify-center items-center">
-      {authLoading && <LoadingSpinner />}
-      {!authLoading && <Outlet />}
-      <Toaster />
+    <div className="App flex flex-col h-screen justify-center items-center">
+      <ErrorBoundary>
+        {authLoading && <LoadingSpinner />}
+        {!authLoading && <Outlet />}
+        <Toaster />
+      </ErrorBoundary>
     </div>
   )
 }

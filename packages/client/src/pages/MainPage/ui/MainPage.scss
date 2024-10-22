@@ -1,0 +1,151 @@
+.index-wrapper {
+
+  .intro {
+    @apply relative md:min-h-[240px];
+
+    &__title {
+      @apply relative mb-0;
+
+      @media (min-width: 768px) {
+        margin-top: 0.5rem;
+      }
+      @media (min-width: 992px) {
+        margin-top: -2rem;
+      }
+
+      span {
+        @apply text-primary block;
+        font-size: 22px;
+      }
+    }
+
+    &__nav {
+      @apply mt-3 mx-0.5 md:mt-8;
+
+      ul {
+        @apply flex gap-4 justify-between md:justify-start;
+        @apply font-bold text-sm;
+      }
+      a {
+        @apply text-black hover:text-primary underline underline-offset-2 hover:no-underline;
+      }
+    }
+
+    &__score {
+      @apply bg-primary rounded-[10px] lg:rounded-3xl p-6 md:p-12;
+      @apply relative mt-8;
+      @apply flex flex-col items-center justify-center;
+      @apply font-black text-black;
+
+      @media (min-width: 768px) {
+        @apply absolute left-[50%] right-4 mt-0;
+        top: -90px;
+      }
+
+      &_num {
+        font-size: 120px;
+      }
+      &_descr {
+        font-size: 32px;
+      }
+    }
+
+    &__cta {
+      @apply text-black font-medium;
+      @apply flex flex-col gap-2 mt-8;
+      font-size: 18px;
+      line-height: 1;
+
+      &_name {
+        @apply font-black italic;
+      }
+    }
+
+    &__btn {
+      @apply mt-1 w-full md:mt-10;
+
+      a {
+        @apply w-full md:w-auto md:px-8;
+      }
+    }
+  }
+
+  .section {
+    @apply relative pt-20 md:pt-24;
+  }
+
+  .rules {
+    &__item {
+      &_img {
+        width: 90px;
+        margin: auto;
+      }
+    }
+  }
+
+  .cta {
+    @apply text-center pt-4;
+
+    a {
+      @apply w-full;
+    }
+  }
+
+  .why {
+    @apply relative;
+
+    &:before {
+      @apply block absolute;
+      @apply bg-contain bg-no-repeat bg-right;
+      content: '';
+      background-image: url('./assets/section-bg.svg');
+      width: 300px;
+      height: 300px;
+      top: 260px;
+      right: -1rem;
+
+      @media (min-width: 768px) {
+        width: 500px;
+        height: 500px;
+        top: 200px;
+        right: -2rem;
+      }
+      @media (min-width: 992px) {
+        width: 700px;
+        height: 700px;
+        top: 85px;
+        right: -5rem;
+      }
+    }
+
+    &__descr {
+      @apply flex flex-col gap-2 md:gap-4;
+      @apply text-black relative;
+      font-size: 18px;
+      line-height: 1.2;
+
+      @media (min-width: 768px) {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .team {
+    @apply pb-8;
+
+    &__item {
+      &_img {
+        @apply rounded-sm bg-primary flex items-center justify-center;
+        @apply w-[90px] h-[90px];
+      }
+
+      &_title {
+        @apply font-black italic mb-1;
+      }
+    }
+  }
+
+  .footer {
+    @apply my-2 font-bold text-gray-600 text-sm text-center p-4 bg-secondary rounded-xl;
+  }
+}
