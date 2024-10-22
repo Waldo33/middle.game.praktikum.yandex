@@ -22,7 +22,7 @@ export const App = () => {
   }, [userData, dispatch])
 
   return (
-    <div className="App flex flex-col h-screen justify-center items-center">
+    <div className="App">
       <ErrorBoundary>
         <Outlet />
         <Toaster />

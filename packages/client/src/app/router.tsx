@@ -50,15 +50,15 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ProtectedRoute element={<ForumPage />} />,
+            element: <ForumPage />,
           },
           {
             path: ':id',
-            element: <ProtectedRoute element={<ForumTopicPage />} />,
+            element: <ForumTopicPage />,
           },
           {
             path: 'add',
-            element: <ForumAddTopic />,
+            element: <ProtectedRoute element={<ForumAddTopic />} />,
           },
         ],
       },
