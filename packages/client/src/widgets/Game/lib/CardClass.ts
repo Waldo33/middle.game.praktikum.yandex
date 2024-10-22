@@ -1,4 +1,5 @@
 import { colors } from '../constants/colors'
+import { drawRoundRect } from './helpers/drawRoundRect'
 
 export class Card {
   private id: number
@@ -68,7 +69,7 @@ export class Card {
     height: number
   ) {
     ctx.beginPath()
-    ctx.roundRect(x, y, width, height, 10)
+    drawRoundRect(ctx, x, y, width, height, 10)
 
     if (this.isRevealed) {
       ctx.fillStyle = colors.orange
