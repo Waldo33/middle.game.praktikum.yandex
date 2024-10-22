@@ -15,12 +15,11 @@ export class Game {
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
     // TODO: Необходимо вынести логику рассчета размеров
-    const rows = 2
-    const columns = 2
+    const gridSize = 6
     const padding = 10
     const cardSize = 100
-    this.canvas.width = columns * (cardSize + padding)
-    this.canvas.height = rows * (cardSize + padding)
+    this.canvas.width = gridSize * (cardSize + padding)
+    this.canvas.height = gridSize * (cardSize + padding)
 
     const ctx = this.canvas.getContext('2d')
 
@@ -31,23 +30,28 @@ export class Game {
     this.ctx = ctx
 
     this.gameBoard = new GameBoard(this.ctx, {
-      rows,
-      columns,
+      rows: gridSize,
+      columns: gridSize,
       cardWidth: cardSize,
       cardHeight: cardSize,
       padding,
     })
     this.players = this.initializePlayers()
-    this.timer = new Timer(10, this.endGame.bind(this))
+    this.timer = new Timer(90, this.endGame.bind(this))
     this.currentRound = new Round(this.gameBoard)
   }
 
   private initializePlayers(): Player[] {
-    return [new Player()]
+    // TODO: Изменить мок на реальные данные
+    return [new Player(1)]
   }
 
   public addOnEndGameHandler(handler: (result: number) => void) {
     this.onEndGameHandler = handler
+  }
+
+  public getTimeLeft() {
+    return this.timer.getTimeLeft()
   }
 
   private addEventListeners() {
