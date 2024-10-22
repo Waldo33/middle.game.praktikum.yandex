@@ -13,14 +13,23 @@ export class Card {
     this.image = image
   }
 
+  /**
+   * Метод показывающий раскрыта ли карточка
+   */
   public checkRevealed() {
     return this.isRevealed
   }
 
+  /**
+   * Метод для проверки, есть ли у карточки уже пара
+   */
   public checkMatched() {
     return this.isMatched
   }
 
+  /**
+   * Метод для раскрытия карточки
+   */
   public reveal() {
     if (!this.isMatched) {
       this.isHovered = false
@@ -29,6 +38,9 @@ export class Card {
     }
   }
 
+  /**
+   * Метод для скрытия карточки
+   */
   public hide() {
     if (!this.isMatched) {
       this.isRevealed = false
@@ -36,6 +48,9 @@ export class Card {
     }
   }
 
+  /**
+   * Метод для сравнения совпадения с другой открытой картой
+   */
   public checkMatch(otherCard: Card): boolean {
     if (this.id === otherCard.id) {
       this.isMatched = true
@@ -44,17 +59,26 @@ export class Card {
     return false
   }
 
+  /**
+   * @see {@link https://stackoverflow.com/questions/28989493/html5-canvas-flip-card-animation пример реализации}
+   */
   private animateFlip() {
     // TODO: Добавить анимированный переворот
     return true
   }
 
+  /**
+   * Метод для подсветки карточки при наведении
+   */
   public highlight() {
     if (!this.isRevealed) {
       this.isHovered = true
     }
   }
 
+  /**
+   * Метод для очистки подсветки карточки
+   */
   public clearHighlight() {
     if (!this.isRevealed) {
       this.isHovered = false

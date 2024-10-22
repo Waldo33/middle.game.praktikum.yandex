@@ -61,8 +61,10 @@ export class GameBoard {
     return this.cards.every(card => card.checkMatched())
   }
 
+  /**
+   * @todo В будущем карточки со ссылками на изображения должны приходить с бэкенда
+   */
   private async loadImages(): Promise<HTMLImageElement[]> {
-    // TODO: В будущем ссылки на изображения должны приходить с бэка
     const imageSources = Array.from(
       { length: (this.rows * this.columns) / 2 },
       (_, i) => i + 1
@@ -96,8 +98,6 @@ export class GameBoard {
       clickedCard.reveal()
       this.selectedCards.push(clickedCard)
     }
-
-    console.log(this.selectedCards)
 
     if (!isRevealed && this.isMaxCardsSelected()) {
       this.checkForMatch(player)
@@ -144,6 +144,9 @@ export class GameBoard {
     return null
   }
 
+  /**
+   * Метод для проверки совпадения среди 2 выбранных карточек
+   */
   private checkForMatch(player: Player) {
     const [card1, card2] = this.selectedCards
     if (card1.checkMatch(card2)) {

@@ -6,6 +6,9 @@ export type GameEvents = 'end-game' | ScoreEvents | TimerEvents
 
 export type GameEventBusType = EventBus<GameEvents>
 
+/**
+ * Синглтон для получения единой шины событий в игре
+ */
 export class GameEventBus {
   private static instance: GameEventBusType
 

@@ -1,10 +1,16 @@
-import { EventBus } from '@shared/lib/classes/EventBus'
 import { GameBoard } from './GameBoardClass'
 import { Player } from './PlayerClass'
 import { Round } from './RoundClass'
 import { Timer } from './TimerClass'
 import { GameEventBus, GameEventBusType } from './GameEventBus'
 
+/**
+ * @todo
+ * Из-за того что изначально игра писалась без наличия раундов, существует небольшой техдолг.
+ * В идеале класс Game должен работать только с Player и Round, а Round в свою очередь с Timer и GameBoard.
+ * На текущий момент класс игры инжектит в себя все существующие классы.
+ * Работу с пользовательским вводом можно вынести в отдельный Controls класс, что сократит количество кода в Game.
+ */
 export class Game {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
@@ -70,7 +76,6 @@ export class Game {
     this.addEventListeners()
     this.timer.start()
     this.currentRound.start()
-    this.gameBoard.render()
   }
 
   private endGame() {
