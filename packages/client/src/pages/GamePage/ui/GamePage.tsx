@@ -23,6 +23,7 @@ export const GamePage: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const onStart = () => {
+    setScore(0)
     setStep(GamePageSteps.GAME)
   }
 
@@ -37,7 +38,6 @@ export const GamePage: FC = () => {
 
   const onEndGame = () => {
     setStep(GamePageSteps.END)
-    setScore(0)
   }
 
   const setEndGame = () => {
@@ -63,30 +63,6 @@ export const GamePage: FC = () => {
     }
   }, [step])
 
-  if (step === GamePageSteps.START) {
-    return (
-      <div className={cn('index-wrapper')}>
-        <div className={cn(s.buttonContainer)}>
-          <Button className={s.startButton} onClick={onStart}>
-            Начать игру
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
-  if (step === GamePageSteps.END) {
-    return (
-      <div className={cn('index-wrapper')}>
-        <div className={cn(s.buttonContainer)}>
-          <Button className={s.startButton} onClick={onStart}>
-            Начать снова
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className={cn('index-wrapper')}>
       <div className={s.score}>
@@ -106,11 +82,24 @@ export const GamePage: FC = () => {
         )}
       </div>
       <div className={cn(s.container)}>
-        <div className={s['top-panel']}>
-          <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
-          <ResetButton onClick={setEndGame} />
-        </div>
-        <canvas className={s.gameCanvas} ref={canvasRef} />
+        {[GamePageSteps.END, GamePageSteps.START].includes(step) && (
+          <div className={s['top-panel']}>
+            <div className={cn(s.buttonContainer)}>
+              <Button className={s.startButton} onClick={onStart}>
+                Начать игру
+              </Button>
+            </div>
+          </div>
+        )}
+        {step === GamePageSteps.GAME && (
+          <>
+            <div className={s['top-panel']}>
+              <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
+              <ResetButton onClick={setEndGame} />
+            </div>
+            <canvas className={s.gameCanvas} ref={canvasRef} />
+          </>
+        )}
       </div>
     </div>
   )
