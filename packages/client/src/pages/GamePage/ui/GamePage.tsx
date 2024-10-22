@@ -1,5 +1,26 @@
+import { AppDispatch } from '@app/store'
+import { logoutThunk } from '@processes/auth/model/thunks'
+import { Button } from '@shared/components/ui/button'
+import { ROUTES } from '@shared/config/routes'
 import { FC } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 export const GamePage: FC = () => {
-  return <div>Игра</div>
+  const dispatch: AppDispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleClick = async () => {
+    const resultAction = await dispatch(logoutThunk())
+
+    if (resultAction.payload === true) {
+      navigate(ROUTES.SIGNIN)
+    }
+  }
+
+  return (
+    <div>
+      <Button onClick={handleClick}>Logout</Button>
+    </div>
+  )
 }
