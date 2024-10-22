@@ -1,13 +1,91 @@
 import { cn } from '@shared/lib/utils'
 import s from './GamePage.module.scss'
-import { FC } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Button } from '@shared/components/ui/button'
-import { useGame } from '../lib/hooks/useGame'
+import { Game, GameEventBus } from '@widgets/Game'
+import { compareScoreWithLocalStorage, getTimePad } from '../lib/helpers'
+import { ResetButton } from './ResetButton'
+
+export enum GamePageSteps {
+  START = 'start',
+  GAME = 'game',
+  END = 'end',
+}
 
 export const GamePage: FC = () => {
-  const { showGame, score, timePad, onEndHandler, onStartHandler, canvasRef } =
-    useGame()
   const bestScore = Number(localStorage.getItem('score') || 0)
+  const eventBus = GameEventBus.getInstance()
+
+  const [step, setStep] = useState(GamePageSteps.START)
+  const [score, setScore] = useState(0)
+  const [time, setTime] = useState(0)
+
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  const onStart = () => {
+    setStep(GamePageSteps.GAME)
+  }
+
+  const onUpdateScore = (score: number) => {
+    setScore(score)
+    compareScoreWithLocalStorage(score)
+  }
+
+  const onTimeUpdate = (seconds: number) => {
+    setTime(seconds)
+  }
+
+  const onEndGame = () => {
+    setStep(GamePageSteps.END)
+    setScore(0)
+  }
+
+  const setEndGame = () => {
+    eventBus.emit('end-game')
+  }
+
+  useEffect(() => {
+    if (canvasRef.current && step === GamePageSteps.GAME) {
+      const game = new Game(canvasRef.current)
+
+      eventBus.on('end-game', onEndGame)
+      eventBus.on('score-update', onUpdateScore)
+      eventBus.on('timer-tick', onTimeUpdate)
+      eventBus.on('timer-reset', () => onTimeUpdate(0))
+
+      game.start()
+
+      return () => {
+        eventBus.off('end-game', onEndGame)
+        eventBus.off('score-update', onUpdateScore)
+        eventBus.off('timer-tick', onTimeUpdate)
+      }
+    }
+  }, [step])
+
+  if (step === GamePageSteps.START) {
+    return (
+      <div className={cn('index-wrapper')}>
+        <div className={cn(s.buttonContainer)}>
+          <Button className={s.startButton} onClick={onStart}>
+            Начать игру
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (step === GamePageSteps.END) {
+    return (
+      <div className={cn('index-wrapper')}>
+        <div className={cn(s.buttonContainer)}>
+          <Button className={s.startButton} onClick={onStart}>
+            Начать снова
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={cn('index-wrapper')}>
@@ -16,42 +94,23 @@ export const GamePage: FC = () => {
           <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
           <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
         </div>
-        <div className={s.bestScore}>
-          <div className={cn(s['bestScore-text'])}>
-            лучший
-            <br />
-            счет
+        {bestScore > 0 && (
+          <div className={s.bestScore}>
+            <div className={cn(s['bestScore-text'])}>
+              лучший
+              <br />
+              счет
+            </div>
+            <div className={cn(s['bestScore-number'])}>{bestScore}</div>
           </div>
-          <div className={cn(s['bestScore-number'])}>{bestScore}</div>
-        </div>
+        )}
       </div>
       <div className={cn(s.container)}>
         <div className={s['top-panel']}>
-          <div
-            className={cn(s.timer, 'h2')}
-            style={{ textAlign: 'right', fontStyle: 'normal' }}>
-            {timePad}
-          </div>
-          <Button onClick={onEndHandler}>
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M31.7078 25.7078L21.9998 15.9998L31.7078 6.29181C31.8938 6.10351 31.9981 5.84949 31.9981 5.58481C31.9981 5.32013 31.8938 5.06611 31.7078 4.87781L27.1218 0.29181C26.9343 0.104339 26.68 -0.000976562 26.4148 -0.000976562C26.1496 -0.000976562 25.8953 0.104339 25.7078 0.29181L15.9998 9.99981L6.29181 0.29181C6.10428 0.104339 5.84997 -0.000976562 5.58481 -0.000976562C5.31965 -0.000976562 5.06534 0.104339 4.87781 0.29181L0.29181 4.87781C0.104339 5.06534 -0.000976563 5.31965 -0.000976562 5.58481C-0.000976563 5.84997 0.104339 6.10428 0.29181 6.29181L9.99981 15.9998L0.29181 25.7078C0.104339 25.8953 -0.000976562 26.1496 -0.000976562 26.4148C-0.000976562 26.68 0.104339 26.9343 0.29181 27.1218L4.87781 31.7078C5.06534 31.8953 5.31965 32.0006 5.58481 32.0006C5.84997 32.0006 6.10428 31.8953 6.29181 31.7078L15.9998 21.9998L25.7078 31.7078C25.8953 31.8953 26.1496 32.0006 26.4148 32.0006C26.68 32.0006 26.9343 31.8953 27.1218 31.7078L31.7078 27.1218C31.8953 26.9343 32.0006 26.68 32.0006 26.4148C32.0006 26.1496 31.8953 25.8953 31.7078 25.7078Z"
-                fill="black"
-              />
-            </svg>
-          </Button>
+          <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
+          <ResetButton onClick={setEndGame} />
         </div>
-        {!showGame && (
-          <div className={cn(s.buttonContainer)}>
-            <Button onClick={onStartHandler}>Начать игру</Button>
-          </div>
-        )}
-        {showGame && <canvas className={s.gameCanvas} ref={canvasRef} />}
+        <canvas className={s.gameCanvas} ref={canvasRef} />
       </div>
     </div>
   )
