@@ -34,6 +34,21 @@ export const signup = async (credentials: User) => {
   return true
 }
 
+export const logout = async () => {
+  const response = await fetch(`${BASE_AUTH_API}/logout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    const data = await response.json()
+    throw new Error(data.reason)
+  }
+
+  return true
+}
+
 export const user = async () => {
   const response = await fetch(`${BASE_AUTH_API}/user`, {
     method: 'GET',
@@ -50,17 +65,11 @@ export const user = async () => {
   return data
 }
 
-export const logout = async () => {
-  const response = await fetch(`${BASE_AUTH_API}/logout`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-  })
-
-  if (!response.ok) {
-    const data = await response.json()
-    throw new Error(data.reason)
+export const authLoader = async () => {
+  try {
+    const data = await user()
+    return data
+  } catch (error) {
+    return null
   }
-
-  return true
 }

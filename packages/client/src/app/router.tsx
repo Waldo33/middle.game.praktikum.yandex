@@ -12,27 +12,13 @@ import ProtectedRoute from '@shared/lib/ProtectedRoute'
 import PublicRoute from '@shared/lib/PublicRoute'
 import { createBrowserRouter } from 'react-router-dom'
 import { App } from './App'
-import { BASE_AUTH_API } from '@processes/auth/api/authApi'
+import { authLoader } from '@processes/auth/api/authApi'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    loader: async () => {
-      const response = await fetch(`${BASE_AUTH_API}/user`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        return null
-      }
-
-      return data
-    },
+    loader: authLoader,
     children: [
       {
         index: true,

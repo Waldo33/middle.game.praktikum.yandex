@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export const SignInPage: FC = () => {
   return (
-    <div className="w-1/3 space-y-6">
+    <div className="space-y-6">
       <h1 className="text-center">Login</h1>
       <SigninForm />
       <p className="text-center">
