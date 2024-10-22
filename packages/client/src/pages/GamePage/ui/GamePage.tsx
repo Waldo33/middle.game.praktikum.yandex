@@ -84,11 +84,7 @@ export const GamePage: FC = () => {
       <div className={cn(s.container)}>
         {[GamePageSteps.END, GamePageSteps.START].includes(step) && (
           <div className={s['top-panel']}>
-            <div className={cn(s.buttonContainer)}>
-              <Button className={s.startButton} onClick={onStart}>
-                Начать игру
-              </Button>
-            </div>
+            <Button onClick={onStart}>Начать игру</Button>
           </div>
         )}
         {step === GamePageSteps.GAME && (
