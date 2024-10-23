@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Details } from '../types'
+import { Details } from '../model/types'
 
 export const MessageDetails: FC<Details> = ({ date, author, comment }) => {
   return (

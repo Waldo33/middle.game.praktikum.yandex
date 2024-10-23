@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { MessageDetails } from './MessageDetails'
-import { CommentsList } from '../modules/types'
+import { CommentsList } from '../model/types'
 import { Card, CardContent, CardHeader } from '@shared/components/ui/card'
 import { Figure } from './Figure'
 

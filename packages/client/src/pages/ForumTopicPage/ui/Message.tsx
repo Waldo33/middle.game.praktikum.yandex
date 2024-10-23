@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import { Topic } from '../types'
 import { MessageDetails } from './MessageDetails'
 import { Figure } from './Figure'
+import { Topic } from '../model/types'
 
 interface MessageProps {
   topic: Topic

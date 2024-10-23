@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Comment, Topic } from '../types'
+import { Comment, Topic } from '../model/types'
 import { Comments } from './Comments'
 import { Message } from './Message'
 import { CommentForm } from './CommentForm'

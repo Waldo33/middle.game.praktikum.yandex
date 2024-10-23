@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Image } from '../types'
+import { Image } from '../model/types'
 
 interface FigureProps {
   image: Image
