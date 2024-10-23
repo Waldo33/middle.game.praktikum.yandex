@@ -1,7 +1,10 @@
 import React, { FC } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { ROUTES } from '@shared/config/routes'
 import { z } from 'zod'
+
 import {
   FormControl,
   FormField,
@@ -12,21 +15,12 @@ import {
 import { Input } from '@shared/components/ui/input'
 import { Button } from '@shared/components/ui/button'
 import { Textarea } from '@shared/components/ui/textarea'
-import { Link } from 'react-router-dom'
+import { validationRules } from '@shared/config/validationRules'
 
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(4, {
-      message: 'напишите что-нибудь подлиннее',
-    })
-    .max(128, {
-      message: 'максимум 128 символов',
-    }),
-  message: z.string().max(4000, {
-    message: 'максимум 4000 символов, не время графоманить',
-  }),
-  file: z.any(),
+  title: validationRules.forum_topic_title,
+  message: validationRules.forum_message,
+  file: validationRules.forum_file,
 })
 
 export const ForumForm: FC = () => {
@@ -84,7 +78,7 @@ export const ForumForm: FC = () => {
         </FormItem>
         <div className="flex flex-row gap-4">
           <Button asChild variant="outline">
-            <Link to="/forum">← назад к форуму</Link>
+            <Link to={ROUTES.FORUM}>← назад к форуму</Link>
           </Button>
           <Button type="submit">отправить →</Button>
         </div>

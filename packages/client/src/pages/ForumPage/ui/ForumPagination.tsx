@@ -10,24 +10,22 @@ import {
 
 export const ForumPagination: FC = () => {
   return (
-    <>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationLink size="icon" href="#">
-              1
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink size="icon" href="#">
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    </>
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationLink size="icon" href="#">
+            1
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink size="icon" href="#">
+            2
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationEllipsis />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   )
 }

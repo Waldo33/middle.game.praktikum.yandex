@@ -12,17 +12,11 @@ import {
 import { Input } from '@shared/components/ui/input'
 import { Textarea } from '@shared/components/ui/textarea'
 import { Button } from '@shared/components/ui/button'
+import { validationRules } from '@shared/config/validationRules'
 
 const formSchema = z.object({
-  message: z
-    .string()
-    .min(1, {
-      message: 'напишите что-нибудь подлиннее',
-    })
-    .max(4000, {
-      message: 'максимум 4000 символов, не время графоманить',
-    }),
-  file: z.any(),
+  message: validationRules.forum_message,
+  file: validationRules.forum_file,
 })
 
 export const CommentForm: FC = () => {

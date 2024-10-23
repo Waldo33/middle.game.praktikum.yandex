@@ -1,8 +1,10 @@
 import { FC } from 'react'
-
 import { Link } from 'react-router-dom'
+
 import { Button } from '@shared/components/ui/button'
-import { ForumListItem } from '../types'
+import { ROUTES } from '@shared/config/routes'
+
+import { ForumListItem } from '../model/types'
 import { ForumTable } from './ForumTable'
 import { ForumPagination } from './ForumPagination'
 
@@ -59,7 +61,7 @@ export const ForumPage: FC = () => {
         <h1 className="m-0">форум</h1>
         <div className="sm:text-right sm:mt-1">
           <Button asChild>
-            <Link to="/forum/add">создать тему →</Link>
+            <Link to={ROUTES.FORUM_ADD}>создать тему →</Link>
           </Button>
         </div>
       </div>
