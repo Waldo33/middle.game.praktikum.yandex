@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useRef } from 'react'
 import { z } from 'zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,9 +27,10 @@ export const CommentForm: FC = () => {
     },
   })
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const file = (document.getElementById('file') as HTMLInputElement)
-      .files?.[0]
+    const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
     console.log({ ...values, file })
   }
 
@@ -55,7 +56,7 @@ export const CommentForm: FC = () => {
         <FormItem>
           <FormLabel>можно прикрепить файл</FormLabel>
           <FormControl>
-            <Input id="file" type="file" />
+            <Input id="file" type="file" ref={fileInputRef} />
           </FormControl>
           <FormMessage />
         </FormItem>

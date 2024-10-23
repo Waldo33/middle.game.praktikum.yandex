@@ -61,7 +61,9 @@ export const ForumPage: FC = () => {
         <h1 className="m-0">форум</h1>
         <div className="sm:text-right sm:mt-1">
           <Button asChild>
-            <Link to={ROUTES.FORUM_ADD}>создать тему →</Link>
+            <Link to={`${ROUTES.FORUM}/${ROUTES.FORUM_ADD}`}>
+              создать тему →
+            </Link>
           </Button>
         </div>
       </div>

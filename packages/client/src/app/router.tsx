@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
             element: <ForumTopicPage />,
           },
           {
-            path: 'add',
+            path: ROUTES.FORUM_ADD,
             element: <ProtectedRoute element={<ForumAddTopic />} />,
           },
         ],
