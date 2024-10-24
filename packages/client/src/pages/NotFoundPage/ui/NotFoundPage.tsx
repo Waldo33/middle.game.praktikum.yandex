@@ -11,7 +11,7 @@ export const NotFoundPage: FC = () => {
       <div className="error-page__subtitle">ой, страница не найдена</div>
       <div className="error-page__text">
         можно вернуться{' '}
-        <Link onClick={() => navigate(-1)} to="/">
+        <Link to="/" onClick={() => navigate(-1)}>
           назад
         </Link>{' '}
         или на <Link to="/">главную</Link>
