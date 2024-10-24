@@ -43,6 +43,17 @@ const phoneSchema = z
     'Телефон должен состоять только из цифр и может начинаться с плюса'
   )
 
+const forumTopicTitleSchema = z
+  .string()
+  .min(4, 'напишите что-нибудь подлиннее')
+  .max(128, 'максимум 128 символов')
+
+const forumMessageSchema = z
+  .string()
+  .max(4000, 'максимум 4000 символов, не время графоманить')
+
+const forumFileSchema = z.any()
+
 export const validationRules = {
   first_name: nameSchema,
   second_name: nameSchema,
@@ -50,4 +61,7 @@ export const validationRules = {
   email: emailSchema,
   password: passwordSchema,
   phone: phoneSchema,
+  forum_topic_title: forumTopicTitleSchema,
+  forum_message: forumMessageSchema,
+  forum_file: forumFileSchema,
 }
