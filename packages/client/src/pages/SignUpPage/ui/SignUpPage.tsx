@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export const SignUpPage: FC = () => {
   return (
-    <div className="space-y-6">
+    <div className="md:w-50 m-auto space-y-6">
       <h1 className="text-center">Registration</h1>
       <SignupForm />
       <p className="text-center">
