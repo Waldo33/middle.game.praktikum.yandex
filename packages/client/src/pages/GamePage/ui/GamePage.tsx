@@ -1,26 +1,102 @@
-import { AppDispatch } from '@app/store'
-import { logoutThunk } from '@processes/auth/model/thunks'
+import { cn } from '@shared/lib/utils'
+import s from './GamePage.module.scss'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Button } from '@shared/components/ui/button'
-import { ROUTES } from '@shared/config/routes'
-import { FC } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Game, GameEventBus } from '@widgets/Game'
+import { compareScoreWithLocalStorage, getTimePad } from '../lib/helpers'
+import { ResetButton } from './ResetButton'
+
+export enum GamePageSteps {
+  START = 'start',
+  GAME = 'game',
+  END = 'end',
+}
 
 export const GamePage: FC = () => {
-  const dispatch: AppDispatch = useDispatch()
-  const navigate = useNavigate()
+  const bestScore = Number(localStorage.getItem('score') || 0)
+  const eventBus = GameEventBus.getInstance()
 
-  const handleClick = async () => {
-    const resultAction = await dispatch(logoutThunk())
+  const [step, setStep] = useState(GamePageSteps.START)
+  const [score, setScore] = useState(0)
+  const [time, setTime] = useState(0)
 
-    if (resultAction.payload === true) {
-      navigate(ROUTES.SIGNIN)
-    }
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  const onStart = () => {
+    setScore(0)
+    setStep(GamePageSteps.GAME)
   }
 
+  const onUpdateScore = (score: number) => {
+    setScore(score)
+    compareScoreWithLocalStorage(score)
+  }
+
+  const onTimeUpdate = (seconds: number) => {
+    setTime(seconds)
+  }
+
+  const onEndGame = () => {
+    setStep(GamePageSteps.END)
+  }
+
+  const setEndGame = () => {
+    eventBus.emit('end-game')
+  }
+
+  useEffect(() => {
+    if (canvasRef.current && step === GamePageSteps.GAME) {
+      const game = new Game(canvasRef.current)
+
+      eventBus.on('end-game', onEndGame)
+      eventBus.on('score-update', onUpdateScore)
+      eventBus.on('timer-tick', onTimeUpdate)
+      eventBus.on('timer-reset', () => onTimeUpdate(0))
+
+      game.start()
+
+      return () => {
+        eventBus.off('end-game', onEndGame)
+        eventBus.off('score-update', onUpdateScore)
+        eventBus.off('timer-tick', onTimeUpdate)
+      }
+    }
+  }, [step])
+
   return (
-    <div>
-      <Button onClick={handleClick}>Logout</Button>
+    <div className={cn('index-wrapper')}>
+      <div className={s.score}>
+        <div className={s.currentScore}>
+          <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
+          <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
+        </div>
+        {bestScore > 0 && (
+          <div className={s.bestScore}>
+            <div className={cn(s['bestScore-text'])}>
+              лучший
+              <br />
+              счет
+            </div>
+            <div className={cn(s['bestScore-number'])}>{bestScore}</div>
+          </div>
+        )}
+      </div>
+      <div className={cn(s.container)}>
+        {[GamePageSteps.END, GamePageSteps.START].includes(step) && (
+          <div className={s['top-panel']}>
+            <Button onClick={onStart}>Начать игру</Button>
+          </div>
+        )}
+        {step === GamePageSteps.GAME && (
+          <>
+            <div className={s['top-panel']}>
+              <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
+              <ResetButton onClick={setEndGame} />
+            </div>
+            <canvas className={s.gameCanvas} ref={canvasRef} />
+          </>
+        )}
+      </div>
     </div>
   )
 }
