@@ -1,0 +1,65 @@
+.gameCanvas {
+  margin: 0 auto;
+}
+
+.container {
+    position: relative;
+}
+
+.score {
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    top: -30px;
+
+    .currentScore {
+        padding: 20px 40px;
+        background-color: hsl(var(--primary));
+        border-radius: 12px;
+        text-align: center;
+
+        &-number {
+            margin-bottom: 5px;
+        }
+    
+        &-text {
+            font-style: italic;
+            margin-bottom: 0;
+        }
+    }
+
+    .bestScore {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        font-style: italic;
+
+        &-number {
+            font-size: 36px;
+            font-weight: 900;
+            margin-left: 5px;
+        }
+    
+        &-text {
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 16px;
+        }
+    }
+}
+
+.top-panel {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 30px;
+
+    div:not(:last-child) {
+        margin-right: 10px;
+    }
+}
+
+.timer {
+    margin-bottom: 0;
+    text-align: 'right';
+}
