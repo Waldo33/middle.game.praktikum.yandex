@@ -20,19 +20,3 @@ export const changePassword = async (credentials: Password) => {
 
   return true
 }
-
-export const changeAvatar = async (credentials: FormData) => {
-  const response = await fetch(`${BASE_PROFILE_API}/profile/avatar`, {
-    method: 'PUT',
-    body: credentials,
-    credentials: 'include',
-    mode: 'cors',
-  })
-
-  if (!response.ok) {
-    const data = await response.json()
-    throw new Error(data.reason)
-  }
-
-  return true
-}

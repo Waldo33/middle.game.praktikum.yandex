@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import './ProfilePage.scss'
+import s from './ProfilePage.module.scss'
 import { Button } from '@shared/components/ui/button'
 import { Form } from '@shared/components/ui/form'
 import { changePassword } from '@processes/profile/api/profileApi'
@@ -11,6 +11,7 @@ import { FormFieldWrapper } from '@processes/auth/ui/FormFieldWrapper'
 import { useSelector } from 'react-redux'
 import { selectAuthLoading } from '@processes/auth/model/selectors'
 import { useToast } from '@shared/hooks/use-toast'
+import { Loader2 } from 'lucide-react'
 
 export const ProfilePassword: FC = () => {
   const { toast } = useToast()
@@ -38,7 +39,7 @@ export const ProfilePassword: FC = () => {
   }
 
   return (
-    <div className="profile__container">
+    <div className={s.profile__container}>
       <div className="mt-10">
         <h3>Сменить пароль</h3>
         <Form {...form}>
@@ -53,9 +54,16 @@ export const ProfilePassword: FC = () => {
               name="newPassword"
               label="Новый пароль"
             />
-            <Button className="w-full" type="submit">
-              {loading ? 'Обработка...' : 'Отправить'}
-            </Button>
+            {loading ? (
+              <Button disabled className="w-full" type="submit">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Обработка...
+              </Button>
+            ) : (
+              <Button className="w-full" type="submit">
+                Отправить
+              </Button>
+            )}
           </form>
         </Form>
       </div>
