@@ -3,11 +3,12 @@ import { FC } from 'react'
 
 type ResetButtonProps = {
   onClick: () => void
+  className?: string
 }
 
-export const ResetButton: FC<ResetButtonProps> = ({ onClick }) => {
+export const ResetButton: FC<ResetButtonProps> = ({ onClick, className }) => {
   return (
-    <Button onClick={onClick}>
+    <Button className={className} onClick={onClick}>
       <svg
         width="32"
         height="32"

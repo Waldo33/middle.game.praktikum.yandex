@@ -11,7 +11,7 @@ import RulesImg3 from '@pages/MainPage/ui/assets/rules-img-3.svg'
 import { Button } from '@shared/components/ui/button'
 import { Link } from 'react-router-dom'
 
-const rules: Rule[] = [
+export const rules: Rule[] = [
   {
     imageSrc: RulesImg1,
     imageAlt: 'начало игры',

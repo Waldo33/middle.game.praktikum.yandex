@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Button } from '@shared/components/ui/button'
 import { Link } from 'react-router-dom'
+import { Menu } from './Menu'
 
 export const Intro: FC = () => {
   return (
@@ -17,21 +18,7 @@ export const Intro: FC = () => {
           <Link to="/game">играть →</Link>
         </Button>
       </div>
-      <nav className="intro__nav">
-        <ul>
-          <li>
-            <Link to="/profile">профиль</Link>
-          </li>
-          <li className="">&middot;</li>
-          <li>
-            <Link to="/leaderboard">лидерборд</Link>
-          </li>
-          <li className="">&middot;</li>
-          <li>
-            <Link to="/forum">форум</Link>
-          </li>
-        </ul>
-      </nav>
+      <Menu />
     </section>
   )
 }

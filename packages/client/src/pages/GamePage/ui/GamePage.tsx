@@ -5,6 +5,8 @@ import { Button } from '@shared/components/ui/button'
 import { Game, GameEventBus } from '@widgets/Game'
 import { compareScoreWithLocalStorage, getTimePad } from '../lib/helpers'
 import { ResetButton } from './ResetButton'
+import { GameStart } from '@pages/GamePage/ui/GameStart'
+import { GameEnd } from '@pages/GamePage/ui/GameEnd'
 
 export enum GamePageSteps {
   START = 'start',
@@ -82,16 +84,30 @@ export const GamePage: FC = () => {
         )}
       </div>
       <div className={cn(s.container)}>
-        {[GamePageSteps.END, GamePageSteps.START].includes(step) && (
-          <div className={s['top-panel']}>
-            <Button onClick={onStart}>Начать игру</Button>
+        {[GamePageSteps.START].includes(step) && (
+          <div className={s['gamepage']}>
+            <div className={s['top-panel']}>
+              <Button onClick={onStart}>Начать игру</Button>
+            </div>
+            <GameStart />
+          </div>
+        )}
+        {[GamePageSteps.END].includes(step) && (
+          <div className={s['gamepage']}>
+            <div className={s['top-panel']}>
+              <Button onClick={onStart}>Начать игру</Button>
+            </div>
+            <GameEnd score={score} bestScore={bestScore} onClick={onStart} />
           </div>
         )}
         {step === GamePageSteps.GAME && (
           <>
             <div className={s['top-panel']}>
               <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
-              <ResetButton onClick={setEndGame} />
+              <ResetButton
+                className={s['top-panel__reset']}
+                onClick={setEndGame}
+              />
             </div>
             <canvas className={s.gameCanvas} ref={canvasRef} />
           </>
