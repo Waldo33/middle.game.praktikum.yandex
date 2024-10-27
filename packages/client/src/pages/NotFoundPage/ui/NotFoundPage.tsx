@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Button } from '@shared/components/ui/button'
-import './NotFoundPage.scss'
+import '@shared/components/ui/ErrorPage.scss'
 
 export const NotFoundPage: FC = () => {
   const navigate = useNavigate()
