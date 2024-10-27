@@ -4,7 +4,7 @@ import { Camera } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { AvatarWidget } from '@widgets/avatar/avatar'
 import { selectUser } from '@processes/auth/model/selectors'
-import { useAvatarUpload } from './AvatarUpload'
+import { useAvatarUpload } from '@shared/hooks/useAvatarUpload'
 
 export const ProfileAvatar: FC = () => {
   const upload = useAvatarUpload()
