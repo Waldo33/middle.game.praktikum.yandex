@@ -67,52 +67,59 @@ export const GamePage: FC = () => {
 
   return (
     <div className={cn('index-wrapper')}>
-      <div className={s.score}>
-        <div className={s.currentScore}>
-          <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
-          <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
-        </div>
-        {bestScore > 0 && (
-          <div className={s.bestScore}>
-            <div className={cn(s['bestScore-text'])}>
-              лучший
-              <br />
-              счет
-            </div>
-            <div className={cn(s['bestScore-number'])}>{bestScore}</div>
-          </div>
-        )}
-      </div>
-      <div className={cn(s.container)}>
-        {[GamePageSteps.START].includes(step) && (
+      {step === GamePageSteps.START && (
+        <>
           <div className={s['gamepage']}>
             <div className={s['top-panel']}>
+              {bestScore > 0 && (
+                <div className={s.bestScore}>
+                  <div className={cn(s['bestScore-text'])}>
+                    лучший
+                    <br />
+                    счет
+                  </div>
+                  <div className={cn(s['bestScore-number'])}>{bestScore}</div>
+                </div>
+              )}
               <Button onClick={onStart}>Начать игру</Button>
             </div>
             <GameStart />
           </div>
-        )}
-        {[GamePageSteps.END].includes(step) && (
-          <div className={s['gamepage']}>
-            <div className={s['top-panel']}>
-              <Button onClick={onStart}>Начать игру</Button>
+        </>
+      )}
+      {step === GamePageSteps.END && (
+        <div className={s['gamepage']}>
+          <GameEnd score={score} bestScore={bestScore} onClick={onStart} />
+        </div>
+      )}
+      {step === GamePageSteps.GAME && (
+        <>
+          <div className={s.score}>
+            <div className={s.currentScore}>
+              <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
+              <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
             </div>
-            <GameEnd score={score} bestScore={bestScore} onClick={onStart} />
+            {bestScore > 0 && (
+              <div className={s.bestScore}>
+                <div className={cn(s['bestScore-text'])}>
+                  лучший
+                  <br />
+                  счет
+                </div>
+                <div className={cn(s['bestScore-number'])}>{bestScore}</div>
+              </div>
+            )}
           </div>
-        )}
-        {step === GamePageSteps.GAME && (
-          <>
-            <div className={s['top-panel']}>
-              <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
-              <ResetButton
-                className={s['top-panel__reset']}
-                onClick={setEndGame}
-              />
-            </div>
-            <canvas className={s.gameCanvas} ref={canvasRef} />
-          </>
-        )}
-      </div>
+          <div className={s['top-panel']}>
+            <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
+            <ResetButton
+              className={s['top-panel__reset']}
+              onClick={setEndGame}
+            />
+          </div>
+          <canvas className={s.gameCanvas} ref={canvasRef} />
+        </>
+      )}
     </div>
   )
 }
