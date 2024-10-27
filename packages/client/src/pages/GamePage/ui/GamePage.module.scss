@@ -77,6 +77,25 @@
     }
 }
 
+.topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 50px;
+    @media (max-width: 767px) {
+        flex-direction: column;
+    }
+    &__best {
+        font-weight: 900;
+        font-style: italic;
+        font-size: 2rem;
+        span {
+            @apply text-primary;
+        }
+    }
+}
+
 .timer {
     margin-bottom: 0;
     text-align: 'right';

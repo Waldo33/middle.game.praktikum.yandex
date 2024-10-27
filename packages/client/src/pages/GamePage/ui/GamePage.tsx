@@ -70,15 +70,10 @@ export const GamePage: FC = () => {
       {step === GamePageSteps.START && (
         <>
           <div className={s['gamepage']}>
-            <div className={s['top-panel']}>
+            <div className={s['topline']}>
               {bestScore > 0 && (
-                <div className={s.bestScore}>
-                  <div className={cn(s['bestScore-text'])}>
-                    лучший
-                    <br />
-                    счет
-                  </div>
-                  <div className={cn(s['bestScore-number'])}>{bestScore}</div>
+                <div className={s['topline__best']}>
+                  лучший счет: <span>{bestScore}</span>
                 </div>
               )}
               <Button onClick={onStart}>Начать игру</Button>

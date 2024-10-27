@@ -1,9 +1,10 @@
 import s from './GamePage.module.scss'
 import { FC } from 'react'
 import { Button } from '@shared/components/ui/button'
-import { Menu } from '@pages/MainPage/ui/Menu'
+import { Menu } from '@widgets/menu/Menu'
 import { useSelector } from 'react-redux'
 import { selectUser } from '@processes/auth/model/selectors'
+import { ROUTES } from '@shared/config/routes'
 
 type GameEndProps = {
   score: number
@@ -37,7 +38,13 @@ export const GameEnd: FC<GameEndProps> = ({ score, bestScore, onClick }) => {
           <div className={s['gamepage__repeat']}>
             <Button onClick={onClick}>играть еще раз →</Button>
           </div>
-          <Menu />
+          <Menu
+            links={[
+              { url: ROUTES.PROFILE, label: 'профиль' },
+              { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
+              { url: ROUTES.FORUM, label: 'форум' },
+            ]}
+          />
         </div>
         <div className={s['gamepage__final']}>
           <div className={s['gamepage__final_num']}>{score}</div>
