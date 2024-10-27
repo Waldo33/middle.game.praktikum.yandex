@@ -12,7 +12,17 @@ import {
   TableHeader,
   TableRow,
 } from '@shared/components/ui/table'
-import { LeaderboardListProps } from '../types'
+
+export type Leaderboard = {
+  place: number
+  playerName: string
+  playerAvatar: string
+  amount: number
+}
+
+export type LeaderboardListProps = {
+  list: Leaderboard[]
+}
 
 export const LeaderboardTable: FC<LeaderboardListProps> = ({ list }) => {
   return (

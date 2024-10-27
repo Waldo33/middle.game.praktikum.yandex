@@ -1,9 +1,8 @@
 import { FC } from 'react'
-import { Leaderboard } from '../types'
-import { Intro } from '@pages/MainPage/ui/Intro'
-import { LeaderboardTable } from './LeaderboardTable'
+import { Intro } from '@widgets/intro/Intro'
+import { LeaderboardTable } from '@widgets/leaderboardtable/LeaderboardTable'
 
-const players: Leaderboard[] = [
+const players = [
   {
     place: 1,
     playerName: 'username1',
