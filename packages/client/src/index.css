@@ -78,7 +78,7 @@ body {
   font-weight: 400;
   font-style: normal;
 
-  @apply relative grid;
+  @apply relative;
   @apply py-[30px] min-h-[100dvh] lg:pt-[60px];
 
   background: rgb(250, 204, 20);
@@ -145,4 +145,10 @@ h6,
 
 p:not(:last-child) {
   @apply mb-3 lg:mb-4;
+}
+
+.reset-button {
+  padding: 0;
+  text-decoration: underline;
+  font: normal 1em/1 'Inter', sans-serif;
 }

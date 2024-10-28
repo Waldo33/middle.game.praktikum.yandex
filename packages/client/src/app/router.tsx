@@ -1,5 +1,6 @@
 import { ForumPage } from '@pages/ForumPage'
 import { ForumTopicPage } from '@pages/ForumTopicPage'
+import { ForumAddTopic } from '@pages/ForumAddTopic'
 import { GamePage } from '@pages/GamePage'
 import { LeaderboardPage } from '@pages/LeaderboardPage'
 import { MainPage } from '@pages/MainPage'
@@ -49,11 +50,15 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ProtectedRoute element={<ForumPage />} />,
+            element: <ForumPage />,
           },
           {
             path: ':id',
-            element: <ProtectedRoute element={<ForumTopicPage />} />,
+            element: <ForumTopicPage />,
+          },
+          {
+            path: ROUTES.FORUM_ADD,
+            element: <ProtectedRoute element={<ForumAddTopic />} />,
           },
         ],
       },
