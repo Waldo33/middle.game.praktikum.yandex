@@ -72,7 +72,7 @@ export const GamePage: FC = () => {
           <div className={s['gamepage']}>
             <div className={s['topline']}>
               {bestScore > 0 && (
-                <div className={s['topline__best']}>
+                <div className={s['best']}>
                   лучший счет: <span>{bestScore}</span>
                 </div>
               )}
@@ -107,10 +107,7 @@ export const GamePage: FC = () => {
           </div>
           <div className={s['top-panel']}>
             <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
-            <ResetButton
-              className={s['top-panel__reset']}
-              onClick={setEndGame}
-            />
+            <ResetButton className={s['reset']} onClick={setEndGame} />
           </div>
           <canvas className={s.gameCanvas} ref={canvasRef} />
         </>

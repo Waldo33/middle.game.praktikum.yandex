@@ -19,23 +19,23 @@ export const GameEnd: FC<GameEndProps> = ({ score, bestScore, onClick }) => {
   return (
     <>
       <h1>подводим итоги</h1>
-      <div className={s['gamepage__container']}>
-        <div className={s['gamepage__cell']}>
-          <div className={s['gamepage__box']}>
-            <div className={s['gamepage__subtitle']}>
+      <div className={s['container']}>
+        <div className={s['cell']}>
+          <div className={s['box']}>
+            <div className={s['subtitle']}>
               так держать,
-              <div className={s['gamepage__name']}>{login}!</div>
+              <div className={s['name']}>{login}!</div>
             </div>
-            <div className={s['gamepage__total']}>
-              <div className={s['gamepage__total_cell']}>
+            <div className={s['total']}>
+              <div className={s['cell']}>
                 а твой лучший
                 <br />
                 результат:
               </div>
-              <div className={s['gamepage__total_cell']}>{bestScore}</div>
+              <div className={s['cell']}>{bestScore}</div>
             </div>
           </div>
-          <div className={s['gamepage__repeat']}>
+          <div className={s['repeat']}>
             <Button onClick={onClick}>играть еще раз →</Button>
           </div>
           <Menu
@@ -46,8 +46,8 @@ export const GameEnd: FC<GameEndProps> = ({ score, bestScore, onClick }) => {
             ]}
           />
         </div>
-        <div className={s['gamepage__final']}>
-          <div className={s['gamepage__final_num']}>{score}</div>
+        <div className={s['final']}>
+          <div className={s['num']}>{score}</div>
           твой счет
         </div>
       </div>
