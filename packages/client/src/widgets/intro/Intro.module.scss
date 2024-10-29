@@ -1,7 +1,7 @@
 .intro {
   @apply relative md:min-h-[240px];
 
-  &__title {
+  .title {
     @apply relative mb-0;
 
     @media (min-width: 768px) {
@@ -17,7 +17,7 @@
     }
   }
 
-  &__score {
+  .score {
     @apply bg-primary rounded-[10px] lg:rounded-3xl p-6 md:p-12;
     @apply relative mt-8;
     @apply flex flex-col items-center justify-center;
@@ -28,26 +28,15 @@
       top: -90px;
     }
 
-    &_num {
+    .num {
       font-size: 120px;
     }
-    &_descr {
+    .descr {
       font-size: 32px;
     }
   }
 
-  &__cta {
-    @apply text-black font-medium;
-    @apply flex flex-col gap-2 mt-8;
-    font-size: 18px;
-    line-height: 1;
-
-    &_name {
-      @apply font-black italic;
-    }
-  }
-
-  &__btn {
+  .btn {
     @apply mt-1 w-full md:mt-10;
 
     a {
