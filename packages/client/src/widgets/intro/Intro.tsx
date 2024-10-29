@@ -1,32 +1,37 @@
 import { FC } from 'react'
 import { Button } from '@shared/components/ui/button'
 import { Link } from 'react-router-dom'
-import { Menu } from '@widgets/menu/Menu'
-import s from './Intro.module.scss'
-import { ROUTES } from '@shared/config/routes'
 
 export const Intro: FC = () => {
   return (
-    <section className={s['intro']}>
-      <h1 className={s['intro__title']}>
+    <section className="intro">
+      <h2 className="h1 intro__title">
         <span>привет,</span> username
-      </h1>
-      <div className={s['intro__score']}>
-        <div className={s['intro__score_num']}>42</div>
-        <div className={s['intro__score_descr']}>твой счет</div>
+      </h2>
+      <div className="intro__score">
+        <div className="intro__score_num">42</div>
+        <div className="intro__score_descr">твой счет</div>
       </div>
-      <div className={s['intro__btn']}>
+      <div className="intro__btn">
         <Button asChild>
           <Link to="/game">играть →</Link>
         </Button>
       </div>
-      <Menu
-        links={[
-          { url: ROUTES.PROFILE, label: 'профиль' },
-          { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
-          { url: ROUTES.FORUM, label: 'форум' },
-        ]}
-      />
+      <nav className="intro__nav">
+        <ul>
+          <li>
+            <Link to="/profile">профиль</Link>
+          </li>
+          <li className="">&middot;</li>
+          <li>
+            <Link to="/leaderboard">лидерборд</Link>
+          </li>
+          <li className="">&middot;</li>
+          <li>
+            <Link to="/forum">форум</Link>
+          </li>
+        </ul>
+      </nav>
     </section>
   )
 }
