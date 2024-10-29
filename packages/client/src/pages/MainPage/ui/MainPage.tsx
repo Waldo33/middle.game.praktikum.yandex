@@ -1,33 +1,12 @@
 import { FC } from 'react'
 import './MainPage.scss'
-import { Route, Rule, Teammate } from '@pages/MainPage/types'
-import { Rules } from './Rules'
+import { Route, Teammate } from '@pages/MainPage/types'
+import { Rules } from '@widgets/rules/Rules'
 import { Cta } from './Cta'
 import { Teammates } from '@pages/MainPage/ui/Teammates'
 import { Intro } from '@widgets/intro/Intro'
-import RulesImg1 from '@pages/MainPage/ui/assets/rules-img-1.svg'
-import RulesImg2 from '@pages/MainPage/ui/assets/rules-img-2.svg'
-import RulesImg3 from '@pages/MainPage/ui/assets/rules-img-3.svg'
 import { Button } from '@shared/components/ui/button'
 import { Link } from 'react-router-dom'
-
-const rules: Rule[] = [
-  {
-    imageSrc: RulesImg1,
-    imageAlt: 'начало игры',
-    text: 'после старта таймера начни открывать пары карточек на игровом поле',
-  },
-  {
-    imageSrc: RulesImg2,
-    imageAlt: 'процесс игры',
-    text: 'если изображения на карточках совпадают, они остаются открытыми',
-  },
-  {
-    imageSrc: RulesImg3,
-    imageAlt: 'конец игры',
-    text: 'успей открыть все пары карточек до окончания таймера',
-  },
-]
 
 const innerRoutes: Route[] = [
   {
@@ -82,7 +61,7 @@ export const MainPage: FC = () => {
       <section id="rules" className="section rules">
         <h2 className="section__title">как играть</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Rules list={rules} />
+          <Rules />
         </div>
       </section>
 

@@ -1,0 +1,11 @@
+.menu {
+  @apply mt-3 mx-0.5 md:mt-8;
+
+  ul {
+    @apply flex gap-4 justify-between md:justify-start;
+    @apply font-bold text-sm;
+  }
+  a {
+    @apply text-black hover:text-primary underline underline-offset-2 hover:no-underline;
+  }
+}

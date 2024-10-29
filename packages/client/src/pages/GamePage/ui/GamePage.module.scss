@@ -21,7 +21,7 @@
         &-number {
             margin-bottom: 5px;
         }
-    
+
         &-text {
             font-style: italic;
             margin-bottom: 0;
@@ -39,7 +39,7 @@
             font-weight: 900;
             margin-left: 5px;
         }
-    
+
         &-text {
             font-size: 20px;
             font-weight: 800;
@@ -49,17 +49,121 @@
 }
 
 .top-panel {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 100px;
+    @media (max-width: 767px) {
+        margin-bottom: 40px;
+    }
+
+    @media (min-width: 768px) {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    @media (max-width: 767px) {
+        padding-top: 100px;
+    }
+
+    .reset {
+        @media (max-width: 767px) {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
 
     div:not(:last-child) {
         margin-right: 10px;
     }
 }
 
+.topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 50px;
+    @media (max-width: 767px) {
+        flex-direction: column;
+    }
+    .best {
+        font-weight: 900;
+        font-style: italic;
+        font-size: 2rem;
+        span {
+            @apply text-primary;
+        }
+    }
+}
+
 .timer {
     margin-bottom: 0;
     text-align: 'right';
+}
+
+.gamepage {
+    h1 {
+        @apply text-primary;
+    }
+    .container {
+        display: grid;
+        gap: 4rem;
+        font-weight: 900;
+        @media (min-width: 768px) {
+            align-items: flex-end;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    .subtitle {
+        font-size: 22px;
+        @apply text-primary;
+    }
+    .name {
+        font-size: 4rem;
+        line-height: 1.2em;
+        @apply font-black text-black;
+        @media (max-width: 767px) {
+            font-size: 3rem;
+        }
+    }
+    .box {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        font-style: italic;
+    }
+    .repeat {
+        margin: 3.4rem 0;
+    }
+    .total {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        line-height: 1;
+        .cell {
+            &:first-child {
+                font-size: 30px;
+                @media (max-width: 767px) {
+                    font-size: 22px;
+                }
+            }
+            &:last-child {
+                font-size: 64px;
+                @apply text-primary;
+            }
+        }
+    }
+    .final {
+        @apply bg-primary rounded-[10px] lg:rounded-3xl p-3 md:p-12;
+        @apply flex flex-col items-center justify-center;
+        @apply font-black text-black;
+        font-size: 36px;
+        @media (max-width: 767px) {
+            order: -1;
+        }
+        .num {
+            font-size: 128px;
+            line-height: 1;
+        }
+    }
 }
