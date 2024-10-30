@@ -71,3 +71,84 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
+  @apply relative;
+  @apply py-[30px] min-h-[100dvh] lg:pt-[60px];
+
+  background: rgb(250, 204, 20);
+  background: linear-gradient(
+    157deg,
+    rgba(250, 204, 20, 1) 0%,
+    rgba(5, 165, 237, 1) 100%
+  );
+
+  &:before {
+    @apply block absolute top-0 bottom-0 left-0 right-0;
+    content: '';
+    background: url('./shared/assets/images/bg-pattern.jpg') repeat 0 0;
+    background-size: 500px;
+    opacity: 0.1;
+  }
+}
+
+.App {
+  @apply relative grid z-10 bg-white max-w-[980px];
+  @apply rounded-2xl lg:rounded-3xl;
+  @apply mx-2 md:mx-5 lg:mx-auto p-4 md:p-8 lg:p-20;
+  min-height: calc(100dvh - 60px);
+
+  @media (min-width: 1024px) {
+    min-height: calc(100dvh - 120px);
+  }
+
+  /*  for user index */
+  &:has(.index-wrapper) {
+    @apply md:mt-10;
+  }
+}
+
+/* Typography */
+
+h1,
+.h1 {
+  @apply font-black text-black italic text-5xl leading-[1] lg:text-[64px];
+  @apply mb-12 lg:mb-16;
+}
+h2,
+.h2 {
+  @apply font-black italic text-[40px] leading-[1] lg:text-5xl;
+  @apply mb-10 lg:mb-12;
+}
+h3,
+.h3 {
+  @apply font-black italic text-3xl lg:text-4xl;
+  @apply mb-7 lg:mb-9;
+}
+h4,
+.h4 {
+  @apply font-black text-3xl lg:text-4xl;
+  @apply mb-7 lg:mb-9;
+}
+h5,
+h6,
+.h5,
+.h6 {
+  @apply font-black text-2xl lg:text-3xl;
+  @apply mb-6 lg:mb-8;
+}
+
+p:not(:last-child) {
+  @apply mb-3 lg:mb-4;
+}
+
+.reset-button {
+  padding: 0;
+  text-decoration: underline;
+  font: normal 1em/1 'Inter', sans-serif;
+}
