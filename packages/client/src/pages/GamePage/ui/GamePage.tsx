@@ -7,6 +7,8 @@ import { compareScoreWithLocalStorage, getTimePad } from '../lib/helpers'
 import { ResetButton } from './ResetButton'
 import { GameStart } from '@pages/GamePage/ui/GameStart'
 import { GameEnd } from '@pages/GamePage/ui/GameEnd'
+import { useFullScreen } from '@shared/hooks/useFullScreen'
+import { Maximize } from 'lucide-react'
 
 export enum GamePageSteps {
   START = 'start',
@@ -17,6 +19,7 @@ export enum GamePageSteps {
 export const GamePage: FC = () => {
   const bestScore = Number(localStorage.getItem('score') || 0)
   const eventBus = GameEventBus.getInstance()
+  const fullScreen = useFullScreen()
 
   const [step, setStep] = useState(GamePageSteps.START)
   const [score, setScore] = useState(0)
@@ -44,34 +47,6 @@ export const GamePage: FC = () => {
 
   const setEndGame = () => {
     eventBus.emit('end-game')
-  }
-
-  const onFullScreen = () => {
-    console.log('Цой жив2')
-    /*el = el || document.documentElement;
-    if (!document.fullscreenElement && !document.mozFullScreenElement &&
-        !document.webkitFullscreenElement && !document.msFullscreenElement) {
-      if (el.requestFullscreen) {
-        console.log('Цой жив')
-        el.requestFullscreen();
-      } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-      } else if (el.mozRequestFullScreen) {
-        el.mozRequestFullScreen();
-      } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
-    }*/
   }
 
   useEffect(() => {
@@ -122,7 +97,6 @@ export const GamePage: FC = () => {
               <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
               <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
             </div>
-            <button onClick={onFullScreen}>full</button>
             {bestScore > 0 && (
               <div className={s.bestScore}>
                 <div className={cn(s['bestScore-text'])}>
@@ -134,11 +108,20 @@ export const GamePage: FC = () => {
               </div>
             )}
           </div>
-          <div className={s['top-panel']}>
-            <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
-            <ResetButton className={s['reset']} onClick={setEndGame} />
+          <div
+            className={s['canvas-container']}
+            ref={fullScreen.canvasContainerRef}>
+            <button
+              className={s['full-screen-icon']}
+              onClick={fullScreen.showFullScreen}>
+              <Maximize color="black" size={42} />
+            </button>
+            <div className={s['top-panel']}>
+              <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
+              <ResetButton className={s['reset']} onClick={setEndGame} />
+            </div>
+            <canvas className={s.gameCanvas} ref={canvasRef} />
           </div>
-          <canvas className={s.gameCanvas} ref={canvasRef} />
         </>
       )}
     </div>
