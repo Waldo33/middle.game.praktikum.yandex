@@ -46,6 +46,34 @@ export const GamePage: FC = () => {
     eventBus.emit('end-game')
   }
 
+  const onFullScreen = () => {
+    console.log('Цой жив2')
+    /*el = el || document.documentElement;
+    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+      if (el.requestFullscreen) {
+        console.log('Цой жив')
+        el.requestFullscreen();
+      } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+      } else if (el.mozRequestFullScreen) {
+        el.mozRequestFullScreen();
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }*/
+  }
+
   useEffect(() => {
     if (canvasRef.current && step === GamePageSteps.GAME) {
       const game = new Game(canvasRef.current)
@@ -94,6 +122,7 @@ export const GamePage: FC = () => {
               <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
               <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
             </div>
+            <button onClick={onFullScreen}>full</button>
             {bestScore > 0 && (
               <div className={s.bestScore}>
                 <div className={cn(s['bestScore-text'])}>
