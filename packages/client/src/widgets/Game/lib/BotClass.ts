@@ -13,7 +13,6 @@ export class Bot {
   private bus: GameEventBusType
   private gameBoard: GameBoard
   private round: Round
-
   private liquidDifficalty: NumberFromOneToTen | 0 | number = 0
   private name = 'Бот'
 
@@ -115,7 +114,7 @@ export class Bot {
     for (let i = 0; i < weightedCards.length; i++) {
       for (let j = i + 1; j < weightedCards.length; j++) {
         if (
-          weightedCards[i].id === weightedCards[j].id &&
+          weightedCards[i].getId() === weightedCards[j].getId() &&
           randomProbability < probability
         ) {
           this.liquidDifficalty++

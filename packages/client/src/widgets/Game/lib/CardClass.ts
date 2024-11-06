@@ -2,7 +2,7 @@ import { colors } from '../constants/colors'
 import { drawRoundRect } from './helpers/drawRoundRect'
 
 export class Card {
-  public id: number
+  private id: number
   private image: HTMLImageElement
   private isRevealed = false
   private isMatched = false
@@ -67,6 +67,13 @@ export class Card {
       return true
     }
     return false
+  }
+
+  /**
+   * Метод для сравнения совпадения с другой открытой картой
+   */
+  public getId(): number {
+    return this.id
   }
 
   /**
