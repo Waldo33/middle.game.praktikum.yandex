@@ -1,4 +1,5 @@
 const CACHE_NAME = 'v2';
+const API_CACHE_NAME = 'api-cache-v2';
 
 const URLS_TO_CACHE = [
   '/',
@@ -57,6 +58,16 @@ const getResponseFromCacheOrResponseAndSave = async (event) => {
     }
 
     const responseToCache = networkResponse.clone();
+    
+
+    // удалить если не сработает
+    if(response.url.includes('/api/v2')) {
+      const cache = await caches.open(API_CACHE_NAME);
+      await cache.put(event.request, responseToCache);
+
+      return networkResponse;
+    }
+
     const cache = await caches.open(CACHE_NAME);
     await cache.put(event.request, responseToCache);
 
