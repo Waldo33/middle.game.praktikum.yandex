@@ -42,28 +42,14 @@ export class Bot {
     this.bus.emit('bot-score-update', this.score)
   }
 
-  public checkForMatch(): void {
-    clearInterval(this.interval)
-    this.gameBoard.render()
-
-    if (this.gameBoard.checkSelectedCardsMatched()) {
-      this.addPoint()
-      this.gameBoard.deleteSelectedCards()
-      this.round.resetTime()
-      this.chooseCards()
-    } else {
-      setTimeout(() => {
-        this.round.switchTurn()
-      }, 3000)
-    }
-  }
-
   private showCards(card1: Card, card2: Card) {
     this.interval = setInterval(() => {
       if (card1.checkRevealed()) {
         card2.reveal()
         this.gameBoard.addSelectedCard(card2)
-        this.checkForMatch()
+        clearInterval(this.interval)
+        this.gameBoard.render()
+        this.round.checkForMatch()
       }
 
       if (!card2.checkRevealed()) {

@@ -12,6 +12,7 @@ export class Round {
   private bus: GameEventBusType
   private currentPlayer: Player | Bot
   private players: (Player | Bot)[]
+  private mode: GameModes
 
   constructor(
     gameBoard: GameBoard,
@@ -21,7 +22,7 @@ export class Round {
     this.bus = GameEventBus.getInstance()
     this.gameBoard = gameBoard
     this.currentRound = 1
-
+    this.mode = mode
     const player = new Player(1, this.gameBoard, this)
 
     if (mode === GameModes.BOT) {
@@ -62,8 +63,16 @@ export class Round {
   }
 
   public switchTurn() {
+    if (this.gameBoard.checkAllCardsMatched()) {
+      this.complete()
+      this.bus.emit('timer-end')
+    }
+
     this.gameBoard.clean()
-    this.timer.reset()
+
+    if (this.mode === GameModes.BOT) {
+      this.resetTime()
+    }
 
     if (this.currentPlayer.getId() === this.players.length) {
       this.currentPlayer = this.players[0]
@@ -76,10 +85,42 @@ export class Round {
     if (this.currentPlayer instanceof Bot) {
       this.currentPlayer.chooseCards()
     }
+
+    if (this.gameBoard.checkAllCardsMatched()) {
+      this.stopRound()
+    }
+  }
+
+  private stopRound() {
+    this.complete()
+    this.bus.emit('timer-end')
+    this.timer.stopTimer()
   }
 
   public resetTime() {
     this.timer.reset()
+  }
+
+  /**
+   * Метод для проверки совпадения среди 2 выбранных карточек
+   */
+  public checkForMatch() {
+    if (this.gameBoard.checkSelectedCardsMatched()) {
+      this.currentPlayer.addPoint()
+      this.gameBoard.deleteSelectedCards()
+
+      if (this.mode === GameModes.BOT) {
+        this.resetTime()
+      }
+
+      if (this.currentPlayer instanceof Bot) {
+        this.currentPlayer.chooseCards()
+      }
+    } else {
+      setTimeout(() => {
+        this.switchTurn()
+      }, 2000)
+    }
   }
 
   private complete() {
@@ -93,12 +134,11 @@ export class Round {
     }
 
     const position = this.gameBoard.getEventPosition(event)
-    const areAllCardsMatched = this.gameBoard.checkAllCardsMatched()
 
     this.currentPlayer.chooseCards(position)
 
-    if (areAllCardsMatched) {
-      this.complete()
+    if (this.gameBoard.checkAllCardsMatched()) {
+      this.stopRound()
     }
   }
 

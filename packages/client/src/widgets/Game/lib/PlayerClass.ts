@@ -32,21 +32,6 @@ export class Player {
     this.bus.emit('score-update', this.score)
   }
 
-  /**
-   * Метод для проверки совпадения среди 2 выбранных карточек
-   */
-  public checkForMatch() {
-    if (this.gameBoard.checkSelectedCardsMatched()) {
-      this.addPoint()
-      this.gameBoard.deleteSelectedCards()
-      this.round.resetTime()
-    } else {
-      setTimeout(() => {
-        this.round.switchTurn()
-      }, 2000)
-    }
-  }
-
   public chooseCards(position: { x: number; y: number }) {
     if (this.gameBoard.isMaxCardsSelected()) {
       return null
@@ -66,7 +51,7 @@ export class Player {
     }
 
     if (!isRevealed && this.gameBoard.isMaxCardsSelected()) {
-      this.checkForMatch()
+      this.round.checkForMatch()
     }
 
     this.gameBoard.render()

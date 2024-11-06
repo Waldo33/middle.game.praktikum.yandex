@@ -1,8 +1,13 @@
 import { EventBus } from '@shared/lib/classes/EventBus'
 
-type ScoreEvents = 'score-update' | 'bot-score-update' | 'current-player-name'
+type ScoreEvents = 'score-update' | 'bot-score-update'
 type TimerEvents = 'timer-tick' | 'timer-end' | 'timer-reset'
-export type GameEvents = 'end-game' | ScoreEvents | TimerEvents | 'switch-turn'
+export type GameEvents =
+  | 'end-game'
+  | ScoreEvents
+  | TimerEvents
+  | 'switch-turn'
+  | 'current-player-name'
 
 export type GameEventBusType = EventBus<GameEvents>
 
