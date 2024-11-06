@@ -6,7 +6,7 @@ import { cn } from '@shared/lib/utils'
 import { Menu } from '@widgets/menu/Menu'
 import { ROUTES } from '@shared/config/routes'
 import { useSelector } from 'react-redux'
-import { selectUser } from '@processes/auth/model/selectors'
+import { selectUser } from '@shared/model/selectors'
 
 export const Intro: FC = () => {
   const user = useSelector(selectUser)

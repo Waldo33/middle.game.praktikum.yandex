@@ -10,7 +10,7 @@ import { ProfileAvatar } from './ProfileAvatar'
 import { Link } from 'react-router-dom'
 import { Button } from '@shared/components/ui/button'
 import { useSelector } from 'react-redux'
-import { selectUser } from '@processes/auth/model/selectors'
+import { selectUser } from '@shared/model/selectors'
 import { matchDictionaryAndData } from '@shared/lib/dictionaryHelper'
 
 export const ProfileData: FC = () => {

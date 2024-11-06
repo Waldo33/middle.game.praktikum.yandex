@@ -15,8 +15,8 @@ export const Menu: FC<MenuProps> = ({ links }) => {
   return (
     <nav className={s['menu']}>
       <ul>
-        {links.map(({ url, label }, index) => (
-          <li key={index}>
+        {links.map(({ url, label }) => (
+          <li key={url}>
             <Link to={url}>{label}</Link>
           </li>
         ))}

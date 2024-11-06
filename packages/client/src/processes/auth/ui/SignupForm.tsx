@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signupThunk } from '../model/thunks'
-import { selectAuthLoading } from '../model/selectors'
+import { selectAuthLoading } from '@shared/model/selectors'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'

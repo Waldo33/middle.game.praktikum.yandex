@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormFieldWrapper } from '@processes/auth/ui/FormFieldWrapper'
 import { useSelector } from 'react-redux'
-import { selectAuthLoading } from '@processes/auth/model/selectors'
+import { selectAuthLoading } from '@shared/model/selectors'
 import { useToast } from '@shared/hooks/use-toast'
 import { Loader2 } from 'lucide-react'
 
