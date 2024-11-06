@@ -26,7 +26,7 @@ export class Round {
       this.timer = new Timer(15, mode, this)
     } else {
       this.players = [player]
-      this.timer = new Timer(150, mode, this)
+      this.timer = new Timer(250, mode, this)
     }
 
     if (this.players.length > 1) {
@@ -61,7 +61,6 @@ export class Round {
   public switchTurn() {
     if (this.gameBoard.checkAllCardsMatched()) {
       this.complete()
-      this.bus.emit('timer-end')
     }
 
     this.gameBoard.clean()
@@ -89,7 +88,6 @@ export class Round {
 
   private stopRound() {
     this.complete()
-    this.bus.emit('timer-end')
     this.timer.stopTimer()
   }
 
@@ -120,6 +118,9 @@ export class Round {
   }
 
   private complete() {
+    if (this.mode === GameModes.BOT) {
+      this.bus.emit('timer-end')
+    }
     this.next()
     this.resetTime()
   }
