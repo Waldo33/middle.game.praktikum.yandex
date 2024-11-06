@@ -20,18 +20,18 @@ export enum GameModes {
   BOT = 'bot',
 }
 
-export type NumberFromOneToTen = 1 | 2 | 3 | 4 | 5 | 6
+export type NumberFromOneToFive = 1 | 2 | 3 | 4 | 5
 
 export const GamePage: FC = () => {
   const bestScore = Number(localStorage.getItem('score') || 0)
   const eventBus = GameEventBus.getInstance()
 
   const [step, setStep] = useState<GamePageSteps>(GamePageSteps.START)
-  const [score, setScore] = useState(0)
-  const [botScore, setBotScore] = useState(0)
-  const [time, setTime] = useState(0)
+  const [score, setScore] = useState<number>(0)
+  const [botScore, setBotScore] = useState<number>(0)
+  const [time, setTime] = useState<number>(0)
   const [mode, setMode] = useState<GameModes | null>(null)
-  const [difficalty, setDifficalty] = useState<NumberFromOneToTen>(1)
+  const [difficalty, setDifficalty] = useState<NumberFromOneToFive>(1)
   const [currentPlayerName, setCurrentPlayerName] = useState<string>('')
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -68,7 +68,7 @@ export const GamePage: FC = () => {
     eventBus.emit('end-game')
   }
 
-  const onChangeDifficalty = (value: NumberFromOneToTen[]) => {
+  const onChangeDifficalty = (value: NumberFromOneToFive[]) => {
     setDifficalty(value[0])
   }
 
@@ -112,15 +112,17 @@ export const GamePage: FC = () => {
                   лучший счет: <span>{bestScore}</span>
                 </div>
               )}
-              <Button onClick={() => onStart(GameModes.ROUND)}>
-                Играть с собой
-              </Button>
+              <div className={s['buttons']}>
+                <Button onClick={() => onStart(GameModes.ROUND)}>
+                  Играть с собой
+                </Button>
 
-              <GameDifficaltyDialog
-                onChange={onChangeDifficalty}
-                onSubmit={() => onStart(GameModes.BOT)}
-                value={difficalty}
-              />
+                <GameDifficaltyDialog
+                  onChange={onChangeDifficalty}
+                  onSubmit={() => onStart(GameModes.BOT)}
+                  value={difficalty}
+                />
+              </div>
             </div>
             <GameStart />
           </div>
@@ -132,6 +134,7 @@ export const GamePage: FC = () => {
             score={score}
             bestScore={bestScore}
             onClick={() => onStart(mode)}
+            onChange={() => setStep(GamePageSteps.START)}
           />
         </div>
       )}

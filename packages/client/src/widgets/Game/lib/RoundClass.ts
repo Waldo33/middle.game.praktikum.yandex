@@ -1,4 +1,4 @@
-import { GameModes, NumberFromOneToTen } from '@pages/GamePage/ui/GamePage'
+import { GameModes, NumberFromOneToFive } from '@pages/GamePage/ui/GamePage'
 import { Bot } from './BotClass'
 import { GameBoard } from './GameBoardClass'
 import { GameEventBus, GameEventBusType } from './GameEventBus'
@@ -15,7 +15,7 @@ export class Round {
 
   constructor(
     gameBoard: GameBoard,
-    difficalty: NumberFromOneToTen,
+    difficalty: NumberFromOneToFive,
     mode: GameModes
   ) {
     this.bus = GameEventBus.getInstance()

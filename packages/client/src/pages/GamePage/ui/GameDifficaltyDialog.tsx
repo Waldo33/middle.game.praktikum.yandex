@@ -7,10 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from '@shared/components/ui/dialog'
 
 import { Slider } from '@shared/components/ui/slider'
-import { NumberFromOneToTen } from './GamePage'
+import { NumberFromOneToFive } from './GamePage'
 
 export function GameDifficaltyDialog({
   onChange,
@@ -18,8 +19,8 @@ export function GameDifficaltyDialog({
   value,
 }: {
   onSubmit: () => void
-  onChange: (value: NumberFromOneToTen[]) => void
-  value: NumberFromOneToTen
+  onChange: (value: NumberFromOneToFive[]) => void
+  value: NumberFromOneToFive
 }) {
   return (
     <Dialog>
@@ -29,12 +30,12 @@ export function GameDifficaltyDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Difficalty</DialogTitle>
-          {value}
+          <DialogDescription>{value}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <Slider
             defaultValue={[value]}
-            max={6}
+            max={5}
             min={1}
             step={1}
             onValueChange={onChange}

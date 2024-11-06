@@ -1,4 +1,4 @@
-import { NumberFromOneToTen } from '@pages/GamePage/ui/GamePage'
+import { NumberFromOneToFive } from '@pages/GamePage/ui/GamePage'
 import { Card } from './CardClass'
 import { GameBoard } from './GameBoardClass'
 
@@ -9,16 +9,16 @@ export class Bot {
   private interval?: NodeJS.Timeout
   private score = 0
   private id: number
-  private difficalty: NumberFromOneToTen
+  private difficalty: NumberFromOneToFive
   private bus: GameEventBusType
   private gameBoard: GameBoard
   private round: Round
-  private liquidDifficalty: NumberFromOneToTen | 0 | number = 0
+  private liquidDifficalty: NumberFromOneToFive | 0 | number = 0
   private name = 'Бот'
 
   constructor(
     id: number,
-    difficalty: NumberFromOneToTen,
+    difficalty: NumberFromOneToFive,
     gameBoard: GameBoard,
     round: Round
   ) {
@@ -82,32 +82,32 @@ export class Bot {
       .getCards()
       .filter(card => !card.checkMatched())
 
-    // При уменьшении количества закрытых пар увеличиваем сложность
-    if (
-      this.gameBoard.getCards().length / 2 < unmatchedCards.length &&
-      this.liquidDifficalty < 7
-    ) {
-      calculatedDifficalty = this.liquidDifficalty + 2
-    }
-    if (
-      this.gameBoard.getCards().length / 3 < unmatchedCards.length &&
-      this.liquidDifficalty < 6
-    ) {
-      calculatedDifficalty = this.liquidDifficalty + 3
-    }
-
     // Увеличиваем вероятность открытия для карт, которые были открыты ранее
-    // const weightedCards = unmatchedCards.flatMap((card: Card) =>
-    //   card.checkTouched() ? [card, card] : [card]
-    // )
-
-    const weightedCards = unmatchedCards
+    const weightedCards = unmatchedCards.flatMap((card: Card) =>
+      card.checkTouched() ? [card, card] : [card]
+    )
 
     // Перемешиваем массив, чтобы случайным образом выбирать карты
     weightedCards.sort(() => Math.random() - 0.5)
 
     // Вероятность, которая рассчитывается по уровню сложности игры и нарастающей сложности при открытии пар подряд
     calculatedDifficalty = this.difficalty - this.liquidDifficalty
+
+    // При уменьшении количества закрытых пар увеличиваем сложность
+    if (
+      this.gameBoard.getCards().length / 2 > unmatchedCards.length &&
+      this.liquidDifficalty < 7
+    ) {
+      console.log('hhhh')
+      calculatedDifficalty = calculatedDifficalty + 2
+    }
+    if (
+      this.gameBoard.getCards().length / 3 > unmatchedCards.length &&
+      this.liquidDifficalty < 6
+    ) {
+      calculatedDifficalty = calculatedDifficalty + 3
+    }
+
     const probability = calculatedDifficalty >= 1 ? calculatedDifficalty : 1
     const randomProbability = Math.random() * 10
 
@@ -116,6 +116,7 @@ export class Bot {
       for (let j = i + 1; j < weightedCards.length; j++) {
         if (
           weightedCards[i].getId() === weightedCards[j].getId() &&
+          weightedCards[i] !== weightedCards[j] &&
           randomProbability < probability
         ) {
           this.liquidDifficalty++
@@ -126,12 +127,17 @@ export class Bot {
       }
     }
 
-    // Если совпадения не найдено, выбираем любые две случайные карты
-    const randomPair = weightedCards.slice(0, 2)
+    // Если совпадения не найдено, выбираем любые две случайные уникальные карты
+    const uniqueCards = Array.from(
+      new Set(weightedCards.map(card => card.getId()))
+    )
+      .map(id => weightedCards.find(card => card.getId() === id))
+      .filter((card): card is Card => card !== undefined)
+      .slice(0, 2)
 
-    if (randomPair.length === 2) {
+    if (uniqueCards.length === 2) {
       this.liquidDifficalty = 0
-      this.showCards(randomPair[0], randomPair[1])
+      this.showCards(uniqueCards[0], uniqueCards[1])
       return
     }
   }

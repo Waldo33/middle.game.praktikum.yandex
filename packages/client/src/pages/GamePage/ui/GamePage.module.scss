@@ -111,6 +111,12 @@
       @apply text-primary;
     }
   }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .timer {
@@ -123,19 +129,19 @@
     @apply text-primary;
   }
   .container {
-    display: grid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 4rem;
     font-weight: 900;
-    @media (min-width: 768px) {
-      align-items: flex-end;
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
   .subtitle {
     font-size: 22px;
     @apply text-primary;
   }
   .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 4rem;
     line-height: 1.2em;
     @apply font-black text-black;
@@ -151,29 +157,37 @@
   }
   .repeat {
     margin: 3.4rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: fit-content;
   }
   .total {
     display: flex;
     align-items: center;
     gap: 24px;
     line-height: 1;
-    .cell {
-      &:first-child {
-        font-size: 30px;
-        @media (max-width: 767px) {
-          font-size: 22px;
-        }
-      }
-      &:last-child {
-        font-size: 64px;
-        @apply text-primary;
+  }
+
+  .cell {
+    width: 50%;
+    &:first-child {
+      font-size: 30px;
+      @media (max-width: 767px) {
+        font-size: 22px;
       }
     }
+    &:last-child {
+      font-size: 64px;
+      @apply text-primary;
+    }
   }
+
   .final {
     @apply bg-primary rounded-[10px] lg:rounded-3xl p-3 md:p-12;
     @apply flex flex-col items-center justify-center;
     @apply font-black text-black;
+    width: 100%;
     font-size: 36px;
     @media (max-width: 767px) {
       order: -1;

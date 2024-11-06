@@ -1,7 +1,7 @@
 import { GameBoard } from './GameBoardClass'
 import { Round } from './RoundClass'
 import { GameEventBus, GameEventBusType } from './GameEventBus'
-import { GameModes, NumberFromOneToTen } from '@pages/GamePage/ui/GamePage'
+import { GameModes, NumberFromOneToFive } from '@pages/GamePage/ui/GamePage'
 
 /**
  * @todo
@@ -19,7 +19,7 @@ export class Game {
   constructor(
     canvas: HTMLCanvasElement,
     mode: GameModes,
-    difficalty: NumberFromOneToTen = 1
+    difficalty: NumberFromOneToFive = 1
   ) {
     this.canvas = canvas
 

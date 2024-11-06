@@ -10,9 +10,15 @@ type GameEndProps = {
   score: number
   bestScore: number
   onClick: () => void
+  onChange: () => void
 }
 
-export const GameEnd: FC<GameEndProps> = ({ score, bestScore, onClick }) => {
+export const GameEnd: FC<GameEndProps> = ({
+  score,
+  bestScore,
+  onClick,
+  onChange,
+}) => {
   const user = useSelector(selectUser),
     login = user?.login
 
@@ -20,7 +26,7 @@ export const GameEnd: FC<GameEndProps> = ({ score, bestScore, onClick }) => {
     <>
       <h1>подводим итоги</h1>
       <div className={s['container']}>
-        <div className={s['cell']}>
+        <div className={s.cell}>
           <div className={s['box']}>
             <div className={s['subtitle']}>
               так держать,
@@ -37,6 +43,7 @@ export const GameEnd: FC<GameEndProps> = ({ score, bestScore, onClick }) => {
           </div>
           <div className={s['repeat']}>
             <Button onClick={onClick}>играть еще раз →</Button>
+            <Button onClick={onChange}>выбрать другой режим игры →</Button>
           </div>
           <Menu
             links={[
