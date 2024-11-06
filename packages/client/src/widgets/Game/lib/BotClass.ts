@@ -98,7 +98,6 @@ export class Bot {
       this.gameBoard.getCards().length / 2 > unmatchedCards.length &&
       this.liquidDifficalty < 7
     ) {
-      console.log('hhhh')
       calculatedDifficalty = calculatedDifficalty + 2
     }
     if (
