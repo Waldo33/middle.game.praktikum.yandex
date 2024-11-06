@@ -43,6 +43,9 @@ export class Bot {
   }
 
   public checkForMatch(): void {
+    clearInterval(this.interval)
+    this.gameBoard.render()
+
     if (this.gameBoard.checkSelectedCardsMatched()) {
       this.addPoint()
       this.gameBoard.deleteSelectedCards()
@@ -61,8 +64,6 @@ export class Bot {
         card2.reveal()
         this.gameBoard.addSelectedCard(card2)
         this.checkForMatch()
-        this.gameBoard.render()
-        clearInterval(this.interval)
       }
 
       if (!card2.checkRevealed()) {
