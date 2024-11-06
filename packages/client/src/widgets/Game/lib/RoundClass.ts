@@ -1,4 +1,4 @@
-import { GameModes, NumberFromOneToFive } from '@pages/GamePage/ui/GamePage'
+import { GameModes, Difficulty } from '@pages/GamePage/ui/GamePage'
 import { Bot } from './BotClass'
 import { GameBoard } from './GameBoardClass'
 import { GameEventBus, GameEventBusType } from './GameEventBus'
@@ -14,11 +14,7 @@ export class Round {
   private players: (Player | Bot)[]
   private mode: GameModes
 
-  constructor(
-    gameBoard: GameBoard,
-    difficalty: NumberFromOneToFive,
-    mode: GameModes
-  ) {
+  constructor(gameBoard: GameBoard, difficulty: Difficulty, mode: GameModes) {
     this.bus = GameEventBus.getInstance()
     this.gameBoard = gameBoard
     this.currentRound = 1
@@ -26,7 +22,7 @@ export class Round {
     const player = new Player(1, this.gameBoard, this)
 
     if (mode === GameModes.BOT) {
-      this.players = [player, new Bot(2, difficalty, this.gameBoard, this)]
+      this.players = [player, new Bot(2, difficulty, this.gameBoard, this)]
       this.timer = new Timer(15, mode, this)
     } else {
       this.players = [player]

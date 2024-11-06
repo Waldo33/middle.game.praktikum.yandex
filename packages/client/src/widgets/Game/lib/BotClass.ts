@@ -1,4 +1,4 @@
-import { NumberFromOneToFive } from '@pages/GamePage/ui/GamePage'
+import { Difficulty } from '@pages/GamePage/ui/GamePage'
 import { Card } from './CardClass'
 import { GameBoard } from './GameBoardClass'
 
@@ -9,22 +9,22 @@ export class Bot {
   private interval?: NodeJS.Timeout
   private score = 0
   private id: number
-  private difficalty: NumberFromOneToFive
+  private difficulty: Difficulty
   private bus: GameEventBusType
   private gameBoard: GameBoard
   private round: Round
-  private liquidDifficalty: NumberFromOneToFive | 0 | number = 0
+  private liquidDifficulty: Difficulty | 0 | number = 0
   private name = 'Бот'
 
   constructor(
     id: number,
-    difficalty: NumberFromOneToFive,
+    difficulty: Difficulty,
     gameBoard: GameBoard,
     round: Round
   ) {
     this.id = id
     this.bus = GameEventBus.getInstance()
-    this.difficalty = difficalty
+    this.difficulty = difficulty
     this.gameBoard = gameBoard
     this.round = round
   }
@@ -61,7 +61,7 @@ export class Bot {
   }
 
   public chooseCards() {
-    let calculatedDifficalty = 0
+    let calculatedDifficulty = 0
 
     // Фильтруем карты, которые еще не совпали
     const unmatchedCards: Card[] = this.gameBoard
@@ -77,23 +77,23 @@ export class Bot {
     weightedCards.sort(() => Math.random() - 0.5)
 
     // Вероятность, которая рассчитывается по уровню сложности игры и нарастающей сложности при открытии пар подряд
-    calculatedDifficalty = this.difficalty - this.liquidDifficalty
+    calculatedDifficulty = this.difficulty - this.liquidDifficulty
 
     // При уменьшении количества закрытых пар увеличиваем сложность
     if (
       this.gameBoard.getCards().length / 2 > unmatchedCards.length &&
-      this.liquidDifficalty < 7
+      this.liquidDifficulty < 7
     ) {
-      calculatedDifficalty = calculatedDifficalty + 2
+      calculatedDifficulty = calculatedDifficulty + 2
     }
     if (
       this.gameBoard.getCards().length / 3 > unmatchedCards.length &&
-      this.liquidDifficalty < 6
+      this.liquidDifficulty < 6
     ) {
-      calculatedDifficalty = calculatedDifficalty + 3
+      calculatedDifficulty = calculatedDifficulty + 3
     }
 
-    const probability = calculatedDifficalty >= 1 ? calculatedDifficalty : 1
+    const probability = calculatedDifficulty >= 1 ? calculatedDifficulty : 1
     const randomProbability = Math.random() * 10
 
     // Пытаемся найти совпадающие пары
@@ -104,7 +104,7 @@ export class Bot {
           weightedCards[i] !== weightedCards[j] &&
           randomProbability < probability
         ) {
-          this.liquidDifficalty++
+          this.liquidDifficulty++
           this.showCards(weightedCards[i], weightedCards[j])
 
           return
@@ -121,7 +121,7 @@ export class Bot {
       .slice(0, 2)
 
     if (uniqueCards.length === 2) {
-      this.liquidDifficalty = 0
+      this.liquidDifficulty = 0
       this.showCards(uniqueCards[0], uniqueCards[1])
       return
     }

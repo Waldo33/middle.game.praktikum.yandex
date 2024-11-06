@@ -1,7 +1,7 @@
 import { GameBoard } from './GameBoardClass'
 import { Round } from './RoundClass'
 import { GameEventBus, GameEventBusType } from './GameEventBus'
-import { GameModes, NumberFromOneToFive } from '@pages/GamePage/ui/GamePage'
+import { GameModes, Difficulty } from '@pages/GamePage/ui/GamePage'
 
 /**
  * @todo
@@ -19,7 +19,7 @@ export class Game {
   constructor(
     canvas: HTMLCanvasElement,
     mode: GameModes,
-    difficalty: NumberFromOneToFive = 1
+    difficulty: Difficulty = 1
   ) {
     this.canvas = canvas
 
@@ -31,7 +31,7 @@ export class Game {
 
     this.bus = GameEventBus.getInstance()
 
-    this.currentRound = new Round(this.gameBoard, difficalty, mode)
+    this.currentRound = new Round(this.gameBoard, difficulty, mode)
   }
 
   private addEventListeners() {
