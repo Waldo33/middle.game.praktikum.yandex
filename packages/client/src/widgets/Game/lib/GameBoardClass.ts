@@ -1,13 +1,10 @@
 import { Card } from './CardClass'
 import { loadImage } from './helpers/loadImage'
 import { shuffle } from './helpers/shuffleArrayItems'
-import { Player } from './PlayerClass'
 
 type Options = {
   rows?: number
   columns?: number
-  cardWidth: number
-  cardHeight: number
   padding: number
 }
 
@@ -21,20 +18,33 @@ export class GameBoard {
   private cardWidth: number
   private cardHeight: number
   private padding: number
+  private canvas: HTMLCanvasElement
 
   constructor(
-    ctx: CanvasRenderingContext2D,
-    { rows = 4, columns = 4, cardWidth, cardHeight, padding }: Options
+    canvas: HTMLCanvasElement,
+    { rows = 4, columns = 4, padding = 4 }: Options
   ) {
     if (rows % 2 === 1 && columns % 2 === 1) {
       throw new Error('Column or row count must be even number!')
     }
 
+    this.canvas = canvas
+    const ctx = canvas.getContext('2d')
+
+    if (!ctx) {
+      throw new Error('Error creating 2D context.')
+    }
+
+    const cardSize = 95
+
+    canvas.width = columns * (cardSize + padding)
+    canvas.height = rows * (cardSize + padding)
+
     this.ctx = ctx
     this.rows = rows
     this.columns = columns
-    this.cardWidth = cardWidth
-    this.cardHeight = cardHeight
+    this.cardWidth = cardSize
+    this.cardHeight = cardSize
     this.padding = padding
     this.setupBoard()
   }
@@ -52,13 +62,46 @@ export class GameBoard {
 
   public async setupBoard() {
     const cardPairs = await this.createCardPairs()
-    this.cards = this.shuffle(cardPairs)
+    this.cards = shuffle(cardPairs)
     this.grid = this.createGrid(this.cards)
     this.render()
   }
 
+  public getCards() {
+    return this.cards
+  }
+
+  public getSelectedCards() {
+    return this.selectedCards
+  }
+
   public checkAllCardsMatched(): boolean {
     return this.cards.every(card => card.checkMatched())
+  }
+
+  public checkSelectedCardsMatched(): boolean {
+    const [card1, card2] = this.getSelectedCards()
+    if (card1 && card2 && card1.checkMatch(card2)) {
+      card2.checkMatch(card1)
+      return true
+    }
+
+    return false
+  }
+
+  public addSelectedCard(card: Card): void {
+    this.selectedCards.push(card)
+  }
+
+  public deleteSelectedCards(): void {
+    this.selectedCards = []
+  }
+
+  public clean() {
+    this.cards.forEach((card: Card) => card.clearHighlight())
+    this.selectedCards.forEach((card: Card) => card.hide())
+    this.deleteSelectedCards()
+    this.render()
   }
 
   /**
@@ -73,37 +116,8 @@ export class GameBoard {
     return await Promise.all(imageSources.map(loadImage))
   }
 
-  private shuffle(cards: Card[]): Card[] {
-    return shuffle(cards)
-  }
-
-  private isMaxCardsSelected(): boolean {
+  public isMaxCardsSelected(): boolean {
     return this.selectedCards.length === 2
-  }
-
-  public handleCardClick(position: { x: number; y: number }, player: Player) {
-    if (this.isMaxCardsSelected()) {
-      return null
-    }
-
-    const clickedCard = this.getCardAtPosition(position)
-
-    if (!clickedCard) {
-      return null
-    }
-
-    const isRevealed = clickedCard.checkRevealed()
-
-    if (!isRevealed) {
-      clickedCard.reveal()
-      this.selectedCards.push(clickedCard)
-    }
-
-    if (!isRevealed && this.isMaxCardsSelected()) {
-      this.checkForMatch(player)
-    }
-
-    this.render()
   }
 
   private createGrid(cards: Card[]): Card[][] {
@@ -124,7 +138,7 @@ export class GameBoard {
     return grid
   }
 
-  private getCardAtPosition(position: { x: number; y: number }): Card | null {
+  public getCardAtPosition(position: { x: number; y: number }): Card | null {
     for (let row = 0; row < this.grid.length; row++) {
       for (let col = 0; col < this.grid[row].length; col++) {
         const card = this.grid[row][col]
@@ -144,42 +158,24 @@ export class GameBoard {
     return null
   }
 
-  /**
-   * Метод для проверки совпадения среди 2 выбранных карточек
-   */
-  private checkForMatch(player: Player) {
-    const [card1, card2] = this.selectedCards
-    if (card1.checkMatch(card2)) {
-      card2.checkMatch(card1)
-      player.addPoint()
-      this.selectedCards = []
-    } else {
-      setTimeout(() => {
-        card1.hide()
-        card2.hide()
-        this.selectedCards = []
-        this.render()
-      }, 1000)
-    }
-  }
-
-  private highlightCard(card: Card) {
+  public highlightCard(card: Card) {
     card.highlight()
   }
 
-  private clearHighlight() {
+  public clearHighlight() {
     this.cards.forEach(card => card.clearHighlight())
   }
 
-  public handleHover(position: { x: number; y: number }) {
-    this.clearHighlight()
-    const card = this.getCardAtPosition(position)
-
-    if (card) {
-      this.highlightCard(card)
-    }
-
-    this.render()
+  public getEventPosition(event: MouseEvent | TouchEvent): {
+    x: number
+    y: number
+  } {
+    const rect = this.canvas.getBoundingClientRect()
+    const x =
+      event instanceof MouseEvent ? event.clientX : event.touches[0].clientX
+    const y =
+      event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
+    return { x: x - rect.left, y: y - rect.top }
   }
 
   public render() {

@@ -2,11 +2,12 @@ import { colors } from '../constants/colors'
 import { drawRoundRect } from './helpers/drawRoundRect'
 
 export class Card {
-  private id: number
+  public id: number
   private image: HTMLImageElement
   private isRevealed = false
   private isMatched = false
   private isHovered = false
+  private isTouched = false
 
   constructor(id: number, image: HTMLImageElement) {
     this.id = id
@@ -28,9 +29,18 @@ export class Card {
   }
 
   /**
+   * Метод для проверки, есть ли у карточки уже пара
+   */
+  public checkTouched() {
+    return this.isTouched
+  }
+
+  /**
    * Метод для раскрытия карточки
    */
   public reveal() {
+    this.isTouched = true
+
     if (!this.isMatched) {
       this.isHovered = false
       this.isRevealed = true
