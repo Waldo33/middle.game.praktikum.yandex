@@ -19,7 +19,7 @@ export enum GamePageSteps {
 export const GamePage: FC = () => {
   const bestScore = Number(localStorage.getItem('score') || 0)
   const eventBus = GameEventBus.getInstance()
-  const fullScreen = useFullScreen()
+  const { canvasContainerRef, showFullScreen, isFullScreen } = useFullScreen()
 
   const [step, setStep] = useState(GamePageSteps.START)
   const [score, setScore] = useState(0)
@@ -92,28 +92,31 @@ export const GamePage: FC = () => {
       )}
       {step === GamePageSteps.GAME && (
         <>
-          <div className={s.score}>
-            <div className={s.currentScore}>
-              <div className={cn(s['currentScore-number'], 'h1')}>{score}</div>
-              <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
-            </div>
-            {bestScore > 0 && (
-              <div className={s.bestScore}>
-                <div className={cn(s['bestScore-text'])}>
-                  лучший
-                  <br />
-                  счет
-                </div>
-                <div className={cn(s['bestScore-number'])}>{bestScore}</div>
-              </div>
-            )}
-          </div>
           <div
-            className={s['canvas-container']}
-            ref={fullScreen.canvasContainerRef}>
-            <button
-              className={s['full-screen-icon']}
-              onClick={fullScreen.showFullScreen}>
+            className={cn(
+              s['canvas-container'],
+              isFullScreen ? s['canvas-container--full'] : ''
+            )}
+            ref={canvasContainerRef}>
+            <div className={s.score}>
+              <div className={s.currentScore}>
+                <div className={cn(s['currentScore-number'], 'h1')}>
+                  {score}
+                </div>
+                <div className={cn(s['currentScore-text'], 'h6')}>счет</div>
+              </div>
+              {bestScore > 0 && (
+                <div className={s.bestScore}>
+                  <div className={cn(s['bestScore-text'])}>
+                    лучший
+                    <br />
+                    счет
+                  </div>
+                  <div className={cn(s['bestScore-number'])}>{bestScore}</div>
+                </div>
+              )}
+            </div>
+            <button className={s['full-screen-icon']} onClick={showFullScreen}>
               <Maximize color="black" size={42} />
             </button>
             <div className={s['top-panel']}>
