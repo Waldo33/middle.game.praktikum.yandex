@@ -7,7 +7,7 @@ export class Card {
   private isRevealed = false
   private isMatched = false
   private isHovered = false
-  private flipProgress = 0 // 0 означает полностью закрыто, 1 — полностью раскрыто
+  private flipProgress = 0
   private isFlipping = false
 
   constructor(id: number, image: HTMLImageElement) {
