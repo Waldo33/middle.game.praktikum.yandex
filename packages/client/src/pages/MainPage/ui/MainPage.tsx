@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 const innerRoutes: Route[] = [
   {
     text: 'это твой профиль. новая аватарка каждый день? 🎉  да!',
-    link: '/profile',
+    link: '/user',
     linkTitle: 'профиль',
   },
   {

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 
 import { Toaster } from '@shared/components/ui/toaster'
 import { AppDispatch } from './store'
-import { User, setUser, setError } from '@processes/auth/model/authSlice'
+import { User, setUser, setError } from '@processes/user/model/userSlice'
 
 import ErrorBoundary from '@shared/components/ErrorBoundary'
 

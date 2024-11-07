@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { logout, signin, signup, user } from '../api/authApi'
-import { Signin, User } from './authSlice'
+import { logout, signin, signup } from '../api/authApi'
+import { user } from '@processes/user/api/userApi'
+import { Signin } from './authSlice'
+import { User } from '@processes/user/model/userSlice'
 import { getErrorMessageOrDefault } from '@shared/lib/errorHelpers'
 
 interface RejectedValue {

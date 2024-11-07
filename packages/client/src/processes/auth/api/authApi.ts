@@ -1,4 +1,6 @@
-import { Signin, User } from '../model/authSlice'
+import { Signin } from '../model/authSlice'
+import { User } from '@processes/user/model/userSlice'
+import { user } from '@processes/user/api/userApi'
 
 export const BASE_AUTH_API = `${import.meta.env.VITE_API_URL}/auth`
 
@@ -47,22 +49,6 @@ export const logout = async () => {
   }
 
   return true
-}
-
-export const user = async () => {
-  const response = await fetch(`${BASE_AUTH_API}/user`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    throw new Error(data.reason)
-  }
-
-  return data
 }
 
 export const authLoader = async () => {

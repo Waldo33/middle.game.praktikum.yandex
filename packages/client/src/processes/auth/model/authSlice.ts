@@ -1,54 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { logoutThunk, signinThunk, signupThunk, userThunk } from './thunks'
+import { logoutThunk, signinThunk, signupThunk } from './thunks'
+import {
+  Auth,
+  RejectedAction,
+  initialState,
+} from '@processes/user/model/userSlice'
+import { userThunk } from '@processes/user/model/thunks'
 
 export interface Signin {
   login: string
   password: string
 }
 
-export interface User {
-  id?: number
-  first_name: string
-  second_name: string
-  display_name?: string
-  login: string
-  email: string
-  password: string
-  phone: string
-  avatar?: string
-  reason?: string
-}
-
-export interface Auth {
-  isAuthenticated: boolean
-  user: null | User
-  error: undefined | string
-  loading: boolean
-}
-
-const initialState: Auth = {
-  isAuthenticated: false,
-  user: null,
-  error: '',
-  loading: false,
-}
-
-interface RejectedAction {
-  payload: string | undefined
-}
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload
-      state.isAuthenticated = true
-    },
-    setError: state => {
-      state.isAuthenticated = false
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(signinThunk.pending, state => {
@@ -110,7 +77,5 @@ const authSlice = createSlice({
       })
   },
 })
-
-export const { setUser, setError } = authSlice.actions
 
 export default authSlice.reducer
