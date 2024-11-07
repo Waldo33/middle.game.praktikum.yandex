@@ -26,7 +26,7 @@ export class Round {
       this.timer = new Timer(15, mode, this)
     } else {
       this.players = [player]
-      this.timer = new Timer(250, mode, this)
+      this.timer = new Timer(180, mode, this)
     }
 
     this.currentPlayer = this.players[0]
