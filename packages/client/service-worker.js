@@ -18,12 +18,9 @@ const URLS_TO_CACHE = [
 ];
 
 const saveResourcesToCache = async (cacheName, urls) => {
-  try {
-    const cache = await caches.open(cacheName)
-    await cache.addAll(urls)
-  } catch (error) {
-    console.error('Не удалось закешировать ресурсы:', error)
-  }
+  caches.open(cacheName)
+    .then((cache) => cache.addAll(urls))
+    .catch((error) => console.error('Не удалось закешировать ресурсы:', error))
 }
 
 const clearOldCache = async (cacheName) => {
