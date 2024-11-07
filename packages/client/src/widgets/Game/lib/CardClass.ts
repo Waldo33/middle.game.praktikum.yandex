@@ -62,7 +62,7 @@ export class Card {
   }
 
   /**
-   * @see {@link https://stackoverflow.com/questions/28989493/html5-canvas-flip-card-animation пример реализации}
+   * Метод для анимации переворорта карточки
    */
   private animateFlip() {
     if (this.isFlipping) return
