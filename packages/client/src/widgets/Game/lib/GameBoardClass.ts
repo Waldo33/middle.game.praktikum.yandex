@@ -62,7 +62,7 @@ export class GameBoard {
 
   public async setupBoard() {
     const cardPairs = await this.createCardPairs()
-    this.cards = shuffle(cardPairs)
+    this.cards = this.shuffle(cardPairs)
     this.grid = this.createGrid(this.cards)
     this.render()
   }
@@ -118,6 +118,10 @@ export class GameBoard {
 
   public isMaxCardsSelected(): boolean {
     return this.selectedCards.length === 2
+  }
+
+  private shuffle(cards: Card[]): Card[] {
+    return shuffle(cards)
   }
 
   private createGrid(cards: Card[]): Card[][] {

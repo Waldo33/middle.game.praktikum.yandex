@@ -29,11 +29,7 @@ export class Round {
       this.timer = new Timer(250, mode, this)
     }
 
-    if (this.players.length > 1) {
-      this.currentPlayer = this.players[0]
-    } else {
-      this.currentPlayer = this.players[0]
-    }
+    this.currentPlayer = this.players[0]
 
     this.bus.emit('current-player-name', this.currentPlayer.getName())
   }
@@ -42,10 +38,6 @@ export class Round {
     this.timer.start()
     this.gameBoard.setupBoard()
     this.gameBoard.render()
-
-    if (this.currentPlayer instanceof Bot) {
-      this.currentPlayer.chooseCards()
-    }
   }
 
   public reset() {
