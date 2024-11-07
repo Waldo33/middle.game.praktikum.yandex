@@ -12,6 +12,7 @@ export const Intro: FC = () => {
   const user = useSelector(selectUser)
   if (!user) return null
   const firstName = user.first_name
+  const bestScore = Number(localStorage.getItem('score') || 0)
 
   return (
     <section className={s['intro']}>
@@ -19,7 +20,7 @@ export const Intro: FC = () => {
         <span>привет,</span> {firstName}
       </h2>
       <div className={s['score']}>
-        <div className={s['num']}>42</div>
+        <div className={s['num']}>{bestScore}</div>
         <div className={s['descr']}>твой счет</div>
       </div>
       <div className={s['btn']}>
