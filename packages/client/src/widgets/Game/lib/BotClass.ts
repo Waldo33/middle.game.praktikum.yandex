@@ -80,17 +80,18 @@ export class Bot {
     calculatedDifficulty = this.difficulty - this.liquidDifficulty
 
     // При уменьшении количества закрытых пар увеличиваем сложность
-    if (
-      this.gameBoard.getCards().length / 2 > unmatchedCards.length &&
-      this.liquidDifficulty < 7
-    ) {
-      calculatedDifficulty = calculatedDifficulty + 2
-    }
-    if (
+    if (unmatchedCards.length === 2) {
+      calculatedDifficulty = 10
+    } else if (
       this.gameBoard.getCards().length / 3 > unmatchedCards.length &&
       this.liquidDifficulty < 6
     ) {
       calculatedDifficulty = calculatedDifficulty + 3
+    } else if (
+      this.gameBoard.getCards().length / 2 > unmatchedCards.length &&
+      this.liquidDifficulty < 7
+    ) {
+      calculatedDifficulty = calculatedDifficulty + 2
     }
 
     const probability = calculatedDifficulty >= 1 ? calculatedDifficulty : 1
