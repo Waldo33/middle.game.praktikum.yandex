@@ -11,7 +11,6 @@ export class Round {
 
   public start() {
     this.gameBoard.setupBoard()
-    this.gameBoard.render()
   }
 
   public reset() {

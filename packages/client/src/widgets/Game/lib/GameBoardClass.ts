@@ -12,6 +12,7 @@ type Options = {
 }
 
 export class GameBoard {
+  private animationFrameId = 0
   private cards: Card[] = []
   private ctx: CanvasRenderingContext2D
   private selectedCards: Card[] = []
@@ -37,6 +38,19 @@ export class GameBoard {
     this.cardHeight = cardHeight
     this.padding = padding
     this.setupBoard()
+    this.startRenderingLoop()
+  }
+
+  private startRenderingLoop() {
+    const renderLoop = () => {
+      this.render()
+      this.animationFrameId = requestAnimationFrame(renderLoop)
+    }
+    this.animationFrameId = requestAnimationFrame(renderLoop)
+  }
+
+  public stopRenderingLoop() {
+    cancelAnimationFrame(this.animationFrameId)
   }
 
   private async createCardPairs() {
@@ -54,7 +68,6 @@ export class GameBoard {
     const cardPairs = await this.createCardPairs()
     this.cards = this.shuffle(cardPairs)
     this.grid = this.createGrid(this.cards)
-    this.render()
   }
 
   public checkAllCardsMatched(): boolean {
@@ -102,8 +115,6 @@ export class GameBoard {
     if (!isRevealed && this.isMaxCardsSelected()) {
       this.checkForMatch(player)
     }
-
-    this.render()
   }
 
   private createGrid(cards: Card[]): Card[][] {
@@ -158,7 +169,6 @@ export class GameBoard {
         card1.hide()
         card2.hide()
         this.selectedCards = []
-        this.render()
       }, 1000)
     }
   }
@@ -178,8 +188,6 @@ export class GameBoard {
     if (card) {
       this.highlightCard(card)
     }
-
-    this.render()
   }
 
   public render() {
