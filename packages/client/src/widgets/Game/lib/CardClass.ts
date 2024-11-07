@@ -7,6 +7,8 @@ export class Card {
   private isRevealed = false
   private isMatched = false
   private isHovered = false
+  private flipProgress = 0 // 0 означает полностью закрыто, 1 — полностью раскрыто
+  private isFlipping = false
 
   constructor(id: number, image: HTMLImageElement) {
     this.id = id
@@ -63,8 +65,27 @@ export class Card {
    * @see {@link https://stackoverflow.com/questions/28989493/html5-canvas-flip-card-animation пример реализации}
    */
   private animateFlip() {
-    // TODO: Добавить анимированный переворот
-    return true
+    if (this.isFlipping) return
+
+    this.isFlipping = true
+    this.flipProgress = 0
+
+    const flip = () => {
+      this.flipProgress += 0.1
+
+      if (this.flipProgress >= 0.5 && !this.isRevealed) {
+        this.isRevealed = false
+      }
+
+      if (this.flipProgress < 1) {
+        requestAnimationFrame(flip)
+      } else {
+        this.flipProgress = 0
+        this.isFlipping = false
+      }
+    }
+
+    requestAnimationFrame(flip)
   }
 
   /**
@@ -92,29 +113,32 @@ export class Card {
     width: number,
     height: number
   ) {
-    ctx.beginPath()
-    drawRoundRect(ctx, x, y, width, height, 10)
+    ctx.save()
+    ctx.translate(x + width / 2, y + height / 2)
+
+    const scale =
+      this.flipProgress < 0.5
+        ? 1 - this.flipProgress * 2
+        : (this.flipProgress - 0.5) * 2
+    ctx.scale(scale, 1)
+
+    drawRoundRect(ctx, -width / 2, -height / 2, width, height, 10)
 
     if (this.isRevealed) {
       ctx.fillStyle = colors.orange
       ctx.strokeStyle = colors.orange
-    }
-
-    if (!this.isRevealed && this.isHovered) {
-      ctx.fillStyle = colors.darkblue
-      ctx.strokeStyle = colors.darkblue
-    }
-
-    if (!this.isRevealed && !this.isHovered) {
-      ctx.fillStyle = colors.blue
-      ctx.strokeStyle = colors.blue
+    } else {
+      ctx.fillStyle = this.isHovered ? colors.darkblue : colors.blue
+      ctx.strokeStyle = this.isHovered ? colors.darkblue : colors.blue
     }
 
     ctx.stroke()
     ctx.fill()
 
     if (this.isRevealed) {
-      ctx.drawImage(this.image, x, y, width, height)
+      ctx.drawImage(this.image, -width / 2, -height / 2, width, height)
     }
+
+    ctx.restore()
   }
 }
