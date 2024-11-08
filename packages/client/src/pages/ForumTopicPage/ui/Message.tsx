@@ -10,7 +10,7 @@ interface MessageProps {
 export const Message: FC<MessageProps> = ({ topic }) => {
   return (
     <>
-      <div className="mb-12 lg:mb-16">
+      <div className="my-12">
         <h1 className="mb-4">{topic.title}</h1>
         <MessageDetails date={topic.date} author={topic.author} />
       </div>

@@ -3,7 +3,7 @@ import s from './ProfilePage.module.scss'
 import { Camera } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { AvatarWidget } from '@widgets/avatar/avatar'
-import { selectUser } from '@processes/auth/model/selectors'
+import { selectUser } from '@shared/model/selectors'
 import { useAvatarUpload } from '@shared/hooks/useAvatarUpload'
 
 export const ProfileAvatar: FC = () => {
