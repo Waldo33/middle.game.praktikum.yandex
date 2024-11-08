@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config({ path: '.env.test' })
 
 export default {
   preset: 'ts-jest',
@@ -9,6 +9,7 @@ export default {
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
+  setupFiles: ['jest-canvas-mock'],
   moduleNameMapper: {
     '^@app/(.*)$': '<rootDir>/src/app/$1',
     '^@processes/(.*)$': '<rootDir>/src/processes/$1',
