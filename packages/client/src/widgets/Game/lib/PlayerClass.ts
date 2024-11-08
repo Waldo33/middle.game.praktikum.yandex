@@ -32,6 +32,10 @@ export class Player {
     this.bus.emit('score-update', this.score)
   }
 
+  public getScore(): number {
+    return this.score
+  }
+
   /**
    * Метод выбора карт
    */

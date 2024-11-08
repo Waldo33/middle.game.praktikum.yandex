@@ -211,7 +211,7 @@ export const GamePage: FC = () => {
                 )}
               </div>
 
-              <canvas className={s.gameCanvas} ref={canvasRef} />
+              <canvas className={s['game-canvas']} ref={canvasRef} />
             </div>
           </div>
         </>

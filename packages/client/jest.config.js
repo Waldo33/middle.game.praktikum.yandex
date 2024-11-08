@@ -16,5 +16,8 @@ export default {
     '^@pages/(.*)$': '<rootDir>/src/pages/$1',
     '^@widgets/(.*)$': '<rootDir>/src/widgets/$1',
     '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+    '\\.module\\.(css|scss)$': 'identity-obj-proxy',
+    '\\.(css|scss)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': 'jest-transform-stub', // для изображений и SVG
   },
 }

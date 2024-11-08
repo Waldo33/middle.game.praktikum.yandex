@@ -1,4 +1,7 @@
+import { GameModes } from '@pages/GamePage/ui/GamePage'
+import { GameBoard } from '../lib/GameBoardClass'
 import { Player } from '../lib/PlayerClass'
+import { Round } from '../lib/RoundClass'
 
 jest.mock('../lib/GameEventBus', () => {
   return {
@@ -12,9 +15,21 @@ jest.mock('../lib/GameEventBus', () => {
 
 describe('Player', () => {
   let player: Player
+  let canvas: HTMLCanvasElement
+  let gameBoard: GameBoard
+
+  let round: Round
 
   beforeEach(() => {
-    player = new Player(1)
+    canvas = document.createElement('canvas')
+
+    gameBoard = new GameBoard(canvas, {
+      rows: 4,
+      columns: 4,
+      padding: 10,
+    })
+    round = new Round(gameBoard, 5, GameModes.ROUND)
+    player = new Player(1, gameBoard, round)
   })
 
   afterEach(() => {

@@ -1,7 +1,18 @@
 import { Round } from '../lib/RoundClass'
 import { GameBoard } from '../lib/GameBoardClass'
+import { GameModes } from '@pages/GamePage/ui/GamePage'
 
 jest.mock('../lib/GameBoardClass')
+
+jest.mock('../lib/GameEventBus', () => {
+  return {
+    GameEventBus: {
+      getInstance: jest.fn(() => ({
+        emit: jest.fn(), // создаем мок для метода emit
+      })),
+    },
+  }
+})
 
 describe('Round', () => {
   let gameBoard: GameBoard
@@ -10,16 +21,14 @@ describe('Round', () => {
 
   beforeEach(() => {
     canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-    if (!ctx) {
-      throw new Error('Не удалось получить контекст 2D')
-    }
-    gameBoard = new GameBoard(ctx, {
-      cardWidth: 100,
-      cardHeight: 100,
-      padding: 10,
+
+    gameBoard = new GameBoard(canvas, {
+      rows: 5,
+      columns: 8,
+      padding: 7,
     }) // Передаем контекст в GameBoard
-    round = new Round(gameBoard)
+
+    round = new Round(gameBoard, 5, GameModes.ROUND)
   })
 
   afterEach(() => {
@@ -40,7 +49,7 @@ describe('Round', () => {
   it('увеличивает текущий раунд и вызывает start', () => {
     const startSpy = jest.spyOn(round, 'start')
 
-    round.nextRound()
+    round.next()
 
     expect((round as any).currentRound).toBe(2)
     expect(startSpy).toHaveBeenCalled()
