@@ -100,13 +100,11 @@ export class Bot {
     const isLessThanHalfUnmatched = totalCardsCount / 2 > unmatchedCardsCount
 
     if (isLessThanOneThirdUnmatched && this.liquidDifficulty < 6) {
-      calculatedDifficulty += 3
-    } else if (
-      isLessThanHalfUnmatched &&
-      !isLessThanOneThirdUnmatched &&
-      this.liquidDifficulty < 7
-    ) {
-      calculatedDifficulty += 2
+      return calculatedDifficulty + 3
+    }
+
+    if (isLessThanHalfUnmatched && this.liquidDifficulty < 7) {
+      return calculatedDifficulty + 2
     }
 
     return calculatedDifficulty
