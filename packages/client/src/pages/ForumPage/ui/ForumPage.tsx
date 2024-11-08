@@ -7,6 +7,7 @@ import { ROUTES } from '@shared/config/routes'
 import { ForumListItem } from '../model/types'
 import { ForumTable } from './ForumTable'
 import { ForumPagination } from './ForumPagination'
+import { Menu } from '@widgets/menu/Menu'
 
 const mockForumData: ForumListItem[] = [
   {
@@ -57,7 +58,14 @@ const mockForumData: ForumListItem[] = [
 export const ForumPage: FC = () => {
   return (
     <main>
-      <div className="grid sm:grid-cols-2 sm:items-center gap-6 mb-12 lg:mb-16">
+      <Menu
+        links={[
+          { url: ROUTES.PROFILE, label: 'профиль' },
+          { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
+          { url: ROUTES.GAME, label: 'играть' },
+        ]}
+      />
+      <div className="grid sm:grid-cols-2 sm:items-center gap-6 my-8 lg:my-12">
         <h1 className="m-0">форум</h1>
         <div className="sm:text-right sm:mt-1">
           <Button asChild>

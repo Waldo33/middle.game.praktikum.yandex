@@ -1,11 +1,10 @@
-import { selectIsAuthenticated } from '@processes/auth/model/selectors'
 import { ROUTES } from '@shared/config/routes'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
+import { useAuth } from '@shared/hooks/useAuth'
 
 const ProtectedRoute = ({ element }: { element: React.ReactElement }) => {
-  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const isAuthenticated = useAuth()
 
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.SIGNIN} replace />
