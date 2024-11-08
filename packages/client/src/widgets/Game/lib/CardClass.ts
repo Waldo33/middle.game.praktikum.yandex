@@ -29,7 +29,7 @@ export class Card {
   }
 
   /**
-   * Метод для проверки, есть ли у карточки уже пара
+   * Метод проверки, была ли открыта карта за раунд
    */
   public checkTouched() {
     return this.isTouched

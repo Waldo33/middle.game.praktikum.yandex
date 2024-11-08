@@ -36,7 +36,7 @@ export const GamePage: FC = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>(1)
   const [currentPlayerName, setCurrentPlayerName] = useState<string>('')
 
-  const isBotMode: boolean = mode === GameModes.BOT
+  const isBotMode = mode === GameModes.BOT
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const onStart = (mode: GameModes) => {

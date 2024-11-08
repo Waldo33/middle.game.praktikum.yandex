@@ -32,6 +32,9 @@ export class Player {
     this.bus.emit('score-update', this.score)
   }
 
+  /**
+   * Метод выбора карт
+   */
   public chooseCards(position: { x: number; y: number }) {
     if (this.gameBoard.isMaxCardsSelected()) {
       return null

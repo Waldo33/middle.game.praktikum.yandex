@@ -60,71 +60,111 @@ export class Bot {
     }, 2000)
   }
 
-  public chooseCards() {
-    let calculatedDifficulty = 0
-
-    // Фильтруем карты, которые еще не совпали
-    const unmatchedCards: Card[] = this.gameBoard
-      .getCards()
-      .filter(card => !card.checkMatched())
-
-    // Увеличиваем вероятность открытия для карт, которые были открыты ранее
-    const weightedCards = unmatchedCards.flatMap((card: Card) =>
-      card.checkTouched() ? [card, card] : [card]
-    )
-
-    // Перемешиваем массив, чтобы случайным образом выбирать карты
-    weightedCards.sort(() => Math.random() - 0.5)
-
-    // Вероятность, которая рассчитывается по уровню сложности игры и нарастающей сложности при открытии пар подряд
-    calculatedDifficulty = this.difficulty - this.liquidDifficulty
-
-    // При уменьшении количества закрытых пар увеличиваем сложность
-    if (unmatchedCards.length === 2) {
-      calculatedDifficulty = 10
-    } else if (
-      this.gameBoard.getCards().length / 3 > unmatchedCards.length &&
-      this.liquidDifficulty < 6
-    ) {
-      calculatedDifficulty = calculatedDifficulty + 3
-    } else if (
-      this.gameBoard.getCards().length / 2 > unmatchedCards.length &&
-      this.liquidDifficulty < 7
-    ) {
-      calculatedDifficulty = calculatedDifficulty + 2
-    }
-
-    const probability = calculatedDifficulty >= 1 ? calculatedDifficulty : 1
+  /**
+   * Метод нахождения пары на основе вероятности
+   */
+  private findMatchingPair(
+    cards: Card[],
+    probability: number
+  ): [Card, Card] | null {
     const randomProbability = Math.random() * 10
 
-    // Пытаемся найти совпадающие пары
-    for (let i = 0; i < weightedCards.length; i++) {
-      for (let j = i + 1; j < weightedCards.length; j++) {
+    for (let i = 0; i < cards.length; i++) {
+      for (let j = i + 1; j < cards.length; j++) {
         if (
-          weightedCards[i].getId() === weightedCards[j].getId() &&
-          weightedCards[i] !== weightedCards[j] &&
+          cards[i].getId() === cards[j].getId() &&
+          cards[i] !== cards[j] &&
           randomProbability < probability
         ) {
-          this.liquidDifficulty++
-          this.showCards(weightedCards[i], weightedCards[j])
-
-          return
+          return [cards[i], cards[j]]
         }
       }
     }
+    return null
+  }
 
-    // Если совпадения не найдено, выбираем любые две случайные уникальные карты
-    const uniqueCards = Array.from(
-      new Set(weightedCards.map(card => card.getId()))
+  /**
+   * Метод рассчета вероятности на основе закрытых карт
+   */
+  private increaseDifficultyByUnmatchedCards(
+    unmatchedCardsCount: number,
+    calculatedDifficulty: number
+  ): number {
+    if (unmatchedCardsCount === 2) {
+      return 10
+    }
+
+    const totalCardsCount = this.gameBoard.getCards().length
+    const isLessThanOneThirdUnmatched =
+      totalCardsCount / 3 > unmatchedCardsCount
+    const isLessThanHalfUnmatched = totalCardsCount / 2 > unmatchedCardsCount
+
+    if (isLessThanOneThirdUnmatched && this.liquidDifficulty < 6) {
+      calculatedDifficulty += 3
+    } else if (
+      isLessThanHalfUnmatched &&
+      !isLessThanOneThirdUnmatched &&
+      this.liquidDifficulty < 7
+    ) {
+      calculatedDifficulty += 2
+    }
+
+    return calculatedDifficulty
+  }
+
+  /**
+   * Метод рассчета вероятности
+   */
+  private calculateProbability() {
+    const unmatchedCards: Card[] = this.gameBoard
+      .getCards()
+      .filter(card => !card.checkMatched())
+    let calculatedDifficulty = this.difficulty - this.liquidDifficulty
+
+    calculatedDifficulty = this.increaseDifficultyByUnmatchedCards(
+      unmatchedCards.length,
+      calculatedDifficulty
     )
-      .map(id => weightedCards.find(card => card.getId() === id))
+
+    const weightedCards = unmatchedCards
+      .flatMap((card: Card) => (card.checkTouched() ? [card, card] : [card]))
+      .sort(() => Math.random() - 0.5)
+
+    return {
+      cards: weightedCards,
+      probability: calculatedDifficulty >= 1 ? calculatedDifficulty : 1,
+    }
+  }
+
+  /**
+   * Метод выбора двух рандомных несовпадающих карт
+   */
+  private chooseRandomUniqueCards(cards: Card[]): [Card, Card] | null {
+    const uniqueCards = Array.from(new Set(cards.map(card => card.getId())))
+      .map(id => cards.find(card => card.getId() === id))
       .filter((card): card is Card => card !== undefined)
       .slice(0, 2)
 
-    if (uniqueCards.length === 2) {
-      this.liquidDifficulty = 0
-      this.showCards(uniqueCards[0], uniqueCards[1])
+    return uniqueCards.length === 2 ? [uniqueCards[0], uniqueCards[1]] : null
+  }
+
+  /**
+   * Метод выбора карт
+   */
+  public chooseCards() {
+    const { cards, probability } = this.calculateProbability()
+    const matchingPair = this.findMatchingPair(cards, probability)
+
+    if (matchingPair) {
+      this.liquidDifficulty++
+      this.showCards(matchingPair[0], matchingPair[1])
       return
+    }
+
+    const randomPair = this.chooseRandomUniqueCards(cards)
+    if (randomPair) {
+      this.liquidDifficulty = 0
+      this.showCards(randomPair[0], randomPair[1])
     }
   }
 }
