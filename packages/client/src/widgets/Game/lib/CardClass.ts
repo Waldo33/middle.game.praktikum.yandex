@@ -71,7 +71,7 @@ export class Card {
     this.flipProgress = 0
 
     const flip = () => {
-      this.flipProgress += 0.1
+      this.flipProgress += 0.3
 
       if (this.flipProgress >= 0.5 && !this.isRevealed) {
         this.isRevealed = false
