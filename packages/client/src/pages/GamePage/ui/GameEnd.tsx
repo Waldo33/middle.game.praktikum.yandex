@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { Button } from '@shared/components/ui/button'
 import { Menu } from '@widgets/menu/Menu'
 import { useSelector } from 'react-redux'
-import { selectUser } from '@processes/auth/model/selectors'
+import { selectUser } from '@shared/model/selectors'
 import { ROUTES } from '@shared/config/routes'
 
 type GameEndProps = {

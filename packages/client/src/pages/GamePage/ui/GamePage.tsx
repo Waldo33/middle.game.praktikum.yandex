@@ -8,6 +8,8 @@ import { ResetButton } from './ResetButton'
 import { GameStart } from '@pages/GamePage/ui/GameStart'
 import { GameEnd } from '@pages/GamePage/ui/GameEnd'
 import { GameDifficultyDialog } from './GameDifficultyDialog'
+import { useFullScreen } from '@shared/hooks/useFullScreen'
+import { Maximize } from 'lucide-react'
 
 export enum GamePageSteps {
   START = 'start',
@@ -27,6 +29,7 @@ export const GamePage: FC = () => {
   const bestBotModeScore = Number(localStorage.getItem('bot-mode-score') || 0)
 
   const eventBus = GameEventBus.getInstance()
+  const { canvasContainerRef, showFullScreen, isFullScreen } = useFullScreen()
 
   const [step, setStep] = useState<GamePageSteps>(GamePageSteps.START)
   const [score, setScore] = useState<number>(0)
@@ -151,48 +154,66 @@ export const GamePage: FC = () => {
       )}
       {step === GamePageSteps.GAME && (
         <>
-          <div className={s.header}>
-            <div className={s.score}>
-              <div className={s.currentScore}>
-                <div className={cn(s['currentScore-number'], 'h1')}>
-                  {score}
-                </div>
-                <div className={cn(s['currentScore-text'], 'h6')}>
-                  твой счет
-                </div>
-              </div>
-              {mode === GameModes.ROUND && bestScore > 0 && (
-                <div className={s.bestScore}>
-                  <div className={cn(s['bestScore-text'])}>
-                    лучший
-                    <br />
-                    счет
-                  </div>
-                  <div className={cn(s['bestScore-number'])}>{bestScore}</div>
-                </div>
-              )}
-            </div>
-            <div className={s['top-panel']}>
-              {isBotMode && <h3>{currentPlayerName}</h3>}
-              <div className={s['timer-wrapper']}>
-                <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
-                <ResetButton className={s['reset']} onClick={setEndGame} />
-              </div>
-            </div>
-            {isBotMode && (
-              <div className={s.score}>
-                <div className={s.currentScore}>
-                  <div className={cn(s['currentScore-number'], 'h1')}>
-                    {botScore}
-                  </div>
-                  <div className={cn(s['currentScore-text'], 'h6')}>
-                    счет бота
-                  </div>
-                </div>
-              </div>
+          <div
+            className={cn(
+              s['canvas-container'],
+              isFullScreen ? s['canvas-container--full'] : ''
             )}
+            ref={canvasContainerRef}>
+            <div>
+              <div className={s.header}>
+                <div className={s.score}>
+                  <div className={s.currentScore}>
+                    <div className={cn(s['currentScore-number'], 'h1')}>
+                      {score}
+                    </div>
+                    <div className={cn(s['currentScore-text'], 'h6')}>
+                      твой счет
+                    </div>
+                  </div>
+                  {mode === GameModes.ROUND && bestScore > 0 && (
+                    <div className={s.bestScore}>
+                      <div className={cn(s['bestScore-text'])}>
+                        лучший
+                        <br />
+                        счет
+                      </div>
+
+                      <h6 className={cn(s['currentScore-text'], 'h6')}>
+                        {bestScore}
+                      </h6>
+                    </div>
+                  )}
+                </div>
+                <button
+                  className={s['full-screen-icon']}
+                  onClick={showFullScreen}>
+                  <Maximize color="black" size={42} />
+                </button>
+                <div className={s['top-panel']}>
+                  {isBotMode && <h3>{currentPlayerName}</h3>}
+                  <div className={s['timer-wrapper']}>
+                    <div className={cn(s.timer, 'h2')}>{getTimePad(time)}</div>
+                    <ResetButton className={s['reset']} onClick={setEndGame} />
+                  </div>
+                </div>
+                {isBotMode && (
+                  <div className={s.score}>
+                    <div className={s.currentScore}>
+                      <div className={cn(s['currentScore-number'], 'h1')}>
+                        {botScore}
+                      </div>
+                      <div className={cn(s['currentScore-text'], 'h6')}>
+                        счет бота
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <canvas className={s.gameCanvas} ref={canvasRef} />
+            </div>
           </div>
-          <canvas className={s.gameCanvas} ref={canvasRef} />
         </>
       )}
     </div>

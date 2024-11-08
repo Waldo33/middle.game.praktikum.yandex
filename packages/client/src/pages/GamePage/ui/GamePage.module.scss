@@ -16,6 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 5rem;
 
   .score {
     display: flex;
@@ -60,7 +61,6 @@
 }
 
 .top-panel {
-  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
   @media (max-width: 767px) {
@@ -197,4 +197,27 @@
       line-height: 1;
     }
   }
+}
+
+.canvas-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  &--full {
+    padding: 20px;
+    .score {
+      top: 20px;
+      left: 80px;
+    }
+    .bestScore {
+      display: none;
+    }
+  }
+}
+.full-screen-icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }

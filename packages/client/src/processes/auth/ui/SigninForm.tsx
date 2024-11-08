@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { signinThunk } from '../model/thunks'
-import { selectAuthLoading } from '../model/selectors'
+import { selectAuthLoading } from '@shared/model/selectors'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'

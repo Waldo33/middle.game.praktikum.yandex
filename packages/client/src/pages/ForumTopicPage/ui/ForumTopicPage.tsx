@@ -3,6 +3,8 @@ import { Comment, Topic } from '../model/types'
 import { Comments } from './Comments'
 import { Message } from './Message'
 import { CommentForm } from './CommentForm'
+import { ROUTES } from '@shared/config/routes'
+import { Menu } from '@widgets/menu/Menu'
 
 const message: Topic = {
   title: 'название топика',
@@ -54,6 +56,14 @@ const comments: Comment[] = [
 export const ForumTopicPage: FC = () => {
   return (
     <main>
+      <Menu
+        links={[
+          { url: ROUTES.PROFILE, label: 'профиль' },
+          { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
+          { url: ROUTES.GAME, label: 'играть' },
+          { url: ROUTES.FORUM, label: 'форум' },
+        ]}
+      />
       <Message topic={message} />
       <Comments list={comments} />
       <CommentForm />
