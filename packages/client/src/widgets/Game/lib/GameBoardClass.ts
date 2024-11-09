@@ -183,7 +183,6 @@ export class GameBoard {
   }
 
   public render() {
-    console.log('board')
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
 
     for (let row = 0; row < this.grid.length; row++) {

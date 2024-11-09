@@ -83,7 +83,6 @@ export class Game {
   }
 
   private onRoundComplete() {
-    console.log('Round has ended, starting new round...')
     this.currentRound.nextRound()
     this.timer.resetRoundTimer()
   }
