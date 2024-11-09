@@ -29,7 +29,7 @@ export function GameDifficultyDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Difficulty</DialogTitle>
+          <DialogTitle>Сложность</DialogTitle>
           <DialogDescription>{value}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
@@ -44,11 +44,11 @@ export function GameDifficultyDialog({
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
-              Close
+              Закрыть
             </Button>
           </DialogClose>
           <Button type="submit" size="sm" className="px-3" onClick={onSubmit}>
-            Start
+            Начать
           </Button>
         </DialogFooter>
       </DialogContent>

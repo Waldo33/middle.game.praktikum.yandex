@@ -8,6 +8,7 @@ const emitMock = jest.fn()
 jest.mock('../lib/GameEventBus', () => ({
   GameEventBus: {
     getInstance: () => ({
+      on: jest.fn(),
       emit: emitMock,
     }),
   },

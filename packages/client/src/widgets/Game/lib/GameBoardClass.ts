@@ -1,4 +1,5 @@
 import { Card } from './CardClass'
+import { GameEventBus, GameEventBusType } from './GameEventBus'
 import { loadImage } from './helpers/loadImage'
 import { shuffle } from './helpers/shuffleArrayItems'
 
@@ -19,11 +20,14 @@ export class GameBoard {
   private cardHeight: number
   private padding: number
   private canvas: HTMLCanvasElement
+  private bus: GameEventBusType
 
   constructor(
     canvas: HTMLCanvasElement,
     { rows = 4, columns = 4, padding = 4 }: Options
   ) {
+    this.bus = GameEventBus.getInstance()
+
     if (rows % 2 === 1 && columns % 2 === 1) {
       throw new Error('Column or row count must be even number!')
     }
@@ -47,6 +51,8 @@ export class GameBoard {
     this.cardHeight = cardSize
     this.padding = padding
     this.setupBoard()
+
+    this.bus.on('flip-render', () => this.render())
   }
 
   private async createCardPairs() {

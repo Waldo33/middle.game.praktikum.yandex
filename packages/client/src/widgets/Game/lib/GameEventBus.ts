@@ -1,13 +1,16 @@
 import { EventBus } from '@shared/lib/classes/EventBus'
 
+type GameBoardEvents = 'flip-render'
+type RoundEvents = 'switch-turn' | 'current-player-name'
 type ScoreEvents = 'score-update' | 'bot-score-update'
 type TimerEvents = 'timer-tick' | 'timer-end' | 'timer-reset'
+
 export type GameEvents =
   | 'end-game'
   | ScoreEvents
   | TimerEvents
-  | 'switch-turn'
-  | 'current-player-name'
+  | GameBoardEvents
+  | RoundEvents
 
 export type GameEventBusType = EventBus<GameEvents>
 

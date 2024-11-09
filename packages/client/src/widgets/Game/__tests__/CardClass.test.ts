@@ -1,12 +1,30 @@
 import { Card } from '../lib/CardClass'
 
+jest.mock('../lib/GameEventBus', () => {
+  return {
+    GameEventBus: {
+      getInstance: jest.fn(() => ({
+        emit: jest.fn(), // создаем мок для метода emit
+        on: jest.fn(),
+      })),
+    },
+  }
+})
+
 describe('Card', () => {
   let card: Card
   let otherCard: Card
   let imageMock: HTMLImageElement
+  let canvas: HTMLCanvasElement
 
   beforeEach(() => {
+    canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      throw new Error('Не удалось получить контекст 2D')
+    }
     imageMock = new Image()
+
     card = new Card(1, imageMock)
     otherCard = new Card(1, imageMock)
   })
