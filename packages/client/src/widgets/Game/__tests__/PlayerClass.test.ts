@@ -7,6 +7,7 @@ jest.mock('../lib/GameEventBus', () => {
   return {
     GameEventBus: {
       getInstance: jest.fn(() => ({
+        on: jest.fn(),
         emit: jest.fn(), // создаем мок для метода emit
       })),
     },

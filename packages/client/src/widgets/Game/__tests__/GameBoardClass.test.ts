@@ -3,34 +3,33 @@ import { Card } from '../lib/CardClass'
 import { Player } from '../lib/PlayerClass'
 import { Round } from '../lib/RoundClass'
 import { GameModes } from '@pages/GamePage/ui/GamePage'
+import { GameEventBus } from '../lib/GameEventBus'
 
 jest.mock('../lib/CardClass')
 jest.mock('../lib/helpers/loadImage')
 jest.mock('../lib/helpers/shuffleArrayItems')
-
-jest.mock('../lib/GameEventBus', () => {
-  return {
-    GameEventBus: {
-      getInstance: jest.fn(() => ({
-        emit: jest.fn(), // создаем мок для метода emit
-      })),
-    },
-  }
-})
+jest.mock('../lib/GameEventBus')
 
 describe('GameBoard Class', () => {
   let canvas: HTMLCanvasElement
   let gameBoard: GameBoard
   let player: Player
   let round: Round
+  let mockBus: { on: jest.Mock; emit: jest.Mock }
 
   beforeEach(() => {
+    mockBus = {
+      on: jest.fn(),
+      emit: jest.fn(),
+    }
+    ;(GameEventBus.getInstance as jest.Mock).mockReturnValue(mockBus)
+
     canvas = document.createElement('canvas')
 
     jest
       .spyOn(GameBoard.prototype, 'setupBoard')
       .mockImplementation(async function (this: GameBoard) {
-        this['cards'] = Array(16).fill(new Card(0, new Image(), gameBoard))
+        this['cards'] = Array(16).fill(new Card(0, new Image()))
         this['grid'] = this['createGrid'](this['cards'])
       })
 
@@ -41,6 +40,12 @@ describe('GameBoard Class', () => {
     })
     round = new Round(gameBoard, 5, GameModes.ROUND)
     player = new Player(1, gameBoard, round)
+
+    mockBus.on.mockImplementation((event, callback) => {
+      if (event === 'flip-render') {
+        gameBoard.render()
+      }
+    })
   })
 
   it('инициализируется с заданными параметрами', async () => {
@@ -62,7 +67,6 @@ describe('GameBoard Class', () => {
   })
 
   it('обрабатывает клик по карточке', () => {
-    const position = { x: 50, y: 50 }
     const cardMock = {
       checkRevealed: jest.fn(() => false),
       reveal: jest.fn(),

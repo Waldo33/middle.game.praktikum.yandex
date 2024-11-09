@@ -1,5 +1,16 @@
 import { Card } from '../lib/CardClass'
 
+jest.mock('../lib/GameEventBus', () => {
+  return {
+    GameEventBus: {
+      getInstance: jest.fn(() => ({
+        emit: jest.fn(), // создаем мок для метода emit
+        on: jest.fn(),
+      })),
+    },
+  }
+})
+
 describe('Card', () => {
   let card: Card
   let otherCard: Card
