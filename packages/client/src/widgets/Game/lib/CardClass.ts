@@ -11,6 +11,7 @@ export class Card {
   private isHovered = false
   private flipProgress = 0
   private isFlipping = false
+  private isTouched = false
 
   constructor(id: number, image: HTMLImageElement, gameBoard: GameBoard) {
     this.id = id
@@ -33,9 +34,18 @@ export class Card {
   }
 
   /**
+   * Метод проверки, была ли открыта карта за раунд
+   */
+  public checkTouched() {
+    return this.isTouched
+  }
+
+  /**
    * Метод для раскрытия карточки
    */
   public reveal() {
+    this.isTouched = true
+
     if (!this.isMatched) {
       this.isHovered = false
       this.isRevealed = true
@@ -62,6 +72,13 @@ export class Card {
       return true
     }
     return false
+  }
+
+  /**
+   * Метод для сравнения совпадения с другой открытой картой
+   */
+  public getId(): number {
+    return this.id
   }
 
   /**

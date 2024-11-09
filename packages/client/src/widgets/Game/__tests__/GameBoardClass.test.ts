@@ -1,22 +1,31 @@
 import { GameBoard } from '../lib/GameBoardClass'
 import { Card } from '../lib/CardClass'
 import { Player } from '../lib/PlayerClass'
+import { Round } from '../lib/RoundClass'
+import { GameModes } from '@pages/GamePage/ui/GamePage'
 
 jest.mock('../lib/CardClass')
 jest.mock('../lib/helpers/loadImage')
 jest.mock('../lib/helpers/shuffleArrayItems')
-jest.mock('../lib/PlayerClass')
+
+jest.mock('../lib/GameEventBus', () => {
+  return {
+    GameEventBus: {
+      getInstance: jest.fn(() => ({
+        emit: jest.fn(), // создаем мок для метода emit
+      })),
+    },
+  }
+})
 
 describe('GameBoard Class', () => {
   let canvas: HTMLCanvasElement
-  let ctx: CanvasRenderingContext2D
   let gameBoard: GameBoard
   let player: Player
+  let round: Round
 
   beforeEach(() => {
     canvas = document.createElement('canvas')
-    ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-    player = new Player(1)
 
     jest
       .spyOn(GameBoard.prototype, 'setupBoard')
@@ -25,13 +34,13 @@ describe('GameBoard Class', () => {
         this['grid'] = this['createGrid'](this['cards'])
       })
 
-    gameBoard = new GameBoard(ctx, {
+    gameBoard = new GameBoard(canvas, {
       rows: 4,
       columns: 4,
-      cardWidth: 100,
-      cardHeight: 100,
       padding: 10,
     })
+    round = new Round(gameBoard, 5, GameModes.ROUND)
+    player = new Player(1, gameBoard, round)
   })
 
   it('инициализируется с заданными параметрами', async () => {
@@ -40,8 +49,8 @@ describe('GameBoard Class', () => {
     expect(gameBoard).toBeInstanceOf(GameBoard)
     expect((gameBoard as any).rows).toBe(4)
     expect((gameBoard as any).columns).toBe(4)
-    expect((gameBoard as any).cardWidth).toBe(100)
-    expect((gameBoard as any).cardHeight).toBe(100)
+    expect((gameBoard as any).cardWidth).toBe(95)
+    expect((gameBoard as any).cardHeight).toBe(95)
   })
 
   it('возвращает true, если все карточки совпадают', () => {
@@ -61,9 +70,11 @@ describe('GameBoard Class', () => {
       hide: jest.fn(),
     }
     ;(gameBoard as any).getCardAtPosition = jest.fn(() => cardMock)
-    gameBoard.handleCardClick(position, player)
 
-    expect(cardMock.reveal).toHaveBeenCalled()
+    const event = new MouseEvent('click')
+
+    round.handleInput(event)
+
     expect((gameBoard as any).selectedCards.length).toBe(1)
   })
 })
