@@ -1,4 +1,6 @@
-const BASE_API = `${import.meta.env.VITE_API_URL}`
+import BASE_AUTH_API from '@processes/auth/model/authSlice'
+
+const BASE_PROFILE_API = `${import.meta.env.VITE_API_URL}/user`
 
 export interface Password {
   oldPassword: string
@@ -6,7 +8,7 @@ export interface Password {
 }
 
 export const user = async () => {
-  const response = await fetch(`${BASE_API}/auth/user`, {
+  const response = await fetch(`${BASE_AUTH_API}/user`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -23,7 +25,7 @@ export const user = async () => {
 
 export const changePassword = async (credentials: Password) => {
   try {
-    const response = await fetch(`${BASE_API}/user/password`, {
+    const response = await fetch(`${BASE_PROFILE_API}/password`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials),
