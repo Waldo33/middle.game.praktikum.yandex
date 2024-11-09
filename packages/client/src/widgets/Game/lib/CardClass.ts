@@ -1,22 +1,23 @@
 import { colors } from '../constants/colors'
-import { GameBoard } from './GameBoardClass'
+import { GameEventBusType, GameEventBus } from './GameEventBus'
 import { drawRoundRect } from './helpers/drawRoundRect'
 
 export class Card {
   private id: number
   private image: HTMLImageElement
-  private gameBoard: GameBoard
   private isRevealed = false
   private isMatched = false
   private isHovered = false
   private flipProgress = 0
   private isFlipping = false
   private isTouched = false
+  private bus: GameEventBusType
 
-  constructor(id: number, image: HTMLImageElement, gameBoard: GameBoard) {
+  constructor(id: number, image: HTMLImageElement) {
     this.id = id
     this.image = image
-    this.gameBoard = gameBoard
+
+    this.bus = GameEventBus.getInstance()
   }
 
   /**
@@ -99,9 +100,9 @@ export class Card {
 
       if (this.flipProgress < 1) {
         requestAnimationFrame(flip)
-        this.gameBoard.render()
+        this.bus.emit('flip-render')
       } else {
-        this.gameBoard.render()
+        this.bus.emit('flip-render')
         this.flipProgress = 0
         this.isFlipping = false
       }

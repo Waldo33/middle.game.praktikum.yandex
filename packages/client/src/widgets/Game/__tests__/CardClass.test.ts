@@ -1,12 +1,10 @@
 import { Card } from '../lib/CardClass'
-import { GameBoard } from '../lib/GameBoardClass'
 
 describe('Card', () => {
   let card: Card
   let otherCard: Card
   let imageMock: HTMLImageElement
   let canvas: HTMLCanvasElement
-  let gameBoard: GameBoard
 
   beforeEach(() => {
     canvas = document.createElement('canvas')
@@ -16,13 +14,8 @@ describe('Card', () => {
     }
     imageMock = new Image()
 
-    gameBoard = new GameBoard(canvas, {
-      rows: 4,
-      columns: 4,
-      padding: 10,
-    })
-    card = new Card(1, imageMock, gameBoard)
-    otherCard = new Card(1, imageMock, gameBoard)
+    card = new Card(1, imageMock)
+    otherCard = new Card(1, imageMock)
   })
 
   it('инициализируется в закрытом и неподсвеченном состоянии', () => {
@@ -54,7 +47,7 @@ describe('Card', () => {
   })
 
   it('не устанавливает карту как совпадающую, если ID не совпадают', () => {
-    const unmatchedCard = new Card(2, imageMock, gameBoard)
+    const unmatchedCard = new Card(2, imageMock)
     const isMatch = card.checkMatch(unmatchedCard)
 
     expect(isMatch).toBe(false)
