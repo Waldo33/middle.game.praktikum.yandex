@@ -167,3 +167,22 @@
         }
     }
 }
+
+.canvas-container {
+    background: white;
+    &--full {
+        padding: 20px;
+        .score {
+            top: 20px;
+            left: 80px;
+        }
+        .bestScore {
+            display: none;
+        }
+    }
+}
+.full-screen-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
