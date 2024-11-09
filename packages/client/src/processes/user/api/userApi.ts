@@ -1,6 +1,6 @@
 import BASE_AUTH_API from '@processes/auth/model/authSlice'
 
-const BASE_PROFILE_API = `${import.meta.env.VITE_API_URL}/user`
+export const BASE_PROFILE_API = `${import.meta.env.VITE_API_URL}/user`
 
 export interface Password {
   oldPassword: string
