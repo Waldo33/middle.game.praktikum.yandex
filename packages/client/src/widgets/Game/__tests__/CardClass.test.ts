@@ -16,9 +16,9 @@ describe('Card', () => {
     }
     imageMock = new Image()
 
-    gameBoard = new GameBoard(ctx, {
-      cardWidth: 100,
-      cardHeight: 100,
+    gameBoard = new GameBoard(canvas, {
+      rows: 4,
+      columns: 4,
       padding: 10,
     })
     card = new Card(1, imageMock, gameBoard)
