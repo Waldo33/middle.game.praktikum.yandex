@@ -21,7 +21,7 @@ describe('GameBoard Class', () => {
     jest
       .spyOn(GameBoard.prototype, 'setupBoard')
       .mockImplementation(async function (this: GameBoard) {
-        this['cards'] = Array(16).fill(new Card(0, new Image()))
+        this['cards'] = Array(16).fill(new Card(0, new Image(), gameBoard))
         this['grid'] = this['createGrid'](this['cards'])
       })
 

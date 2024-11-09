@@ -1,18 +1,21 @@
 import { colors } from '../constants/colors'
+import { GameBoard } from './GameBoardClass'
 import { drawRoundRect } from './helpers/drawRoundRect'
 
 export class Card {
   private id: number
   private image: HTMLImageElement
+  private gameBoard: GameBoard
   private isRevealed = false
   private isMatched = false
   private isHovered = false
   private flipProgress = 0
   private isFlipping = false
 
-  constructor(id: number, image: HTMLImageElement) {
+  constructor(id: number, image: HTMLImageElement, gameBoard: GameBoard) {
     this.id = id
     this.image = image
+    this.gameBoard = gameBoard
   }
 
   /**
@@ -71,7 +74,7 @@ export class Card {
     this.flipProgress = 0
 
     const flip = () => {
-      this.flipProgress += 0.3
+      this.flipProgress += 0.05
 
       if (this.flipProgress >= 0.5 && !this.isRevealed) {
         this.isRevealed = false
@@ -79,7 +82,9 @@ export class Card {
 
       if (this.flipProgress < 1) {
         requestAnimationFrame(flip)
+        this.gameBoard.render()
       } else {
+        this.gameBoard.render()
         this.flipProgress = 0
         this.isFlipping = false
       }

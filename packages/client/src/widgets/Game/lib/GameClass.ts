@@ -68,8 +68,6 @@ export class Game {
   public start() {
     this.bus.on('timer-end', this.endGame.bind(this))
     this.bus.on('end-game', () => {
-      this.gameBoard.stopRenderingLoop()
-
       this.timer.stopTimer()
       this.currentRound.reset()
       this.removeEventListeners()
