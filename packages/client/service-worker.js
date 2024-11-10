@@ -2,24 +2,14 @@ const CACHE_NAME = 'v2';
 
 const URLS_TO_CACHE = [
   '/',
-  '/signin',
-  '/signup',
-  '/game',
-  '/profile',
-  '/leaderboard',
-  '/forum',
-  '/add',
   '/index.html',
-  '/manifest.json',
   '/favicon-dark.svg',
   '/favicon-light.svg',
-  '/assets/',
-  '/assets/images/cards',
 ];
 
 const saveResourcesToCache = async (cacheName, urls) => {
   caches.open(cacheName)
-    .then((cache) => cache.addAll(urls))
+    .then((cache) => cache.addAll(urls).then(() => self.skipWaiting()))
     .catch((error) => console.error('Не удалось закешировать ресурсы:', error))
 }
 
