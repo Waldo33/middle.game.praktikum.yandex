@@ -1,4 +1,4 @@
-import { selectIsAuthenticated } from '@processes/auth/model/selectors'
+import { selectIsAuthenticated } from '@shared/model/selectors'
 import { ROUTES } from '@shared/config/routes'
 import React from 'react'
 import { useSelector } from 'react-redux'
