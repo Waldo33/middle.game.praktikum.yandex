@@ -39,7 +39,7 @@ const getResponseFromCacheOrResponseAndSave = async (event) => {
 
     const networkResponse = await fetch(event.request);
 
-    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic' || networkResponse.type === 'opaque') {
       const cache = await caches.open(CACHE_NAME);
       cache.put(event.request, networkResponse.clone());
     }
