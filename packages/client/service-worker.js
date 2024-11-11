@@ -31,18 +31,22 @@ const clearOldCache = async (cacheName) => {
 
 const getResponseFromCacheOrResponseAndSave = async (event) => {
   try {
-    const cachedResponse = await caches.match(event.request);
+    const response = await caches.match(event.request);
 
-    if (cachedResponse) {
-      return cachedResponse;
+    if(response) {
+      return response;
     }
 
     const networkResponse = await fetch(event.request);
 
-    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(event.request, networkResponse.clone());
+    if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+      return networkResponse;
     }
+
+    const responseToCache = networkResponse.clone();
+
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(event.request, responseToCache);
 
     return networkResponse;
   } catch (error) {
