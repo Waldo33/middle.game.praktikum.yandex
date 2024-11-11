@@ -41,7 +41,7 @@ export const userThunk = createAsyncThunk<User, void, RejectedValue>(
     } catch (err) {
       const userData = getUserDataFromLocalStorage()
 
-      if (userData) {
+      if (!navigator.onLine && userData) {
         return userData
       }
 
