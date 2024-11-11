@@ -2,14 +2,14 @@ import { ROUTES } from '@shared/config/routes'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '@shared/hooks/useAuth'
-import { useSelector } from 'react-redux'
-import { selectUser } from '@shared/model/selectors'
+import { getUserDataFromLocalStorage } from '../../auth/lib/getUserDataFromLocalStorage'
 
 const ProtectedRoute = ({ element }: { element: React.ReactElement }) => {
   const isAuthenticated = useAuth()
-  const user = useSelector(selectUser)
 
-  if (!navigator.onLine && user) {
+  const userDataFromLocalStorage = getUserDataFromLocalStorage()
+
+  if (!navigator.onLine && userDataFromLocalStorage) {
     return element
   }
 

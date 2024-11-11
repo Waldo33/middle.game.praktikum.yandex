@@ -36,12 +36,6 @@ export const userThunk = createAsyncThunk<User, void, RejectedValue>(
   'auth/user',
   async (_, { rejectWithValue }) => {
     try {
-      const userDataFromLocalStorage = getUserDataFromLocalStorage()
-
-      if (!navigator.onLine && userDataFromLocalStorage) {
-        return userDataFromLocalStorage
-      }
-
       const userData = await user()
       return userData
     } catch (err) {
