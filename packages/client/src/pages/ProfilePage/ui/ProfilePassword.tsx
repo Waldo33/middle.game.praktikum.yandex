@@ -1,20 +1,24 @@
-import { FC } from 'react'
-import s from './ProfilePage.module.scss'
+import { AppDispatch } from '@app/store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { logoutThunk } from '@processes/auth/model/thunks'
+import { FormFieldWrapper } from '@processes/auth/ui/FormFieldWrapper'
+import { changePassword } from '@processes/profile/api/profileApi'
 import { Button } from '@shared/components/ui/button'
 import { Form } from '@shared/components/ui/form'
-import { changePassword } from '@processes/profile/api/profileApi'
-import { z } from 'zod'
 import { validationRules } from '@shared/config/validationRules'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormFieldWrapper } from '@processes/auth/ui/FormFieldWrapper'
-import { useSelector } from 'react-redux'
-import { selectAuthLoading } from '@shared/model/selectors'
 import { useToast } from '@shared/hooks/use-toast'
+import { selectAuthLoading } from '@shared/model/selectors'
 import { Loader2 } from 'lucide-react'
+import { FC } from 'react'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { z } from 'zod'
+
+import s from './ProfilePage.module.scss'
 
 export const ProfilePassword: FC = () => {
   const { toast } = useToast()
+  const dispatch: AppDispatch = useDispatch()
   const loading = useSelector(selectAuthLoading)
   const formSchema = z.object({
     oldPassword: validationRules.password,
@@ -37,6 +41,8 @@ export const ProfilePassword: FC = () => {
       })
     }
   }
+
+  const onLogout = async () => await dispatch(logoutThunk())
 
   return (
     <div className={s.profile__container}>
@@ -67,6 +73,9 @@ export const ProfilePassword: FC = () => {
           </form>
         </Form>
       </div>
+      <Button className="mt-10 w-full bg-secondary" onClick={onLogout}>
+        Выйти
+      </Button>
     </div>
   )
 }

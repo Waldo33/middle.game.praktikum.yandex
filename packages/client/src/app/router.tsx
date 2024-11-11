@@ -1,6 +1,6 @@
+import { ForumAddTopic } from '@pages/ForumAddTopic'
 import { ForumPage } from '@pages/ForumPage'
 import { ForumTopicPage } from '@pages/ForumTopicPage'
-import { ForumAddTopic } from '@pages/ForumAddTopic'
 import { GamePage } from '@pages/GamePage'
 import { LeaderboardPage } from '@pages/LeaderboardPage'
 import { MainPage } from '@pages/MainPage'
@@ -8,12 +8,13 @@ import { NotFoundPage } from '@pages/NotFoundPage'
 import { ProfilePage } from '@pages/ProfilePage'
 import { SignInPage } from '@pages/SignInPage'
 import { SignUpPage } from '@pages/SignUpPage'
-import { ROUTES } from '@shared/config/routes'
+import { authLoader } from '@processes/auth/api/authApi'
 import ProtectedRoute from '@processes/routes/lib/ProtectedRoute'
 import PublicRoute from '@processes/routes/lib/PublicRoute'
+import { ROUTES } from '@shared/config/routes'
 import { createBrowserRouter } from 'react-router-dom'
+
 import { App } from './App'
-import { authLoader } from '@processes/auth/api/authApi'
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainPage />,
+        element: <ProtectedRoute element={<MainPage />} />,
       },
       {
         path: ROUTES.SIGNIN,

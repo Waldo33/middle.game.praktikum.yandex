@@ -1,4 +1,5 @@
-import { Signin, User } from '../model/authSlice'
+import { setAuthenticated, Signin, User } from '../model/authSlice'
+import store from '@app/store'
 
 export const BASE_AUTH_API = `${import.meta.env.VITE_API_URL}/auth`
 
@@ -68,6 +69,7 @@ export const user = async () => {
 export const authLoader = async () => {
   try {
     const data = await user()
+    store.dispatch(setAuthenticated())
     return data
   } catch (error) {
     return null
