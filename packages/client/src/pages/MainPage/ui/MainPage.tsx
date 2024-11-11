@@ -1,27 +1,30 @@
-import { FC } from 'react'
 import './MainPage.scss'
+
 import { Route, Teammate } from '@pages/MainPage/types'
-import { Rules } from '@widgets/rules/Rules'
-import { Cta } from './Cta'
 import { Teammates } from '@pages/MainPage/ui/Teammates'
-import { Intro } from '@widgets/intro/Intro'
 import { Button } from '@shared/components/ui/button'
+import { ROUTES } from '@shared/config/routes'
+import { Intro } from '@widgets/intro/Intro'
+import { Rules } from '@widgets/rules/Rules'
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
+
+import { Cta } from './Cta'
 
 const innerRoutes: Route[] = [
   {
     text: 'это твой профиль. новая аватарка каждый день? 🎉  да!',
-    link: '/profile',
+    link: ROUTES.PROFILE,
     linkTitle: 'профиль',
   },
   {
     text: 'а тут наши чемпионы 🏆 нет ли тут тебя?',
-    link: '/leaderboard',
+    link: ROUTES.LEADERBOARD,
     linkTitle: 'лидерборд',
   },
   {
     text: 'есть вопросы? задай их на форуме 🔮   или помогай другим!',
-    link: '/forum',
+    link: ROUTES.FORUM,
     linkTitle: 'форум',
   },
 ]
