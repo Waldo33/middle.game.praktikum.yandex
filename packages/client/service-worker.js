@@ -31,21 +31,18 @@ const clearOldCache = async (cacheName) => {
 
 const getResponseFromCacheOrResponseAndSave = async (event) => {
   try {
-    const response = await caches.match(event.request);
+    const cachedResponse = await caches.match(event.request);
 
-    if(response) {
-      return response;
+    if (cachedResponse) {
+      return cachedResponse;
     }
 
     const networkResponse = await fetch(event.request);
 
-    if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-      return networkResponse;
+    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(event.request, networkResponse.clone());
     }
-
-    const responseToCache = networkResponse.clone();
-    const cache = await caches.open(CACHE_NAME);
-    await cache.put(event.request, responseToCache);
 
     return networkResponse;
   } catch (error) {
@@ -53,7 +50,7 @@ const getResponseFromCacheOrResponseAndSave = async (event) => {
       return caches.match('/index.html');
     }
   }
-}
+};
 
 self.addEventListener('install', (event) => {
   event.waitUntil(saveResourcesToCache(CACHE_NAME, URLS_TO_CACHE));
