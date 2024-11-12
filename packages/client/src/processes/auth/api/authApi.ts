@@ -47,6 +47,8 @@ export const logout = async () => {
     throw new Error(data.reason)
   }
 
+  localStorage.removeItem('user')
+
   return true
 }
 
@@ -63,7 +65,9 @@ export const user = async () => {
     throw new Error(data.reason)
   }
 
-  return data
+  localStorage.setItem('user', JSON.stringify(data))
+
+  return data as User
 }
 
 export const authLoader = async () => {

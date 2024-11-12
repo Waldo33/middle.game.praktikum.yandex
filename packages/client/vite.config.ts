@@ -5,6 +5,7 @@ import { VitePluginFonts } from 'vite-plugin-fonts'
 import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
+import serviceWorkerBuildPlugin from './serviceWorkerBuildPlugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,5 +36,6 @@ export default defineConfig({
         '@shared': path.resolve(__dirname, 'src/shared/'),
       },
     }),
+    serviceWorkerBuildPlugin(),
   ],
 })
