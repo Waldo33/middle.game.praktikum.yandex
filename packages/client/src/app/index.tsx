@@ -13,4 +13,6 @@ createRoot(document.getElementById('root') as HTMLElement).render(
   </Provider>
 )
 
-register('/service-worker.js')
+if (import.meta.env.MODE !== 'development') {
+  register('/service-worker.js')
+}
