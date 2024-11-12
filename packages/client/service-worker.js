@@ -1,11 +1,5 @@
 const CACHE_NAME = 'v2';
-
-const URLS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/favicon-dark.svg',
-  '/favicon-light.svg',
-];
+self.__STATIC_RESOURCES = [];
 
 const saveResourcesToCache = async (cacheName, urls) => {
   caches.open(cacheName)
@@ -53,7 +47,8 @@ const getResponseFromCacheOrResponseAndSave = async (event) => {
 };
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(saveResourcesToCache(CACHE_NAME, URLS_TO_CACHE));
+  const resourcesToCache = self.__STATIC_RESOURCES || [];
+  event.waitUntil(saveResourcesToCache(CACHE_NAME, resourcesToCache));
 });
 
 self.addEventListener('activate', (event) => {

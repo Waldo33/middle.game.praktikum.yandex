@@ -1,27 +1,11 @@
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import alias from '@rollup/plugin-alias'
 import { VitePluginFonts } from 'vite-plugin-fonts'
-import path, { join } from 'path'
-import { buildSync } from 'esbuild'
+import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
-
-function serviceWorkerBuildPlugin(): Plugin {
-  return {
-    name: 'Service Worker Build',
-    apply: 'build',
-    enforce: 'post',
-    transformIndexHtml() {
-      buildSync({
-        minify: true,
-        bundle: true,
-        entryPoints: [join(process.cwd(), 'service-worker.js')],
-        outfile: join(process.cwd(), 'dist', 'service-worker.js'),
-      })
-    },
-  }
-}
+import serviceWorkerBuildPlugin from './serviceWorkerBuildPlugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
