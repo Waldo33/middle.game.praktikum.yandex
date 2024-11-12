@@ -56,5 +56,11 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const requestUrl = event.request.url;
+
+  if (requestUrl.includes('/@vite')) {
+    return;
+  }
+
   event.respondWith(getResponseFromCacheOrResponseAndSave(event));
 });
