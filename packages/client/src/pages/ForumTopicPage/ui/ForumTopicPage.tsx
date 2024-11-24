@@ -58,6 +58,7 @@ export const ForumTopicPage: FC = () => {
     <main>
       <Menu
         links={[
+          { url: ROUTES.INDEX, label: 'на главную' },
           { url: ROUTES.PROFILE, label: 'профиль' },
           { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
           { url: ROUTES.GAME, label: 'играть' },

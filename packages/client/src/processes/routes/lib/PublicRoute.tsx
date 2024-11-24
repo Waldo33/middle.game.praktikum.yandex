@@ -8,7 +8,7 @@ const PublicRoute = ({ element }: { element: React.ReactElement }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
 
   if (isAuthenticated) {
-    return <Navigate to={ROUTES.GAME} replace />
+    return <Navigate to={ROUTES.INDEX} replace />
   }
 
   return element

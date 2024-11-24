@@ -42,7 +42,8 @@ const SigninForm: FC = () => {
     const resultAction = await dispatch(signinThunk(values))
 
     if (resultAction.payload === true) {
-      navigate(ROUTES.GAME)
+      sessionStorage.setItem('from', 'signin')
+      navigate(ROUTES.INDEX)
     } else {
       toast({
         description: resultAction.payload,

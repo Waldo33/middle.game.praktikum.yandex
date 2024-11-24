@@ -4,10 +4,11 @@ import { Route, Teammate } from '@pages/MainPage/types'
 import { Teammates } from '@pages/MainPage/ui/Teammates'
 import { Button } from '@shared/components/ui/button'
 import { ROUTES } from '@shared/config/routes'
+import { useNotifications } from '@shared/hooks/useNotifications'
 import { Intro } from '@widgets/intro/Intro'
 import { Rules } from '@widgets/rules/Rules'
-import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { FC, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 import { Cta } from './Cta'
 
@@ -57,6 +58,30 @@ const teammates: Teammate[] = [
 ]
 
 export const MainPage: FC = () => {
+  const { requestPermission, showNotification } = useNotifications()
+
+  const location = useLocation()
+  const from = location.state?.from || sessionStorage.getItem('from')
+
+  useEffect(() => {
+    const checkPermission = async () => {
+      const result = await requestPermission()
+      if (result === 'granted') {
+        if (from === 'game') {
+          showNotification('Neuronauts', {
+            body: 'У нас появился режим игры с ботом',
+          })
+        } else if (from === 'signup') {
+          showNotification('Neuronauts', { body: 'Добро пожаловать' })
+        } else if (from === 'signin') {
+          showNotification('Neuronauts', { body: 'С возвращением' })
+        }
+      }
+    }
+
+    checkPermission()
+  }, [requestPermission, showNotification])
+
   return (
     <main className="index-wrapper">
       <Intro />

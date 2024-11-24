@@ -2,7 +2,9 @@ import { cn } from '@shared/lib/utils'
 import s from './GamePage.module.scss'
 import { FC, useEffect, useRef, useState } from 'react'
 import { Button } from '@shared/components/ui/button'
+import { ROUTES } from '@shared/config/routes'
 import { Game, GameEventBus } from '@widgets/Game'
+import { Menu } from '@widgets/menu/Menu'
 import { compareScoreWithLocalStorage, getTimePad } from '../lib/helpers'
 import { ResetButton } from './ResetButton'
 import { GameStart } from '@pages/GamePage/ui/GameStart'
@@ -114,21 +116,30 @@ export const GamePage: FC = () => {
       {step === GamePageSteps.START && (
         <>
           <div className={s['gamepage']}>
+            <Menu
+              center
+              links={[
+                { url: ROUTES.INDEX, label: 'на главную' },
+                { url: ROUTES.PROFILE, label: 'профиль' },
+                { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
+                { url: ROUTES.FORUM, label: 'форум' },
+              ]}
+            />
             <div className={s['topline']}>
               {bestScore > 0 && (
                 <div className={s['best']}>
-                  лучший счет в режиме игры с собой: <span>{bestScore}</span>
+                  лучший счет в режиме одиночной игры: <span>{bestScore}</span>
                 </div>
               )}
               {bestBotModeScore > 0 && (
                 <div className={s['best']}>
-                  лучший счет в режиме игры с ботом:{' '}
+                  лучший счет в режиме игры против бота:{' '}
                   <span>{bestBotModeScore}</span>
                 </div>
               )}
               <div className={s['buttons']}>
                 <Button onClick={() => onStart(GameModes.ROUND)}>
-                  Играть с собой
+                  Одиночная игра
                 </Button>
 
                 <GameDifficultyDialog
