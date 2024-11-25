@@ -80,6 +80,7 @@ export const MainPage: FC = () => {
     }
 
     checkPermission()
+    sessionStorage.removeItem('from')
   }, [requestPermission, showNotification])
 
   return (

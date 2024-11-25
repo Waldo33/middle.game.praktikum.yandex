@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 interface UseNotificationsResult {
   isSupported: boolean
@@ -57,10 +57,13 @@ export const useNotifications = (): UseNotificationsResult => {
     [isSupported, permission]
   )
 
-  return {
-    isSupported,
-    permission,
-    requestPermission,
-    showNotification,
-  }
+  return useMemo(
+    () => ({
+      isSupported,
+      permission,
+      requestPermission,
+      showNotification,
+    }),
+    [isSupported, permission, requestPermission, showNotification]
+  )
 }
