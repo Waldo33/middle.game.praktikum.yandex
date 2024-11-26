@@ -48,7 +48,8 @@ const SignupForm: FC = () => {
     const resultAction = await dispatch(signupThunk(values))
 
     if (resultAction.payload === true) {
-      navigate(ROUTES.GAME)
+      sessionStorage.setItem('from', 'signup')
+      navigate(ROUTES.INDEX)
     } else {
       toast({
         description: resultAction.payload,
