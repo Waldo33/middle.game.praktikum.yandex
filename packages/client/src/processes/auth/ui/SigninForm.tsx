@@ -17,6 +17,7 @@ import { AppDispatch } from '@app/store'
 import { ROUTES } from '@shared/config/routes'
 import { useToast } from '@shared/hooks/use-toast'
 import { FormFieldWrapper } from './FormFieldWrapper'
+import { getOAuthServiceId } from '../api/authApi'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -52,17 +53,38 @@ const SigninForm: FC = () => {
     }
   }
 
+  const onSubmitOAuth = async () => {
+    try {
+      console.log('oauth')
+      const redirectUrl = 'http://localhost:3000'
+      const serviceId = await getOAuthServiceId(redirectUrl)
+
+      if (serviceId) {
+        const OAuthUrl = new URL('https://oauth.yandex.ru/authorize')
+        OAuthUrl.searchParams.set('response_type', 'code')
+        OAuthUrl.searchParams.set('client_id', serviceId)
+        OAuthUrl.searchParams.set('redirect_uri', redirectUrl)
+        location.href = OAuthUrl.toString()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormFieldWrapper control={form.control} name="login" label="Login" />
+        <FormFieldWrapper control={form.control} name="login" label="Логин" />
         <FormFieldWrapper
           control={form.control}
           name="password"
-          label="Password"
+          label="Пароль"
         />
         <Button className="w-full" type="submit">
-          {loading ? 'Logging in...' : 'Submit'}
+          {loading ? 'Загрузка...' : 'Войти'}
+        </Button>
+        <Button onClick={onSubmitOAuth} className="w-full" type="button">
+          Войти через Яндекс
         </Button>
       </form>
     </Form>
