@@ -10,6 +10,9 @@ import { GameEnd } from '@pages/GamePage/ui/GameEnd'
 import { GameDifficultyDialog } from './GameDifficultyDialog'
 import { useFullScreen } from '@shared/hooks/useFullScreen'
 import { Maximize } from 'lucide-react'
+import { addUserToLeaderboard } from '@processes/leaderboard/api/leaderboardApi'
+import { selectUser } from '@shared/model/selectors'
+import { useSelector } from 'react-redux'
 
 export enum GamePageSteps {
   START = 'start',
@@ -42,6 +45,10 @@ export const GamePage: FC = () => {
   const isBotMode = mode === GameModes.BOT
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  const user = useSelector(selectUser),
+    login = user?.login,
+    avatar = user?.avatar
+
   const onStart = (mode: GameModes) => {
     setScore(0)
     setMode(mode)
@@ -67,7 +74,22 @@ export const GamePage: FC = () => {
     setTime(seconds)
   }
 
-  const onEndGame = () => {
+  const setResultGame = async (score: number) => {
+    const valuesResultGame = {
+      data: {
+        score: score,
+        bestScore: bestScore,
+        login: login,
+        avatar: avatar,
+      },
+      ratingFieldName: 'bestScore',
+    }
+    await addUserToLeaderboard(valuesResultGame)
+  }
+
+  const onEndGame = (score: number) => {
+    console.log(score)
+    setResultGame(score)
     setStep(GamePageSteps.END)
     setBotScore(0)
   }

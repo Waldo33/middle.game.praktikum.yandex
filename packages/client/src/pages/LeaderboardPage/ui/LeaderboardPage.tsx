@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Intro } from '@widgets/intro/Intro'
 import { LeaderboardTable } from '@widgets/leaderboardtable/LeaderboardTable'
+import { getLeaderboard } from '@processes/leaderboard/api/leaderboardApi'
 
 const players = [
   {
@@ -36,6 +37,16 @@ const players = [
 ]
 
 export const LeaderboardPage: FC = () => {
+  const usersResult = {
+    ratingFieldName: 'bestScore',
+    cursor: 0,
+    limit: 10,
+  }
+
+  getLeaderboard(usersResult).then(res => {
+    console.log(res)
+  })
+
   return (
     <main className="index-wrapper">
       <Intro />
