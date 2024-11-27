@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useToast } from '@shared/hooks/use-toast'
 import { changeAvatar } from '@widgets/avatar/avatarApi'
 
@@ -30,6 +30,13 @@ export const useAvatarUpload = () => {
       })
     }
   }
+
+  useEffect(() => {
+    return () => {
+      formRef.current = null
+      inputFileRef.current = null
+    }
+  }, [])
 
   return { formRef, inputFileRef, handleAvatarChange }
 }
