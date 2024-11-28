@@ -1,4 +1,9 @@
-import { setAuthenticated, Signin, User } from '../model/authSlice'
+import {
+  setAuthenticated,
+  setFirstAuthCheck,
+  Signin,
+  User,
+} from '../model/authSlice'
 import store from '@app/store'
 
 export const BASE_AUTH_API = `${import.meta.env.VITE_API_URL}/auth`
@@ -60,6 +65,8 @@ export const user = async () => {
   })
 
   const data = await response.json()
+
+  store.dispatch(setFirstAuthCheck())
 
   if (!response.ok) {
     throw new Error(data.reason)

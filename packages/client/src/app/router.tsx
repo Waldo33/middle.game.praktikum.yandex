@@ -12,15 +12,40 @@ import { authLoader } from '@processes/auth/api/authApi'
 import ProtectedRoute from '@processes/routes/lib/ProtectedRoute'
 import PublicRoute from '@processes/routes/lib/PublicRoute'
 import { ROUTES } from '@shared/config/routes'
-import { createBrowserRouter } from 'react-router-dom'
+import {
+  RouteObject,
+  createBrowserRouter,
+  createMemoryRouter,
+} from 'react-router-dom'
 
-import { App } from './App'
+import { App, initAppPage } from './App'
+import { AppDispatch, Store } from './store'
+import { initNotFoundPage } from '@pages/NotFoundPage/ui/NotFoundPage'
 
-export const router = createBrowserRouter([
+export type PageInitContext = {
+  clientToken?: string
+}
+
+export type PageInitArgs = {
+  dispatch: AppDispatch
+  state: Store
+  ctx: PageInitContext
+}
+
+const createRouter = (routes: RouteObject[]) => {
+  if (typeof window !== 'undefined') {
+    return createBrowserRouter(routes)
+  }
+
+  return createMemoryRouter(routes)
+}
+
+export const routes = [
   {
     path: '/',
     element: <App />,
     loader: authLoader,
+    fetchData: initAppPage,
     children: [
       {
         index: true,
@@ -66,7 +91,9 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.NOT_FOUND,
         element: <NotFoundPage />,
+        fetchData: initNotFoundPage,
       },
     ],
   },
-])
+]
+export const router = createRouter(routes)
