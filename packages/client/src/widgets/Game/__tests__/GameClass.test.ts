@@ -11,6 +11,10 @@ jest.mock('../lib/PlayerClass')
 jest.mock('../lib/TimerClass')
 jest.mock('../lib/GameEventBus')
 
+jest.mock('@processes/leaderboard/api/leaderboardApi', () => ({
+  BASE_AUTH_API: 'https://ya-praktikum.tech/api/v2',
+}))
+
 describe('Game Class', () => {
   let canvas: HTMLCanvasElement
   let game: Game

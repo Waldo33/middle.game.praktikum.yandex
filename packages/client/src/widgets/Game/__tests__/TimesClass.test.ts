@@ -5,6 +5,10 @@ import { Timer } from '../lib/TimerClass'
 
 const emitMock = jest.fn()
 
+jest.mock('@processes/leaderboard/api/leaderboardApi', () => ({
+  BASE_AUTH_API: 'https://ya-praktikum.tech/api/v2',
+}))
+
 jest.mock('../lib/GameEventBus', () => ({
   GameEventBus: {
     getInstance: () => ({
