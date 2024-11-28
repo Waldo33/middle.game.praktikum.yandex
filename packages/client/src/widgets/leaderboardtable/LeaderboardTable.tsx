@@ -1,10 +1,5 @@
 import { FC } from 'react'
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@shared/components/ui/avatar'
-import {
   Table,
   TableBody,
   TableCell,
@@ -12,11 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from '@shared/components/ui/table'
+import { AvatarWidget } from '@widgets/avatar/avatar'
+import s from '@pages/LeaderboardPage/ui/LeaderboardPage.module.scss'
 
 export type Leaderboard = {
-  place: number
   login: string
-  avatar: string
+  avatar?: string
   bestScore: number
 }
 
@@ -36,15 +32,12 @@ export const LeaderboardTable: FC<LeaderboardListProps> = ({ list }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {list.map(({ place, login, avatar, bestScore }) => (
-            <TableRow key={place}>
-              <TableCell className="font-medium">{place}</TableCell>
+          {list.map(({ login, avatar, bestScore }, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell>
-                <div className="flex items-center">
-                  <Avatar>
-                    <AvatarImage src={avatar} />
-                    <AvatarFallback>{login.charAt(0)}</AvatarFallback>
-                  </Avatar>
+                <div className={s['cell']}>
+                  <AvatarWidget login={login} avatar={avatar} />
                   <div className="ml-4 flex-auto">{login}</div>
                 </div>
               </TableCell>

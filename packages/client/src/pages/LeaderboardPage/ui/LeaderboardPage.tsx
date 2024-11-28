@@ -1,70 +1,49 @@
 import { FC, useState, useEffect } from 'react'
 import { Intro } from '@widgets/intro/Intro'
-import { LeaderboardTable } from '@widgets/leaderboardtable/LeaderboardTable'
+import {
+  LeaderboardTable,
+  Leaderboard,
+} from '@widgets/leaderboardtable/LeaderboardTable'
 import { getLeaderboard } from '@processes/leaderboard/api/leaderboardApi'
+import s from './LeaderboardPage.module.scss'
 
 export const LeaderboardPage: FC = () => {
-  /*  let players = [
-    {
-      place: 1,
-      playerName: 'username1',
-      playerAvatar: 'https://github.com/shadcn.png',
-      amount: 2500,
-    },
-    {
-      place: 2,
-      playerName: 'username2',
-      playerAvatar: 'https://avatars.githubusercontent.com/u/3218960',
-      amount: 2000,
-    },
-    {
-      place: 3,
-      playerName: 'username3',
-      playerAvatar: 'https://avatars.githubusercontent.com/u/104268071',
-      amount: 1500,
-    },
-    {
-      place: 4,
-      playerName: 'username4',
-      playerAvatar: 'https://avatars.githubusercontent.com/u/835489',
-      amount: 1000,
-    },
-    {
-      place: 5,
-      playerName: 'username5',
-      playerAvatar: 'https://avatars.githubusercontent.com/u/5285425',
-      amount: 500,
-    },
-  ]*/
+  const [userList, setUserList] = useState('')
 
-  const [joke, setJoke] = useState('')
+  interface UserDataProps {
+    data: {
+      bestScore: number
+      login: string | undefined
+      avatar?: string | undefined
+    }
+  }
 
   useEffect(() => {
     const setResultGame = async () => {
-      const usersResult = {
+      const usersResultValues = {
         ratingFieldName: 'bestScore',
         cursor: 0,
         limit: 10,
       }
 
-      const leaderboardData = await getLeaderboard(usersResult)
-      //const value = leaderboardData.map(el => el.data)
-      //setJoke(value)
+      const leaderboardData = await getLeaderboard(usersResultValues)
+      const leaderboardDataValue = leaderboardData.map(
+        (el: UserDataProps) => el.data
+      )
+      setUserList(leaderboardDataValue)
     }
     setResultGame()
   }, [])
 
-  console.log(Array.from(joke))
-
-  const test = Array.from(joke)
-
-  console.log(test)
+  const users: any[] = Array.from(userList)
 
   return (
     <main className="index-wrapper">
       <Intro />
       <h1 className="mt-4">Лидерборд</h1>
-      {/*<LeaderboardTable list={test} />*/}
+      <div className={s['leaderboardpage']}>
+        <LeaderboardTable list={users} />
+      </div>
     </main>
   )
 }

@@ -4,7 +4,7 @@ export interface UserLeaderboardProps {
   data: {
     bestScore: number
     login: string | undefined
-    avatar?: string | undefined
+    avatar: string | undefined
   }
   ratingFieldName: string
 }
