@@ -2,7 +2,6 @@ const BASE_LEADERBOARD_API = `${import.meta.env.VITE_API_URL}/leaderboard`
 
 export interface UserLeaderboardProps {
   data: {
-    score: number
     bestScore: number
     login: string | undefined
     avatar?: string | undefined

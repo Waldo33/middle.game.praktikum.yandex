@@ -74,10 +74,9 @@ export const GamePage: FC = () => {
     setTime(seconds)
   }
 
-  const setResultGame = async (score: number) => {
+  const setResultGame = async () => {
     const valuesResultGame = {
       data: {
-        score: score,
         bestScore: bestScore,
         login: login,
         avatar: avatar,
@@ -87,9 +86,8 @@ export const GamePage: FC = () => {
     await addUserToLeaderboard(valuesResultGame)
   }
 
-  const onEndGame = (score: number) => {
-    console.log(score)
-    setResultGame(score)
+  const onEndGame = () => {
+    setResultGame()
     setStep(GamePageSteps.END)
     setBotScore(0)
   }

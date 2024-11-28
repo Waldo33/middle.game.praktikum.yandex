@@ -15,9 +15,9 @@ import {
 
 export type Leaderboard = {
   place: number
-  playerName: string
-  playerAvatar: string
-  amount: number
+  login: string
+  avatar: string
+  bestScore: number
 }
 
 export type LeaderboardListProps = {
@@ -36,19 +36,19 @@ export const LeaderboardTable: FC<LeaderboardListProps> = ({ list }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {list.map(({ place, playerName, playerAvatar, amount }) => (
+          {list.map(({ place, login, avatar, bestScore }) => (
             <TableRow key={place}>
               <TableCell className="font-medium">{place}</TableCell>
               <TableCell>
                 <div className="flex items-center">
                   <Avatar>
-                    <AvatarImage src={playerAvatar} />
-                    <AvatarFallback>{playerName.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={avatar} />
+                    <AvatarFallback>{login.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <div className="ml-4 flex-auto">{playerName}</div>
+                  <div className="ml-4 flex-auto">{login}</div>
                 </div>
               </TableCell>
-              <TableCell>{amount}</TableCell>
+              <TableCell>{bestScore}</TableCell>
             </TableRow>
           ))}
         </TableBody>
