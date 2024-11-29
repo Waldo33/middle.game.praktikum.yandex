@@ -35,6 +35,7 @@ export const useFullScreen = (): UseFullScreenResult => {
     document.addEventListener('fullscreenchange', handleFullscreenChange)
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      canvasContainerRef.current = null
     }
   }, [])
 
