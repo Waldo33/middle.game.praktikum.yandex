@@ -55,7 +55,7 @@ export const getOAuthServiceId = async (redirectUri: string) => {
 
     throw new Error('Error getOAuthServiceId')
   } catch (error) {
-    console.log(error)
+    return
   }
 }
 
