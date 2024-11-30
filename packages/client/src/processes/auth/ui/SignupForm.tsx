@@ -61,26 +61,34 @@ const SignupForm: FC = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormFieldWrapper control={form.control} name="login" label="Login" />
+        <FormFieldWrapper control={form.control} name="login" label="Логин" />
         <FormFieldWrapper
           control={form.control}
           name="password"
-          label="Password"
+          label="Пароль"
         />
         <FormFieldWrapper
           control={form.control}
           name="first_name"
-          label="First Name"
+          label="Имя"
         />
         <FormFieldWrapper
           control={form.control}
           name="second_name"
-          label="Second Name"
+          label="Фамилия"
         />
-        <FormFieldWrapper control={form.control} name="email" label="Email" />
-        <FormFieldWrapper control={form.control} name="phone" label="Phone" />
+        <FormFieldWrapper
+          control={form.control}
+          name="email"
+          label="Электронная почта"
+        />
+        <FormFieldWrapper
+          control={form.control}
+          name="phone"
+          label="Номер телефона"
+        />
         <Button className="w-full" type="submit">
-          {loading ? 'Logging in...' : 'Submit'}
+          {loading ? 'Загрузка...' : 'Войти'}
         </Button>
       </form>
     </Form>
