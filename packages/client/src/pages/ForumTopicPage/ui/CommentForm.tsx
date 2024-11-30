@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { z } from 'zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -33,6 +33,12 @@ export const CommentForm: FC = () => {
     const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
     console.log({ ...values, file })
   }
+
+  useEffect(() => {
+    return () => {
+      fileInputRef.current = null
+    }
+  }, [])
 
   return (
     <FormProvider {...formMethods}>

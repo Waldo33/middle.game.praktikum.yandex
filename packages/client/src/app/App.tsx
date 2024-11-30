@@ -16,11 +16,14 @@ import { PageInitArgs } from './router'
 import { usePage } from '@shared/hooks/usePage'
 import { LoadingSpinner } from '@shared/components/ui/loading-spinner'
 import { useAuth } from '@shared/hooks/useAuth'
+import { useOAuthCodeHandle } from '@processes/auth'
 
 export const App: React.FC = () => {
   const dispatch: AppDispatch = useDispatch()
   const userData: User | null | unknown = useLoaderData()
   const { isFirstAuthCheck } = useAuth()
+
+  useOAuthCodeHandle()
 
   useEffect(() => {
     if (userData) {

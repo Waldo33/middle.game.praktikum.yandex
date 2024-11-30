@@ -17,6 +17,7 @@ import { AppDispatch } from '@app/store'
 import { ROUTES } from '@shared/config/routes'
 import { useToast } from '@shared/hooks/use-toast'
 import { FormFieldWrapper } from './FormFieldWrapper'
+import { OAuthYandexButton } from '@widgets/OAuthYandexButton/ui/OAuthYandexButton'
 
 const formSchema = z.object({
   login: validationRules.login,
@@ -55,16 +56,17 @@ const SigninForm: FC = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormFieldWrapper control={form.control} name="login" label="Login" />
+        <FormFieldWrapper control={form.control} name="login" label="Логин" />
         <FormFieldWrapper
           control={form.control}
           name="password"
-          label="Password"
+          label="Пароль"
         />
         <Button className="w-full" type="submit">
-          {loading ? 'Logging in...' : 'Submit'}
+          {loading ? 'Загрузка...' : 'Войти'}
         </Button>
       </form>
+      <OAuthYandexButton />
     </Form>
   )
 }

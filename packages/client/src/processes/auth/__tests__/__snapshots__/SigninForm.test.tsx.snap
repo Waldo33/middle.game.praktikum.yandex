@@ -12,7 +12,7 @@ exports[`SigninForm соответствует снапшоту до auth/loadin
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         for=":r0:-form-item"
       >
-        Login
+        Логин
       </label>
       <input
         aria-describedby=":r0:-form-item-description"
@@ -30,7 +30,7 @@ exports[`SigninForm соответствует снапшоту до auth/loadin
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         for=":r1:-form-item"
       >
-        Password
+        Пароль
       </label>
       <input
         aria-describedby=":r1:-form-item-description"
@@ -45,9 +45,15 @@ exports[`SigninForm соответствует снапшоту до auth/loadin
       class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
       type="submit"
     >
-      Submit
+      Войти
     </button>
   </form>
+  <button
+    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2 w-full"
+    type="button"
+  >
+    Войти через Яндекс
+  </button>
 </DocumentFragment>
 `;
 
@@ -63,7 +69,7 @@ exports[`SigninForm соответствует снапшоту после auth/
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         for=":r2:-form-item"
       >
-        Login
+        Логин
       </label>
       <input
         aria-describedby=":r2:-form-item-description"
@@ -81,7 +87,7 @@ exports[`SigninForm соответствует снапшоту после auth/
         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         for=":r3:-form-item"
       >
-        Password
+        Пароль
       </label>
       <input
         aria-describedby=":r3:-form-item-description"
@@ -96,8 +102,14 @@ exports[`SigninForm соответствует снапшоту после auth/
       class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
       type="submit"
     >
-      Submit
+      Войти
     </button>
   </form>
+  <button
+    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2 w-full"
+    type="button"
+  >
+    Войти через Яндекс
+  </button>
 </DocumentFragment>
 `;
