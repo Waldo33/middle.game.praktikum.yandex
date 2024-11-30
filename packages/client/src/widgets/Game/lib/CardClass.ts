@@ -3,8 +3,6 @@ import { GameEventBusType, GameEventBus } from './GameEventBus'
 import { drawRoundRect } from './helpers/drawRoundRect'
 
 export class Card {
-  private id: number
-  private image: HTMLImageElement
   private isRevealed = false
   private isMatched = false
   private isHovered = false
@@ -13,10 +11,7 @@ export class Card {
   private isTouched = false
   private bus: GameEventBusType
 
-  constructor(id: number, image: HTMLImageElement) {
-    this.id = id
-    this.image = image
-
+  constructor(readonly id: number, readonly image: HTMLImageElement) {
     this.bus = GameEventBus.getInstance()
   }
 

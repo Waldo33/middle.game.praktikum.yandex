@@ -1,6 +1,5 @@
 import { GameModes } from '@pages/GamePage/ui/GamePage'
 import { GameBoard } from '../lib/GameBoardClass'
-import { Round } from '../lib/RoundClass'
 import { Timer } from '../lib/TimerClass'
 
 const emitMock = jest.fn()
@@ -17,7 +16,6 @@ jest.mock('../lib/GameEventBus', () => ({
 describe('Timer', () => {
   let timer: Timer
   let gameBoard: GameBoard
-  let round: Round
   let canvas: HTMLCanvasElement
 
   beforeEach(() => {
@@ -30,24 +28,23 @@ describe('Timer', () => {
       padding: 7,
     }) // Передаем контекст в GameBoard
 
-    round = new Round(gameBoard, 5, GameModes.ROUND)
-    timer = new Timer(10, GameModes.ROUND, round)
+    timer = new Timer(10, GameModes.ROUND)
   })
 
   it('инициализируется с заданным временем раунда', () => {
-    expect(timer.getTimeLeft()).toBe(10)
+    expect(timer.getCurrentTime()).toBe(10)
   })
 
   it('сбрасывает время раунда', () => {
     timer.start()
     timer.reset()
-    expect(timer.getTimeLeft()).toBe(10)
+    expect(timer.getCurrentTime()).toBe(10)
   })
 
   it('останавливает таймер и вызывает timer-reset', () => {
     jest.useFakeTimers()
     timer.start()
-    timer.stopTimer()
+    timer.stop()
 
     expect(emitMock).toHaveBeenCalledWith('timer-reset')
     jest.useRealTimers()

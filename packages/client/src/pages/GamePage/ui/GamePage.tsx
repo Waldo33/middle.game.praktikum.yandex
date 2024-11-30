@@ -103,6 +103,7 @@ export const GamePage: FC = () => {
         eventBus.off('score-update', onUpdateScore)
         eventBus.off('timer-tick', onTimeUpdate)
         eventBus.off('current-player-name', onUpdateCurrentPlayerName)
+        eventBus.off('switch-turn')
 
         if (isBotMode) {
           eventBus.off('bot-score-update', onUpdateBotScore)

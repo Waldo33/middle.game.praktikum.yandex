@@ -8,25 +8,17 @@ import { Round } from './RoundClass'
 export class Bot {
   private interval?: NodeJS.Timeout
   private score = 0
-  private id: number
-  private difficulty: Difficulty
   private bus: GameEventBusType
-  private gameBoard: GameBoard
-  private round: Round
   private liquidDifficulty: Difficulty | 0 | number = 0
   private name = 'Бот'
 
   constructor(
-    id: number,
-    difficulty: Difficulty,
-    gameBoard: GameBoard,
-    round: Round
+    readonly id: number,
+    readonly difficulty: Difficulty,
+    readonly gameBoard: GameBoard,
+    readonly round: Round
   ) {
-    this.id = id
     this.bus = GameEventBus.getInstance()
-    this.difficulty = difficulty
-    this.gameBoard = gameBoard
-    this.round = round
   }
 
   public getName(): string {
