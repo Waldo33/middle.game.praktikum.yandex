@@ -23,7 +23,6 @@ export class EventBus<
   }
 
   emit(event: Event, ...args: T[Event]) {
-    console.log(this.listeners)
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`)
     }
