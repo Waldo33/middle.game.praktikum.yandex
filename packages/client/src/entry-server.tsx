@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/server'
 import './index.css'
 import { reducer } from './app/store'
 import { Request as ExpressRequest } from 'express'
+import { toast } from '@shared/hooks/use-toast'
 
 import { Provider } from 'react-redux'
 
@@ -35,16 +36,11 @@ export const render = async (req: ExpressRequest) => {
     reducer,
   })
 
-  // 1.
   const url = createUrl(req)
-
-  // 2.
   const foundRoutes = matchRoutes(routes, url)
   if (!foundRoutes) {
     throw new Error('Страница не найдена!')
   }
-
-  // 3.
   const [
     {
       route: { fetchData },
@@ -60,7 +56,10 @@ export const render = async (req: ExpressRequest) => {
       ctx: createContext(req),
     })
   } catch (e) {
-    console.log('Инициализация страницы произошла с ошибкой', e)
+    toast({
+      description: 'Инициализация страницы произошла с ошибкой',
+      variant: 'destructive',
+    })
   }
   const router = createStaticRouter(dataRoutes, context)
 

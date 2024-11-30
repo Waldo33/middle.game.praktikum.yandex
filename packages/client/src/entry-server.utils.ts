@@ -27,15 +27,16 @@ export const createFetchRequest = (req: ExpressRequest) => {
   const headers = new Headers()
 
   for (const [key, values] of Object.entries(req.headers)) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value)
-        }
-      } else {
-        headers.set(key, values)
+    if (!values) continue
+
+    if (Array.isArray(values)) {
+      for (const value of values) {
+        headers.append(key, value)
       }
+      continue
     }
+
+    headers.set(key, values)
   }
 
   const init: {
