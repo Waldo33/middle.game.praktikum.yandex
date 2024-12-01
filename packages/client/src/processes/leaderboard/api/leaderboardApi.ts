@@ -20,13 +20,14 @@ export interface LeaderboardProps {
 }
 
 export const addUserToLeaderboard = async (
-  score: number,
+  id: number | undefined,
   login: string | undefined,
   avatar: string | undefined
 ) => {
+  const bestScore = Number(localStorage.getItem(`score-${id}`) || 0)
   const credentialsResultGame: UserLeaderboardProps = {
     data: {
-      bestScore: score,
+      bestScore,
       login: login,
       avatar: avatar,
     },

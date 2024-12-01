@@ -12,27 +12,22 @@ export interface UserLeaderboardExtraProps {
 }
 
 export const LeaderboardPage: FC = () => {
-  const [userList, setUserList] = useState('')
+  const [userList, setUserList]: any[] = useState('')
 
   useEffect(() => {
     const setResultGame = async () => {
       const leaderboardData = await getLeaderboard()
-      const leaderboardDataValue = leaderboardData.map(
-        (el: UserLeaderboardExtraProps) => el.data
-      )
-      setUserList(leaderboardDataValue)
+      setUserList(leaderboardData)
     }
     setResultGame()
   }, [])
-
-  const users: any[] = Array.from(userList)
 
   return (
     <main className="index-wrapper">
       <Intro />
       <h1 className="mt-4">Лидерборд</h1>
       <div className={s['leaderboardpage']}>
-        <LeaderboardTable list={users} />
+        {userList ? <LeaderboardTable list={userList} /> : ''}
       </div>
     </main>
   )

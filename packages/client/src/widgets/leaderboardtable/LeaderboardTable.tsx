@@ -11,9 +11,11 @@ import { AvatarWidget } from '@widgets/avatar/avatar'
 import s from '@pages/LeaderboardPage/ui/LeaderboardPage.module.scss'
 
 export type Leaderboard = {
-  login: string
-  avatar?: string
-  bestScore: number
+  data: {
+    login: string
+    avatar?: string
+    bestScore: number
+  }
 }
 
 export type LeaderboardListProps = {
@@ -32,18 +34,22 @@ export const LeaderboardTable: FC<LeaderboardListProps> = ({ list }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {list.map(({ login, avatar, bestScore }, index) => (
-            <TableRow key={login}>
-              <TableCell className="font-medium">{index + 1}</TableCell>
-              <TableCell>
-                <div className={s['cell']}>
-                  <AvatarWidget login={login} avatar={avatar} />
-                  <div className="ml-4 flex-auto">{login}</div>
-                </div>
-              </TableCell>
-              <TableCell>{bestScore}</TableCell>
-            </TableRow>
-          ))}
+          {list.map(({ data }, index) => {
+            const { login, avatar, bestScore } = data
+
+            return (
+              <TableRow key={login}>
+                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell>
+                  <div className={s['cell']}>
+                    <AvatarWidget login={login} avatar={avatar} />
+                    <div className="ml-4 flex-auto">{login}</div>
+                  </div>
+                </TableCell>
+                <TableCell>{bestScore}</TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
     </>
