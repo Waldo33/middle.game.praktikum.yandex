@@ -1,34 +1,24 @@
 import { FC, useState, useEffect } from 'react'
 import { Intro } from '@widgets/intro/Intro'
+import { LeaderboardTable } from '@widgets/leaderboardtable/LeaderboardTable'
 import {
-  LeaderboardTable,
-  Leaderboard,
-} from '@widgets/leaderboardtable/LeaderboardTable'
-import { getLeaderboard } from '@processes/leaderboard/api/leaderboardApi'
+  getLeaderboard,
+  UserLeaderboardBasicProps,
+} from '@processes/leaderboard/api/leaderboardApi'
 import s from './LeaderboardPage.module.scss'
+
+export interface UserLeaderboardExtraProps {
+  data: UserLeaderboardBasicProps
+}
 
 export const LeaderboardPage: FC = () => {
   const [userList, setUserList] = useState('')
 
-  interface UserDataProps {
-    data: {
-      bestScore: number
-      login: string | undefined
-      avatar?: string | undefined
-    }
-  }
-
   useEffect(() => {
     const setResultGame = async () => {
-      const usersResultValues = {
-        ratingFieldName: 'bestScore',
-        cursor: 0,
-        limit: 10,
-      }
-
-      const leaderboardData = await getLeaderboard(usersResultValues)
+      const leaderboardData = await getLeaderboard()
       const leaderboardDataValue = leaderboardData.map(
-        (el: UserDataProps) => el.data
+        (el: UserLeaderboardExtraProps) => el.data
       )
       setUserList(leaderboardDataValue)
     }

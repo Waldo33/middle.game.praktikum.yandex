@@ -2,12 +2,14 @@ export const BASE_LEADERBOARD_API = `${
   import.meta.env.VITE_API_URL
 }/leaderboard`
 
+export interface UserLeaderboardBasicProps {
+  bestScore: number
+  login: string | undefined
+  avatar?: string | undefined
+}
+
 export interface UserLeaderboardProps {
-  data: {
-    bestScore: number
-    login: string | undefined
-    avatar: string | undefined
-  }
+  data: UserLeaderboardBasicProps
   ratingFieldName: string
 }
 
@@ -18,13 +20,24 @@ export interface LeaderboardProps {
 }
 
 export const addUserToLeaderboard = async (
-  credentials: UserLeaderboardProps
+  score: number,
+  login: string | undefined,
+  avatar: string | undefined
 ) => {
+  const credentialsResultGame: UserLeaderboardProps = {
+    data: {
+      bestScore: score,
+      login: login,
+      avatar: avatar,
+    },
+    ratingFieldName: 'bestScore',
+  }
+
   try {
     const response = await fetch(`${BASE_LEADERBOARD_API}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(credentialsResultGame),
       credentials: 'include',
     })
     if (!response.ok) {
@@ -37,12 +50,18 @@ export const addUserToLeaderboard = async (
   return true
 }
 
-export const getLeaderboard = async (credentials: LeaderboardProps) => {
+export const getLeaderboard = async () => {
+  const credentialsResultValues: LeaderboardProps = {
+    ratingFieldName: 'bestScore',
+    cursor: 0,
+    limit: 10,
+  }
+
   try {
     const response = await fetch(`${BASE_LEADERBOARD_API}/all`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(credentialsResultValues),
       credentials: 'include',
     })
 

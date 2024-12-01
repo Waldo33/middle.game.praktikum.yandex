@@ -33,7 +33,7 @@ export const LeaderboardTable: FC<LeaderboardListProps> = ({ list }) => {
         </TableHeader>
         <TableBody>
           {list.map(({ login, avatar, bestScore }, index) => (
-            <TableRow key={index}>
+            <TableRow key={login}>
               <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell>
                 <div className={s['cell']}>

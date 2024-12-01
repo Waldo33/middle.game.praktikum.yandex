@@ -28,7 +28,11 @@ export enum GameModes {
 export type Difficulty = 1 | 2 | 3 | 4 | 5
 
 export const GamePage: FC = () => {
-  const bestScore = Number(localStorage.getItem('score') || 0)
+  const user = useSelector(selectUser),
+    id = user?.id,
+    login = user?.login,
+    avatar = user?.avatar
+  const bestScore = Number(localStorage.getItem(`score-${id}`) || 0)
   const bestBotModeScore = Number(localStorage.getItem('bot-mode-score') || 0)
 
   const eventBus = GameEventBus.getInstance()
@@ -45,10 +49,6 @@ export const GamePage: FC = () => {
   const isBotMode = mode === GameModes.BOT
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const user = useSelector(selectUser),
-    login = user?.login,
-    avatar = user?.avatar
-
   const onStart = (mode: GameModes) => {
     setScore(0)
     setMode(mode)
@@ -59,7 +59,7 @@ export const GamePage: FC = () => {
     setScore(score)
     if (isBotMode) {
       compareScoreWithLocalStorage('bot-mode-score', score)
-    } else compareScoreWithLocalStorage('score', score)
+    } else compareScoreWithLocalStorage(`score-${id}`, score)
   }
 
   const onUpdateCurrentPlayerName = (name: string) => {
@@ -75,21 +75,13 @@ export const GamePage: FC = () => {
   }
 
   const setResultGame = async () => {
-    const valuesResultGame = {
-      data: {
-        bestScore: bestScore,
-        login: login,
-        avatar: avatar,
-      },
-      ratingFieldName: 'bestScore',
-    }
-    await addUserToLeaderboard(valuesResultGame)
+    await addUserToLeaderboard(bestScore, login, avatar)
   }
 
   const onEndGame = () => {
-    setResultGame()
     setStep(GamePageSteps.END)
     setBotScore(0)
+    setResultGame()
   }
 
   const setEndGame = () => {
