@@ -1,16 +1,31 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer, { Auth } from '@processes/auth/model/authSlice'
+import authReducer from '../processes/auth/model/authSlice'
 
-export interface Store {
-  auth: Auth
+import ssrReducer from '../slices/ssrSlice'
+
+import { combineReducers } from 'redux'
+
+/* ... */
+// Глобально декларируем в window наш ключ
+// и задаем ему тип такой же, как у стейта в сторе
+declare global {
+  interface Window {
+    APP_INITIAL_STATE: ReturnType<typeof reducer>
+  }
 }
 
-export type AppDispatch = typeof store.dispatch
+export const reducer = combineReducers({
+  auth: authReducer,
+  ssr: ssrReducer,
+})
+
+export type Store = ReturnType<typeof reducer>
 
 const store = configureStore({
-  reducer: {
-    auth: authReducer,
-  },
+  reducer,
+  preloadedState:
+    typeof window === 'undefined' ? undefined : window.APP_INITIAL_STATE,
 })
+export type AppDispatch = typeof store.dispatch
 
 export default store

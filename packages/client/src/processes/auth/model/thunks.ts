@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { logout, signin, signup, user } from '../api/authApi'
 import { Signin, User } from './authSlice'
 import { getErrorMessageOrDefault } from '@shared/lib/errorHelpers'
-import { getUserDataFromLocalStorage } from '../lib/getUserDataFromLocalStorage'
 
 interface RejectedValue {
   rejectValue: string
@@ -32,9 +31,9 @@ export const signupThunk = createAsyncThunk<boolean, User, RejectedValue>(
   }
 )
 
-export const userThunk = createAsyncThunk<User, void, RejectedValue>(
+export const userThunk = createAsyncThunk<User, any, RejectedValue>(
   'auth/user',
-  async (_, { rejectWithValue }) => {
+  async (_: void, { rejectWithValue }) => {
     try {
       const userData = await user()
       return userData

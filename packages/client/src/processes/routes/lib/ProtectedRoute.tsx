@@ -5,11 +5,11 @@ import { useAuth } from '@shared/hooks/useAuth'
 import { getUserDataFromLocalStorage } from '../../auth/lib/getUserDataFromLocalStorage'
 
 const ProtectedRoute = ({ element }: { element: React.ReactElement }) => {
-  const isAuthenticated = useAuth()
+  const { isAuthenticated } = useAuth()
 
   const userDataFromLocalStorage = getUserDataFromLocalStorage()
 
-  if (!navigator.onLine && userDataFromLocalStorage) {
+  if (userDataFromLocalStorage) {
     return element
   }
 

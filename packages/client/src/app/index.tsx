@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client'
+import { hydrateRoot } from 'react-dom/client'
 
 import store from './store'
 import { Provider } from 'react-redux'
@@ -7,7 +7,8 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { register } from 'register-service-worker'
 
-createRoot(document.getElementById('root') as HTMLElement).render(
+hydrateRoot(
+  document.getElementById('root') as HTMLElement,
   <Provider store={store}>
     <RouterProvider router={router} />
   </Provider>
