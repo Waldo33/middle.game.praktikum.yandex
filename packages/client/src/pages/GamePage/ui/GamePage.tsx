@@ -59,7 +59,7 @@ export const GamePage: FC = () => {
     setScore(score)
     if (isBotMode) {
       compareScoreWithLocalStorage('bot-mode-score', score)
-    } else compareScoreWithLocalStorage(`score-${id}`, score)
+    } else compareScoreWithLocalStorage(`score-${id || 0}`, score)
   }
 
   const onUpdateCurrentPlayerName = (name: string) => {
