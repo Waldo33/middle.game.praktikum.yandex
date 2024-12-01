@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@shared/components/ui/table'
 import { AvatarWidget } from '@widgets/avatar/avatar'
-import s from '@pages/LeaderboardPage/ui/LeaderboardPage.module.scss'
+import s from './LeaderboardPage.module.scss'
 
 export type Leaderboard = {
   data: {

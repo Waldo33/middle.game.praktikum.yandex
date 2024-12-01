@@ -5,7 +5,7 @@ export const BASE_LEADERBOARD_API = `${
 export interface UserLeaderboardBasicProps {
   bestScore: number
   login: string | undefined
-  avatar?: string | undefined
+  avatar?: string
 }
 
 export interface UserLeaderboardProps {
