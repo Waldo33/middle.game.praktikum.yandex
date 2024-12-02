@@ -2,6 +2,10 @@ import { Round } from '../lib/RoundClass'
 import { GameBoard } from '../lib/GameBoardClass'
 import { GameModes } from '@pages/GamePage/ui/GamePage'
 
+jest.mock('@processes/leaderboard/api/leaderboardApi', () => ({
+  BASE_AUTH_API: 'https://ya-praktikum.tech/api/v2',
+}))
+
 jest.mock('../lib/GameBoardClass')
 
 jest.mock('../lib/GameEventBus', () => {

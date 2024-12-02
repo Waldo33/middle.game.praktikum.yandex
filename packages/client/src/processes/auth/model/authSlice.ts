@@ -24,6 +24,7 @@ export interface Auth {
   user: null | User
   error: undefined | string
   loading: boolean
+  isFirstAuthCheck: boolean
 }
 
 const initialState: Auth = {
@@ -31,6 +32,7 @@ const initialState: Auth = {
   user: null,
   error: '',
   loading: false,
+  isFirstAuthCheck: false,
 }
 
 interface RejectedAction {
@@ -50,6 +52,9 @@ const authSlice = createSlice({
     },
     setAuthenticated: state => {
       state.isAuthenticated = true
+    },
+    setFirstAuthCheck: state => {
+      state.isFirstAuthCheck = true
     },
   },
   extraReducers: builder => {
@@ -114,6 +119,7 @@ const authSlice = createSlice({
   },
 })
 
-export const { setUser, setError, setAuthenticated } = authSlice.actions
+export const { setUser, setError, setAuthenticated, setFirstAuthCheck } =
+  authSlice.actions
 
 export default authSlice.reducer

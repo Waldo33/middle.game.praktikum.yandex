@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom'
 export const SignUpPage: FC = () => {
   return (
     <div className="md:w-50 m-auto space-y-6">
-      <h1 className="text-center">Registration</h1>
+      <h1 className="text-center">Регистрация</h1>
       <SignupForm />
       <p className="text-center">
-        Already have an account?{' '}
+        Уже есть аккаунт?{' '}
         <Link
           className="underline underline-offset-4 hover:text-primary"
           to={ROUTES.SIGNIN}>
-          Sign in
+          Войти
         </Link>
       </p>
     </div>

@@ -47,6 +47,11 @@ export const GameEnd: FC<GameEndProps> = ({
           </div>
           <Menu
             links={[
+              {
+                url: ROUTES.INDEX,
+                label: 'на главную',
+                state: { from: 'game' },
+              },
               { url: ROUTES.PROFILE, label: 'профиль' },
               { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
               { url: ROUTES.FORUM, label: 'форум' },

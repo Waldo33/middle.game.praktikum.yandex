@@ -1,0 +1,13 @@
+.leaderboardpage {
+  .cell {
+    display: flex;
+    align-items: center;
+    span {
+      width: 50px;
+      height: 50px;
+      span {
+        font-size: 30px;
+      }
+    }
+  }
+}

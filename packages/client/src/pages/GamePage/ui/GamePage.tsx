@@ -2,7 +2,9 @@ import { cn } from '@shared/lib/utils'
 import s from './GamePage.module.scss'
 import { FC, useEffect, useRef, useState } from 'react'
 import { Button } from '@shared/components/ui/button'
+import { ROUTES } from '@shared/config/routes'
 import { Game, GameEventBus } from '@widgets/Game'
+import { Menu } from '@widgets/menu/Menu'
 import { compareScoreWithLocalStorage, getTimePad } from '../lib/helpers'
 import { ResetButton } from './ResetButton'
 import { GameStart } from '@pages/GamePage/ui/GameStart'
@@ -10,6 +12,9 @@ import { GameEnd } from '@pages/GamePage/ui/GameEnd'
 import { GameDifficultyDialog } from './GameDifficultyDialog'
 import { useFullScreen } from '@shared/hooks/useFullScreen'
 import { Maximize } from 'lucide-react'
+import { addUserToLeaderboard } from '@processes/leaderboard/api/leaderboardApi'
+import { selectUser } from '@shared/model/selectors'
+import { useSelector } from 'react-redux'
 
 export enum GamePageSteps {
   START = 'start',
@@ -25,7 +30,11 @@ export enum GameModes {
 export type Difficulty = 1 | 2 | 3 | 4 | 5
 
 export const GamePage: FC = () => {
-  const bestScore = Number(localStorage.getItem('score') || 0)
+  const user = useSelector(selectUser),
+    id = user?.id,
+    login = user?.login,
+    avatar = user?.avatar
+  const bestScore = Number(localStorage.getItem(`score-${id}`) || 0)
   const bestBotModeScore = Number(localStorage.getItem('bot-mode-score') || 0)
 
   const eventBus = GameEventBus.getInstance()
@@ -52,7 +61,7 @@ export const GamePage: FC = () => {
     setScore(score)
     if (isBotMode) {
       compareScoreWithLocalStorage('bot-mode-score', score)
-    } else compareScoreWithLocalStorage('score', score)
+    } else compareScoreWithLocalStorage(`score-${id || 0}`, score)
   }
 
   const onUpdateCurrentPlayerName = (name: string) => {
@@ -67,9 +76,10 @@ export const GamePage: FC = () => {
     setTime(seconds)
   }
 
-  const onEndGame = () => {
+  const onEndGame = async () => {
     setStep(GamePageSteps.END)
     setBotScore(0)
+    await addUserToLeaderboard(id, login, avatar)
   }
 
   const setEndGame = () => {
@@ -114,21 +124,30 @@ export const GamePage: FC = () => {
       {step === GamePageSteps.START && (
         <>
           <div className={s['gamepage']}>
+            <Menu
+              center
+              links={[
+                { url: ROUTES.INDEX, label: 'на главную' },
+                { url: ROUTES.PROFILE, label: 'профиль' },
+                { url: ROUTES.LEADERBOARD, label: 'лидерборд' },
+                { url: ROUTES.FORUM, label: 'форум' },
+              ]}
+            />
             <div className={s['topline']}>
               {bestScore > 0 && (
                 <div className={s['best']}>
-                  лучший счет в режиме игры с собой: <span>{bestScore}</span>
+                  лучший счет в режиме одиночной игры: <span>{bestScore}</span>
                 </div>
               )}
               {bestBotModeScore > 0 && (
                 <div className={s['best']}>
-                  лучший счет в режиме игры с ботом:{' '}
+                  лучший счет в режиме игры против бота:{' '}
                   <span>{bestBotModeScore}</span>
                 </div>
               )}
               <div className={s['buttons']}>
                 <Button onClick={() => onStart(GameModes.ROUND)}>
-                  Играть с собой
+                  Одиночная игра
                 </Button>
 
                 <GameDifficultyDialog

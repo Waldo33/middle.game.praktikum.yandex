@@ -25,5 +25,9 @@
     }
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.server.json" }
+  ],
+  "exclude": ["node_modules/@types/react-router-dom", "node_modules/vite/dist"]
 }

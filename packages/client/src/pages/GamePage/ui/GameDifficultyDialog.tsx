@@ -25,7 +25,7 @@ export function GameDifficultyDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button> Играть с ботом</Button>
+        <Button>Игра против бота</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

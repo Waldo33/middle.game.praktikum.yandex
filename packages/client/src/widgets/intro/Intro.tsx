@@ -9,10 +9,10 @@ import { useSelector } from 'react-redux'
 import { selectUser } from '@shared/model/selectors'
 
 export const Intro: FC = () => {
-  const user = useSelector(selectUser)
-  if (!user) return null
-  const firstName = user.first_name
-  const bestScore = Number(localStorage.getItem('score') || 0)
+  const user = useSelector(selectUser),
+    id = user?.id,
+    firstName = user?.first_name
+  const bestScore = Number(localStorage.getItem(`score-${id}`) || 0)
 
   return (
     <section className={s['intro']}>

@@ -1,9 +1,19 @@
 .menu {
   @apply mt-3 mx-0.5 md:mt-8;
+  &:first-child {
+    @apply mt-0;
+  }
+  &:not(:last-child) {
+    @apply mb-6;
+  }
 
   ul {
     @apply flex gap-4 justify-between md:justify-start;
     @apply font-bold text-sm;
+
+    &.center {
+      justify-content: center !important;
+    }
   }
   a {
     @apply text-black hover:text-primary underline underline-offset-2 hover:no-underline;

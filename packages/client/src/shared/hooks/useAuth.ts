@@ -1,7 +1,12 @@
 import { useSelector } from 'react-redux'
-import { selectIsAuthenticated } from '@shared/model/selectors'
+import {
+  selectFirstAuthCheck,
+  selectIsAuthenticated,
+} from '@shared/model/selectors'
 
 export const useAuth = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
-  return isAuthenticated
+  const isFirstAuthCheck = useSelector(selectFirstAuthCheck)
+
+  return { isAuthenticated, isFirstAuthCheck }
 }
