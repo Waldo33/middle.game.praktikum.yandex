@@ -5,33 +5,25 @@ import { GameModes, Difficulty } from '@pages/GamePage/ui/GamePage'
 
 /**
  * @todo
- * Из-за того что изначально игра писалась без наличия раундов, существует небольшой техдолг.
- * В идеале класс Game должен работать только с Player и Round, а Round в свою очередь с Timer и GameBoard.
- * На текущий момент класс игры инжектит в себя все существующие классы.
  * Работу с пользовательским вводом можно вынести в отдельный Controls класс, что сократит количество кода в Game.
  */
 export class Game {
-  private canvas: HTMLCanvasElement
   private gameBoard: GameBoard
   private currentRound: Round
   private bus: GameEventBusType
 
   constructor(
-    canvas: HTMLCanvasElement,
-    mode: GameModes,
+    readonly canvas: HTMLCanvasElement,
+    readonly mode: GameModes,
     difficulty: Difficulty = 1
   ) {
-    this.canvas = canvas
-
-    this.gameBoard = new GameBoard(this.canvas, {
+    this.gameBoard = new GameBoard(canvas, {
       rows: 5,
       columns: 8,
       padding: 7,
     })
-
-    this.bus = GameEventBus.getInstance()
-
     this.currentRound = new Round(this.gameBoard, difficulty, mode)
+    this.bus = GameEventBus.getInstance()
   }
 
   private addEventListeners() {
