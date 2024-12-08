@@ -4,20 +4,24 @@
   "description": "",
   "scripts": {
     "build": "tsc --p ./tsconfig.prod.json",
-    "preview": "node ./dist/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.ts",
+    "preview": "ts-node ./dist/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon -e ts --exec ts-node -r tsconfig-paths/register index.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."
   },
   "dependencies": {
+    "@types/sequelize": "^4.28.20",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.2",
     "eslint-config-prettier": "^8.5.0",
     "express": "^4.18.1",
     "pg": "^8.8.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "sequelize": "^6.37.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
