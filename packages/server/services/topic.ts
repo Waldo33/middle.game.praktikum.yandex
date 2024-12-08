@@ -1,12 +1,12 @@
-const getAllTopics = async () => {
-  return []
-}
+import { TopicRepository } from '@repositories/topic'
 
-const createTopic = async () => {
-  throw new Error('Not implemented')
-}
+export class TopicService {
+  private repository: TopicRepository
 
-export const TopicService = {
-  getAllTopics,
-  createTopic,
+  constructor(repository: TopicRepository) {
+    this.repository = repository
+  }
+  async getAllTopics() {
+    return this.repository.getAll()
+  }
 }

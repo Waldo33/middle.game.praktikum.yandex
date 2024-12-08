@@ -1,28 +1,16 @@
-import { Client } from 'pg'
+import { Sequelize } from 'sequelize'
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
   process.env
 
-export const createClientAndConnect = async (): Promise<Client | null> => {
-  try {
-    const client = new Client({
-      user: POSTGRES_USER,
-      host: 'localhost',
-      database: POSTGRES_DB,
-      password: POSTGRES_PASSWORD,
-      port: Number(POSTGRES_PORT),
-    })
-
-    await client.connect()
-
-    const res = await client.query('SELECT NOW()')
-    console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now)
-    client.end()
-
-    return client
-  } catch (e) {
-    console.error(e)
+export const sequelize = new Sequelize(
+  POSTGRES_DB as string,
+  POSTGRES_USER as string,
+  POSTGRES_PASSWORD as string,
+  {
+    host: 'localhost',
+    port: Number(POSTGRES_PORT),
+    dialect: 'postgres',
+    logging: false,
   }
-
-  return null
-}
+)

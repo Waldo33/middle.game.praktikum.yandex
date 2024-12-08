@@ -5,10 +5,7 @@ export const isAuthenticated = (
   res: Response,
   next: NextFunction
 ) => {
-  // TODO: Продумать логику
-  if (!req.headers.authorization) {
-    res.status(403).json({ message: 'Forbidden' })
-    return
-  }
+  // TODO: Продумать логику авторизации
+  console.log('middleware isAuthenticated', req, res)
   next()
 }
