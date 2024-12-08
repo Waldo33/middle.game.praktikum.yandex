@@ -1,4 +1,4 @@
-import Topic from '@models/topic'
+import Topic from '../models/topic'
 
 export abstract class TopicRepository {
   abstract getAll(): Promise<Topic[]>

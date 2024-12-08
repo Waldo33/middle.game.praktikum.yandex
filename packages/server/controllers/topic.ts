@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { TopicService } from '@services/topic'
+import { TopicService } from '../services/topic'
 
 export class TopicController {
   private service: TopicService

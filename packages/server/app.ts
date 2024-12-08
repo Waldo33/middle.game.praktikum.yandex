@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import topicRoutes from '@routes/topic'
+import topicRoutes from './routes/topic'
 
 const app = express()
 
