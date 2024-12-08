@@ -1,4 +1,4 @@
-import { TopicRepository } from '@repositories/topic'
+import { TopicRepository } from '../repositories/topic'
 
 export class TopicService {
   private repository: TopicRepository

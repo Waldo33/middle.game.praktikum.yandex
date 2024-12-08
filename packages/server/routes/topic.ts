@@ -1,7 +1,7 @@
-import { TopicController } from '@controllers/topic'
-import { isAuthenticated } from '@middleware/auth'
-import { SequelizeTopicRepository } from '@repositories/topic'
-import { TopicService } from '@services/topic'
+import { TopicController } from '../controllers/topic'
+import { isAuthenticated } from '../middleware/auth'
+import { SequelizeTopicRepository } from '../repositories/topic'
+import { TopicService } from '../services/topic'
 import express from 'express'
 
 const router = express.Router()

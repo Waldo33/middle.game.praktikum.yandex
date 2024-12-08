@@ -1,10 +1,9 @@
 import dotenv from 'dotenv'
-import { sequelize } from '@config/db'
+dotenv.config()
+import { sequelize } from './config/db'
 import app from './app'
 
-dotenv.config()
-
-const port = Number(process.env.SERVER_PORT) || 3001
+const port = Number(process.env.SERVER_PORT)
 
 ;(async () => {
   try {
