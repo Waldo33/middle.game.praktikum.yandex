@@ -24,6 +24,7 @@
       "*": ["types/*"],
       "@config/*": ["config/*"],
       "@controllers/*": ["controllers/*"],
+      "@services/*": ["services/*"],
       "@middleware/*": ["middleware/*"],
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],

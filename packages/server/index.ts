@@ -1,24 +1,20 @@
 import dotenv from 'dotenv'
-import cors from 'cors'
+import { createClientAndConnect } from '@config/db'
+import app from './app'
+
 dotenv.config()
 
-import express from 'express'
-import { createClientAndConnect } from '@config/db'
-
-import topicRoutes from '@routes/topicRoutes'
-
-const app = express()
-app.use(cors())
-app.use(express.json())
 const port = Number(process.env.SERVER_PORT) || 3001
-createClientAndConnect()
 
-app.get('/', (_, res) => {
-  res.json('👋 Howdy from the server :)')
-})
+;(async () => {
+  try {
+    await createClientAndConnect()
+    console.log('✅ Database connected successfully')
 
-app.use('/api/topics', topicRoutes)
-
-app.listen(port, () => {
-  console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
-})
+    app.listen(port, () => {
+      console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
+    })
+  } catch (error) {
+    console.error('❌ Failed to connect to the database:', error)
+  }
+})()
