@@ -22,7 +22,7 @@ export class TopicService {
     return topic
   }
 
-  async createTopic(topic: TopicCreationAttributes) {
-    return this.topicRepository.create(topic)
+  async createTopic(topicDto: TopicCreationAttributes) {
+    return this.topicRepository.create(topicDto)
   }
 }

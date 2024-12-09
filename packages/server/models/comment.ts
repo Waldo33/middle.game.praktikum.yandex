@@ -7,6 +7,7 @@ interface CommentAttributes {
   author: string
   content: string
   topicId: number
+  parentId: number | null
 }
 
 export interface CommentCreationAttributes
@@ -20,6 +21,7 @@ class Comment
   public author!: string
   public content!: string
   public topicId!: number
+  public parentId!: number
 
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
@@ -48,6 +50,14 @@ Comment.init(
         key: 'id',
       },
     },
+    parentId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: Comment,
+        key: 'id',
+      },
+    },
   },
   {
     sequelize,
@@ -58,5 +68,8 @@ Comment.init(
 
 Topic.hasMany(Comment, { foreignKey: 'topicId', as: 'comments' })
 Comment.belongsTo(Topic, { foreignKey: 'topicId', as: 'topic' })
+
+Comment.hasMany(Comment, { foreignKey: 'parentId', as: 'comments' })
+Comment.belongsTo(Comment, { foreignKey: 'parentId', as: 'parent' })
 
 export default Comment

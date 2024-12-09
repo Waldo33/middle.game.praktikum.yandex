@@ -4,7 +4,7 @@ import { CommentCreationAttributes } from '../models/comment'
 export abstract class CommentRepository {
   abstract create(comment: CommentCreationAttributes): Promise<Comment>
   abstract getAll(): Promise<Comment[]>
-  abstract findByTopicId(topicId: number): Promise<Comment[] | null>
+  abstract get(id: number): Promise<Comment | null>
 }
 
 export class SequelizeCommentRepository implements CommentRepository {
@@ -15,7 +15,7 @@ export class SequelizeCommentRepository implements CommentRepository {
     return await Comment.findAll()
   }
 
-  async findByTopicId(topicId: number) {
-    return await Comment.findAll({ where: { topicId } })
+  async get(id: number) {
+    return await Comment.findByPk(id)
   }
 }

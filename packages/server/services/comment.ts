@@ -12,7 +12,11 @@ export class CommentService {
     return this.commentRepository.getAll()
   }
 
-  async create(comment: CommentCreationAttributes) {
-    return this.commentRepository.create(comment)
+  async get(id: number) {
+    return this.commentRepository.get(id)
+  }
+
+  async create(commentDto: CommentCreationAttributes) {
+    return this.commentRepository.create(commentDto)
   }
 }

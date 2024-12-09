@@ -18,7 +18,20 @@ export class SequelizeTopicRepository implements TopicRepository {
 
   async getTopicWithComments(topicId: number) {
     return await Topic.findByPk(topicId, {
-      include: { model: Comment, as: 'comments' },
+      include: [
+        {
+          model: Comment,
+          as: 'comments',
+          where: { parentId: null },
+          required: false,
+          include: [
+            {
+              model: Comment,
+              as: 'comments',
+            },
+          ],
+        },
+      ],
     })
   }
 }

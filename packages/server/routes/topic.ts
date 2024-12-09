@@ -9,15 +9,6 @@ import { CommentController } from '../controllers/comment'
 
 const router = express.Router()
 
-const commentRepository = new SequelizeCommentRepository()
-const commentService = new CommentService(commentRepository)
-const commentController = new CommentController(commentService)
-
-router.post(
-  '/:topicId/comments',
-  commentController.create.bind(commentController)
-)
-
 const topicRepository = new SequelizeTopicRepository()
 const topicService = new TopicService(topicRepository)
 const topicController = new TopicController(topicService)
@@ -36,6 +27,20 @@ router.post(
   '/',
   isAuthenticated,
   topicController.createTopic.bind(topicController)
+)
+
+const commentRepository = new SequelizeCommentRepository()
+const commentService = new CommentService(commentRepository)
+const commentController = new CommentController(commentService)
+
+router.post(
+  '/:topicId/comments',
+  commentController.create.bind(commentController)
+)
+
+router.post(
+  '/:topicId/comments/:parentId/comments',
+  commentController.create.bind(commentController)
 )
 
 export default router
