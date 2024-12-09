@@ -33,9 +33,9 @@ export class CommentController {
       }
 
       const parentId = Number(req.params.parentId) || null
-      const parentComment = await this.commentService.get(Number(parentId))
 
-      console.log(content, author, topicId, parentId, parentComment)
+      // QUESTION: Возможно это уже бизнес-логика и нужно перенести в сервис?
+      const parentComment = await this.commentService.get(Number(parentId))
 
       if (parentId && !parentComment) {
         return res.status(400).json({ error: 'Parent comment not found' })
