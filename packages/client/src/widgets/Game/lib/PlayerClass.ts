@@ -5,17 +5,15 @@ import { Round } from './RoundClass'
 
 export class Player {
   private score = 0
-  public id: number
   private bus: GameEventBusType
-  private gameBoard: GameBoard
-  private round: Round
   private name: string
 
-  constructor(id: number, gameBoard: GameBoard, round: Round) {
-    this.id = id
+  constructor(
+    readonly id: number,
+    readonly gameBoard: GameBoard,
+    readonly round: Round
+  ) {
     this.bus = GameEventBus.getInstance()
-    this.gameBoard = gameBoard
-    this.round = round
     this.name = 'Игрок'
   }
 

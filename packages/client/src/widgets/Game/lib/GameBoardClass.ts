@@ -19,11 +19,11 @@ export class GameBoard {
   private cardWidth: number
   private cardHeight: number
   private padding: number
-  private canvas: HTMLCanvasElement
+
   private bus: GameEventBusType
 
   constructor(
-    canvas: HTMLCanvasElement,
+    readonly canvas: HTMLCanvasElement,
     { rows = 4, columns = 4, padding = 4 }: Options
   ) {
     this.bus = GameEventBus.getInstance()
@@ -32,7 +32,6 @@ export class GameBoard {
       throw new Error('Column or row count must be even number!')
     }
 
-    this.canvas = canvas
     const ctx = canvas.getContext('2d')
 
     if (!ctx) {
