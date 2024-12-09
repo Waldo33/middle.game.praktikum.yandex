@@ -56,4 +56,7 @@ Comment.init(
   }
 )
 
+Topic.hasMany(Comment, { foreignKey: 'topicId', as: 'comments' })
+Comment.belongsTo(Topic, { foreignKey: 'topicId', as: 'topic' })
+
 export default Comment

@@ -1,9 +1,10 @@
+import Comment from '../models/comment'
 import Topic, { TopicCreationAttributes } from '../models/topic'
 
 export abstract class TopicRepository {
   abstract getAll(): Promise<Topic[]>
   abstract create(topic: TopicCreationAttributes): Promise<Topic>
-  abstract getTopicById(topicId: number): Promise<Topic | null>
+  abstract getTopicWithComments(topicId: number): Promise<Topic | null>
 }
 
 export class SequelizeTopicRepository implements TopicRepository {
@@ -15,7 +16,9 @@ export class SequelizeTopicRepository implements TopicRepository {
     return await Topic.create(topic)
   }
 
-  async getTopicById(topicId: number) {
-    return await Topic.findByPk(topicId)
+  async getTopicWithComments(topicId: number) {
+    return await Topic.findByPk(topicId, {
+      include: { model: Comment, as: 'comments' },
+    })
   }
 }

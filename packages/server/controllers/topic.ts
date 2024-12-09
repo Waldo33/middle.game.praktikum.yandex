@@ -25,7 +25,7 @@ export class TopicController {
         return res.status(400).json({ error: 'Missing required fields' })
       }
 
-      const topic = await this.topicService.getTopicWithCommentsById(
+      const topic = await this.topicService.getTopicWithComments(
         Number(topicId)
       )
       return res.status(200).json(topic)

@@ -19,7 +19,7 @@ router.post(
 )
 
 const topicRepository = new SequelizeTopicRepository()
-const topicService = new TopicService(topicRepository, commentRepository)
+const topicService = new TopicService(topicRepository)
 const topicController = new TopicController(topicService)
 
 router.get(
