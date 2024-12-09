@@ -1,12 +1,37 @@
+import { TopicCreationAttributes } from '../models/topic'
+import { CommentRepository } from '../repositories/comment'
 import { TopicRepository } from '../repositories/topic'
 
 export class TopicService {
-  private repository: TopicRepository
+  private topicRepository: TopicRepository
+  private commentRepository: CommentRepository
 
-  constructor(repository: TopicRepository) {
-    this.repository = repository
+  constructor(
+    topicRepository: TopicRepository,
+    commentRepository: CommentRepository
+  ) {
+    this.topicRepository = topicRepository
+    this.commentRepository = commentRepository
   }
   async getAllTopics() {
-    return this.repository.getAll()
+    return this.topicRepository.getAll()
+  }
+
+  async getTopicWithCommentsById(topicId: number) {
+    const topic = await this.topicRepository.getTopicById(topicId)
+
+    if (!topic) {
+      throw new Error('Topic not found')
+    }
+
+    const comments = await this.commentRepository.findByTopicId(topicId)
+    return {
+      ...topic.get(),
+      comments,
+    }
+  }
+
+  async createTopic(topic: TopicCreationAttributes) {
+    return this.topicRepository.create(topic)
   }
 }

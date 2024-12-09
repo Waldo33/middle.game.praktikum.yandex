@@ -1,37 +1,38 @@
 import { sequelize } from '../config/db'
 import { DataTypes, Model, Optional } from 'sequelize'
+import Topic from './topic'
 
-interface TopicAttributes {
+interface CommentAttributes {
   id: number
-  title: string
-  content: string
   author: string
+  content: string
+  topicId: number
 }
 
-export interface TopicCreationAttributes
-  extends Optional<TopicAttributes, 'id'> {}
+export interface CommentCreationAttributes
+  extends Optional<CommentAttributes, 'id'> {}
 
-class Topic
-  extends Model<TopicAttributes, TopicCreationAttributes>
-  implements TopicAttributes
+class Comment
+  extends Model<CommentAttributes, CommentCreationAttributes>
+  implements CommentAttributes
 {
   public id!: number
-  public title!: string
-  public content!: string
   public author!: string
+  public content!: string
+  public topicId!: number
 
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
 
-Topic.init(
+Comment.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    title: {
+    author: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -39,16 +40,20 @@ Topic.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING,
+    topicId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Topic,
+        key: 'id',
+      },
     },
   },
   {
     sequelize,
-    tableName: 'topics',
+    tableName: 'comments',
     timestamps: true,
   }
 )
 
-export default Topic
+export default Comment
