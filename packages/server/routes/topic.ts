@@ -13,6 +13,10 @@ const topicRepository = new SequelizeTopicRepository()
 const topicService = new TopicService(topicRepository)
 const topicController = new TopicController(topicService)
 
+const commentRepository = new SequelizeCommentRepository()
+const commentService = new CommentService(commentRepository)
+const commentController = new CommentController(commentService)
+
 router.get(
   '/',
   isAuthenticated,
@@ -28,10 +32,6 @@ router.post(
   isAuthenticated,
   topicController.createTopic.bind(topicController)
 )
-
-const commentRepository = new SequelizeCommentRepository()
-const commentService = new CommentService(commentRepository)
-const commentController = new CommentController(commentService)
 
 router.post(
   '/:topicId/comments',
