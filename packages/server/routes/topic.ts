@@ -1,5 +1,4 @@
 import { TopicController } from '../controllers/topic'
-import { isAuthenticated } from '../middleware/auth'
 import { SequelizeCommentRepository } from '../repositories/comment'
 import { SequelizeTopicRepository } from '../repositories/topic'
 import { TopicService } from '../services/topic'
@@ -17,21 +16,9 @@ const commentRepository = new SequelizeCommentRepository()
 const commentService = new CommentService(commentRepository)
 const commentController = new CommentController(commentService)
 
-router.get(
-  '/',
-  isAuthenticated,
-  topicController.getAllTopics.bind(topicController)
-)
-router.get(
-  '/:id',
-  isAuthenticated,
-  topicController.getTopicById.bind(topicController)
-)
-router.post(
-  '/',
-  isAuthenticated,
-  topicController.createTopic.bind(topicController)
-)
+router.get('/', topicController.getAllTopics.bind(topicController))
+router.get('/:id', topicController.getTopicById.bind(topicController))
+router.post('/', topicController.createTopic.bind(topicController))
 
 router.post(
   '/:topicId/comments',
