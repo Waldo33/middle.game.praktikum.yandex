@@ -22,14 +22,7 @@ export class SequelizeTopicRepository implements TopicRepository {
         {
           model: Comment,
           as: 'comments',
-          where: { parentId: null },
           required: false,
-          include: [
-            {
-              model: Comment,
-              as: 'comments',
-            },
-          ],
         },
       ],
     })
