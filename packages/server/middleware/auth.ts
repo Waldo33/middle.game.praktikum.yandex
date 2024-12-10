@@ -16,6 +16,7 @@ export const isAuthenticated = async (
     const data = await getYandexUser(uuid, authcookie)
 
     req.params.yandex_login = data.login
+    req.params.yandex_userId = String(data.id)
     return next()
   } catch (error) {
     return res.status(401).json({ error: 'Unauthorized' })
