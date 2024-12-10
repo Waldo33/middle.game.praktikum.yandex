@@ -32,12 +32,10 @@ export class CommentController {
         return res.status(400).json({ error: 'Missing required fields' })
       }
 
-      const parentId = Number(req.params.parentId) || null
+      const parentId = Number(req.params.parentId)
+      const isParentExists = this.commentService.checkExists(parentId)
 
-      // QUESTION: Возможно это уже бизнес-логика и нужно перенести в сервис?
-      const parentComment = await this.commentService.get(Number(parentId))
-
-      if (parentId && !parentComment) {
+      if (parentId && !isParentExists) {
         return res.status(400).json({ error: 'Parent comment not found' })
       }
 
