@@ -8,7 +8,7 @@ export class CommentService {
     this.commentRepository = commentRepository
   }
 
-  async checkExists(id: number) {
+  async isExists(id: number) {
     const comment = await this.commentRepository.get(id)
     return !!comment
   }

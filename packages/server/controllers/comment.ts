@@ -33,7 +33,7 @@ export class CommentController {
       }
 
       const parentId = Number(req.params.parentId)
-      const isParentExists = this.commentService.checkExists(parentId)
+      const isParentExists = this.commentService.isExists(parentId)
 
       if (parentId && !isParentExists) {
         return res.status(400).json({ error: 'Parent comment not found' })
