@@ -39,7 +39,7 @@ router.post(
 )
 
 router.post(
-  '/:topicId/comments/:parentId/comments',
+  '/:topicId/comments/:parentId/replies',
   commentController.create.bind(commentController)
 )
 
