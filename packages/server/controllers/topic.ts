@@ -36,7 +36,8 @@ export class TopicController {
 
   async createTopic(req: Request, res: Response) {
     try {
-      const { title, content, author } = req.body
+      const { title, content } = req.body
+      const author = req.params.yandex_login || req.body.author
 
       if (!title || !content || !author) {
         return res.status(400).json({ error: 'Missing required fields' })

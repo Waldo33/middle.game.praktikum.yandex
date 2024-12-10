@@ -1,11 +1,23 @@
 import { Request, Response, NextFunction } from 'express'
+import { getYandexUser } from '../api/yandexPraktikum'
 
-export const isAuthenticated = (
-  _req: Request,
-  _res: Response,
+export const isAuthenticated = async (
+  req: Request,
+  res: Response,
   next: NextFunction
 ) => {
-  // TODO: Продумать логику авторизации
-  // console.log('middleware isAuthenticated', req, res)
-  next()
+  try {
+    const { uuid, authcookie } = req.headers
+
+    if (!uuid || !authcookie) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
+
+    const data = await getYandexUser(uuid, authcookie)
+
+    req.params.yandex_login = data.login
+    return next()
+  } catch (error) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
 }

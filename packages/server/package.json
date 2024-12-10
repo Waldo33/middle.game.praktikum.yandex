@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/sequelize": "^4.28.20",
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.2",
