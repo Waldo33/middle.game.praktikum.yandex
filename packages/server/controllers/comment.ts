@@ -25,7 +25,8 @@ export class CommentController {
 
   async create(req: Request, res: Response) {
     try {
-      const { content, author } = req.body
+      const { content } = req.body
+      const author = req.params.yandex_login || req.body.author
       const topicId = req.params.topicId
 
       if (!topicId || !content || !author) {
