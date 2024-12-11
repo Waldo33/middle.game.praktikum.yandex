@@ -1,13 +1,19 @@
 import { sequelize } from '../config/db'
 import { DataTypes, Model, Optional } from 'sequelize'
 
+export const TOPIC_ERRORS = {
+  NOT_FOUND: 'Topic not found',
+}
+
 interface TopicAttributes {
   id: number
   title: string
   content: string
+  author: string
 }
 
-interface TopicCreationAttributes extends Optional<TopicAttributes, 'id'> {}
+export interface TopicCreationAttributes
+  extends Optional<TopicAttributes, 'id'> {}
 
 class Topic
   extends Model<TopicAttributes, TopicCreationAttributes>
@@ -16,6 +22,7 @@ class Topic
   public id!: number
   public title!: string
   public content!: string
+  public author!: string
 
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
@@ -34,6 +41,10 @@ Topic.init(
     },
     content: {
       type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    author: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
