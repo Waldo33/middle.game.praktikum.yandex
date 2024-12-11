@@ -1,5 +1,5 @@
 import axios from 'axios'
-import NodeCache from 'node-cache'
+import { redisClient } from '../config/redis'
 
 type CookieValue = string | string[] | undefined
 
@@ -14,17 +14,20 @@ interface User {
   phone: string
 }
 
-const cache = new NodeCache({ stdTTL: 60 * 5 })
-
 export const getYandexUser = async (
   uuid?: CookieValue,
   authcookie?: CookieValue
 ): Promise<User> => {
-  const cacheKey = `yandexUser_${uuid}`
-  const cachedData = cache.get<User>(cacheKey)
+  if (!uuid || !authcookie) {
+    throw new Error('Unauthorized')
+  }
 
-  if (cachedData) {
-    return cachedData
+  const cacheKey = `yandexUser_${uuid}`
+  const cachedData = await redisClient.get(cacheKey)
+  const parsedCachedData = cachedData ? JSON.parse(cachedData) : null
+
+  if (parsedCachedData) {
+    return parsedCachedData as User
   }
 
   const { data } = await axios.get<User>(
@@ -36,7 +39,7 @@ export const getYandexUser = async (
     }
   )
 
-  cache.set(cacheKey, data)
+  await redisClient.set(cacheKey, JSON.stringify(data), { EX: 60 * 5 })
 
   return data
 }
