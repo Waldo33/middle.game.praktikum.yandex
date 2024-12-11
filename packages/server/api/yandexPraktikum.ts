@@ -18,15 +18,16 @@ export const getYandexUser = async (
   uuid?: CookieValue,
   authcookie?: CookieValue
 ): Promise<User> => {
-  if (!uuid || !authcookie) {
-    throw new Error('Unauthorized')
-  }
-
   const cacheKey = `yandexUser_${uuid}`
   const cachedData = await redisClient.get(cacheKey)
-  const parsedCachedData = cachedData ? JSON.parse(cachedData) : null
 
-  if (parsedCachedData) {
+  const parsedCachedData = JSON.parse(cachedData || '')
+
+  if (
+    parsedCachedData &&
+    typeof parsedCachedData === 'object' &&
+    'id' in parsedCachedData
+  ) {
     return parsedCachedData as User
   }
 
