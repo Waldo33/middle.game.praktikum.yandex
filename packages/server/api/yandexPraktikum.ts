@@ -14,6 +14,8 @@ interface User {
   phone: string
 }
 
+export const YANDEX_USER_DATA_CACHE_TTL_SECONDS = 60 * 5
+
 export const getYandexUser = async (
   uuid: CookieValue,
   authcookie: CookieValue
@@ -40,7 +42,9 @@ export const getYandexUser = async (
     }
   )
 
-  await redisClient.set(cacheKey, JSON.stringify(data), { EX: 60 * 5 })
+  await redisClient.set(cacheKey, JSON.stringify(data), {
+    EX: YANDEX_USER_DATA_CACHE_TTL_SECONDS,
+  })
 
   return data
 }
