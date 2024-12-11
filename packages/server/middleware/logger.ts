@@ -19,6 +19,10 @@ const logger = createLogger({
   ],
 })
 
+const errorLoggerMiddleware = expressWinston.errorLogger({
+  winstonInstance: logger,
+})
+
 const loggerMiddleware = expressWinston.logger({
   winstonInstance: logger,
   meta: true,
@@ -28,4 +32,4 @@ const loggerMiddleware = expressWinston.logger({
   ignoreRoute: () => false,
 })
 
-export { loggerMiddleware }
+export { loggerMiddleware, errorLoggerMiddleware }
