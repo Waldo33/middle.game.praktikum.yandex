@@ -4,6 +4,8 @@ import { isAuthenticated } from '../middleware/auth'
 
 const router = express.Router()
 
-router.use('/topics', isAuthenticated, topicRoutes)
+router.use(isAuthenticated)
+
+router.use('/topics', topicRoutes)
 
 export default router

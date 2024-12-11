@@ -9,7 +9,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(sanitizeMiddleware)
+app.use(loggerMiddleware)
 
-app.use('/api', loggerMiddleware, apiRoutes)
+app.use('/api', apiRoutes)
 
 export default app
