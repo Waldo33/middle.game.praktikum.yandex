@@ -15,8 +15,8 @@ interface User {
 }
 
 export const getYandexUser = async (
-  uuid?: CookieValue,
-  authcookie?: CookieValue
+  uuid: CookieValue,
+  authcookie: CookieValue
 ): Promise<User> => {
   const cacheKey = `yandexUser_${uuid}`
   const cachedData = await redisClient.get(cacheKey)
