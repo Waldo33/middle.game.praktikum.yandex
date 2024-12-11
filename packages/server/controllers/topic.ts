@@ -63,7 +63,6 @@ export class TopicController {
       })
       return res.status(200).json(topic)
     } catch (error) {
-      console.log(error)
       return res
         .status(500)
         .json({ error: RESPONSE_ERRORS.INTERNAL_SERVER_ERROR })

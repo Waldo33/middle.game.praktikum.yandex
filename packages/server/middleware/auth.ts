@@ -20,7 +20,6 @@ export const isAuthenticated = async (
     req.params.yandex_userId = String(data.id)
     return next()
   } catch (error) {
-    console.log(error)
     return res.status(403).json({ error: 'Unauthorized' })
   }
 }
