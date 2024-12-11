@@ -16,6 +16,7 @@ interface User {
 
 export const YANDEX_USER_DATA_CACHE_TTL_SECONDS = 60 * 5
 
+// TODO: В перспективе всю эту логику получения пользователя можно вынести в отдельный YandexUserService, продолжая классовый подход
 export const getYandexUser = async (
   uuid: CookieValue,
   authcookie: CookieValue
