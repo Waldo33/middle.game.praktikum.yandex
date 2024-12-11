@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
 import { TopicService } from '../services/topic'
+import { RESPONSE_ERRORS } from '../constants'
+import { TOPIC_ERRORS } from '../models/topic'
 
 export class TopicController {
   private topicService: TopicService
@@ -13,7 +15,7 @@ export class TopicController {
       const topics = await this.topicService.getAllTopics()
       res.status(200).json(topics)
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' })
+      res.status(500).json({ error: RESPONSE_ERRORS.INTERNAL_SERVER_ERROR })
     }
   }
 
@@ -22,15 +24,24 @@ export class TopicController {
       const topicId = Number(req.params.id)
 
       if (!topicId) {
-        return res.status(400).json({ error: 'Missing required fields' })
+        return res
+          .status(400)
+          .json({ error: RESPONSE_ERRORS.MISSING_REQUIRED_FIELDS })
       }
 
       const topic = await this.topicService.getTopicWithComments(
         Number(topicId)
       )
+
       return res.status(200).json(topic)
-    } catch (error) {
-      return res.status(500).json({ error: 'Internal server error' })
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === TOPIC_ERRORS.NOT_FOUND) {
+        return res.status(404).json({ error: TOPIC_ERRORS.NOT_FOUND })
+      }
+
+      return res
+        .status(500)
+        .json({ error: RESPONSE_ERRORS.INTERNAL_SERVER_ERROR })
     }
   }
 
@@ -40,7 +51,9 @@ export class TopicController {
       const author = req.params.yandex_login || req.body.author
 
       if (!title || !content || !author) {
-        return res.status(400).json({ error: 'Missing required fields' })
+        return res
+          .status(400)
+          .json({ error: RESPONSE_ERRORS.MISSING_REQUIRED_FIELDS })
       }
 
       const topic = await this.topicService.createTopic({
@@ -51,7 +64,9 @@ export class TopicController {
       return res.status(200).json(topic)
     } catch (error) {
       console.log(error)
-      return res.status(500).json({ error: 'Internal server error' })
+      return res
+        .status(500)
+        .json({ error: RESPONSE_ERRORS.INTERNAL_SERVER_ERROR })
     }
   }
 }

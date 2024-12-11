@@ -2,6 +2,10 @@ import { sequelize } from '../config/db'
 import { DataTypes, Model, Optional } from 'sequelize'
 import Topic from './topic'
 
+export const COMMENT_ERRORS = {
+  NOT_FOUND: 'Comment not found',
+}
+
 interface CommentAttributes {
   id: number
   author: string

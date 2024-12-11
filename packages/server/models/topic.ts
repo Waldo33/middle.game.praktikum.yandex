@@ -1,6 +1,10 @@
 import { sequelize } from '../config/db'
 import { DataTypes, Model, Optional } from 'sequelize'
 
+export const TOPIC_ERRORS = {
+  NOT_FOUND: 'Topic not found',
+}
+
 interface TopicAttributes {
   id: number
   title: string

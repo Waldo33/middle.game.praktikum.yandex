@@ -1,4 +1,4 @@
-import { TopicCreationAttributes } from '../models/topic'
+import { TOPIC_ERRORS, TopicCreationAttributes } from '../models/topic'
 import { TopicRepository } from '../repositories/topic'
 
 export class TopicService {
@@ -16,7 +16,7 @@ export class TopicService {
     const topic = await this.topicRepository.getTopicWithComments(topicId)
 
     if (!topic) {
-      throw new Error('Topic not found')
+      throw new Error(TOPIC_ERRORS.NOT_FOUND)
     }
 
     return topic
