@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { getYandexUser } from '../api/yandexPraktikum'
+import { getCookies } from '../utils/cookies'
 
 export const isAuthenticated = async (
   req: Request,
@@ -7,18 +8,19 @@ export const isAuthenticated = async (
   next: NextFunction
 ) => {
   try {
-    const { uuid, authcookie } = req.headers
+    const { uuid, authCookie } = getCookies(req.headers.cookie || '')
 
-    if (!uuid || !authcookie) {
+    if (!uuid || !authCookie) {
       return res.status(403).json({ error: 'Unauthorized' })
     }
 
-    const data = await getYandexUser(uuid, authcookie)
+    const data = await getYandexUser(uuid, authCookie)
 
     req.params.yandex_login = data.login
     req.params.yandex_userId = String(data.id)
     return next()
   } catch (error) {
+    console.log(error)
     return res.status(403).json({ error: 'Unauthorized' })
   }
 }
