@@ -23,7 +23,7 @@ export const getYandexUser = async (
   const cacheKey = `yandexUser_${uuid}`
   const cachedData = await redisClient.get(cacheKey)
 
-  const parsedCachedData = JSON.parse(cachedData || '')
+  const parsedCachedData = cachedData ? JSON.parse(cachedData) : null
 
   if (
     parsedCachedData &&
