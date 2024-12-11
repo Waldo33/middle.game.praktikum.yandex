@@ -1,5 +1,5 @@
 import axios from 'axios'
-import NodeCache from 'node-cache'
+import { redisClient } from '../config/redis'
 
 type CookieValue = string | string[] | undefined
 
@@ -14,17 +14,24 @@ interface User {
   phone: string
 }
 
-const cache = new NodeCache({ stdTTL: 60 * 5 })
+export const YANDEX_USER_DATA_CACHE_TTL_SECONDS = 60 * 5
 
+// TODO: В перспективе всю эту логику получения пользователя можно вынести в отдельный YandexUserService, продолжая классовый подход
 export const getYandexUser = async (
-  uuid?: CookieValue,
-  authcookie?: CookieValue
+  uuid: CookieValue,
+  authcookie: CookieValue
 ): Promise<User> => {
   const cacheKey = `yandexUser_${uuid}`
-  const cachedData = cache.get<User>(cacheKey)
+  const cachedData = await redisClient.get(cacheKey)
 
-  if (cachedData) {
-    return cachedData
+  const parsedCachedData = cachedData ? JSON.parse(cachedData) : null
+
+  if (
+    parsedCachedData &&
+    typeof parsedCachedData === 'object' &&
+    'id' in parsedCachedData
+  ) {
+    return parsedCachedData as User
   }
 
   const { data } = await axios.get<User>(
@@ -36,7 +43,9 @@ export const getYandexUser = async (
     }
   )
 
-  cache.set(cacheKey, data)
+  await redisClient.set(cacheKey, JSON.stringify(data), {
+    EX: YANDEX_USER_DATA_CACHE_TTL_SECONDS,
+  })
 
   return data
 }

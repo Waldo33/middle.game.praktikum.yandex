@@ -8,6 +8,7 @@ export const isAuthenticated = async (
   next: NextFunction
 ) => {
   try {
+    // TODO: Вынести в отдельный сервис все что связано с Yandex User
     const { uuid, authCookie } = getCookies(req.headers.cookie || '')
 
     if (!uuid || !authCookie) {

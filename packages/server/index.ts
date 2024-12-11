@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import { sequelize } from './config/db'
 import app from './app'
+import { connectRedis } from './config/redis'
 
 ;(async () => {
   try {
@@ -10,6 +11,8 @@ import app from './app'
 
     await sequelize.sync({ force: true })
     console.log('✅ Database synchronized')
+
+    await connectRedis()
 
     const port = Number(process.env.SERVER_PORT)
 
