@@ -2,6 +2,11 @@ import { sequelize } from '../config/db'
 import { DataTypes, Model, Optional } from 'sequelize'
 import Theme from './theme'
 
+export const USER_ERRORS = {
+  NOT_FOUND: 'User not found',
+  THEME_NOT_FOUND: 'Theme not found',
+}
+
 interface UserAttributes {
   id: number
   externalId: string
@@ -33,7 +38,6 @@ User.init(
     },
     themeId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
       defaultValue: 1,
       references: {
         model: Theme,

@@ -1,45 +1,40 @@
 import { Request, Response } from 'express'
-import User from '../models/user'
-import { RESPONSE_ERRORS } from '../constants'
+import { UserService } from '../services/user'
+import { USER_ERRORS } from '../models/user'
 
-export const getUser = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { user_id } = req.params
+export class UserController {
+  private userService: UserService
 
-  try {
-    const user = await User.findByPk(user_id)
-
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: RESPONSE_ERRORS.USER_NOT_FOUND })
-    }
-
-    return res.status(200).json({ success: true, user })
-  } catch (error) {
-    return res.status(404).json({ error })
+  constructor(userService: UserService) {
+    this.userService = userService
   }
-}
 
-export const changeUser = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { user_id, theme_id } = req.params
+  async getUserTheme(req: Request, res: Response) {
+    const { user_id } = req.params
 
-  try {
-    const user = await User.findByPk(user_id)
-    if (user) {
-      user.themeId = Number(theme_id)
-      await user.save()
-    } else {
-      throw new Error(RESPONSE_ERRORS.USER_NOT_FOUND)
+    try {
+      const themeId = await this.userService.getUserTheme(Number(user_id))
+      return res.status(200).json({ success: true, theme_id: themeId })
+    } catch (error) {
+      return res.status(404).json({ error: error || USER_ERRORS.NOT_FOUND })
+    }
+  }
+
+  async changeUserTheme(req: Request, res: Response) {
+    const { user_id, theme_id } = req.params
+
+    if (isNaN(Number(user_id)) || isNaN(Number(theme_id))) {
+      return res.status(400).json({ error: 'Invalid parameters' })
     }
 
-    return res.status(200).json({ success: true, user })
-  } catch (error) {
-    return res.status(404).json({ error })
+    try {
+      const user = await this.userService.changeUserTheme(
+        Number(user_id),
+        Number(theme_id)
+      )
+      return res.status(200).json({ success: true, user })
+    } catch (error) {
+      return res.status(404).json({ error: error || USER_ERRORS.NOT_FOUND })
+    }
   }
 }
