@@ -1,9 +1,9 @@
 import axios from 'axios'
 import NodeCache from 'node-cache'
 
-type CookieValue = string | string[] | undefined
+export type CookieValue = string | string[] | undefined
 
-interface User {
+export interface User {
   id: number
   first_name: string
   second_name: string

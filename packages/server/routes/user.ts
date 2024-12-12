@@ -7,9 +7,9 @@ const router = Router()
 const userService = new UserService(new SequelizeUserRepository())
 const userController = new UserController(userService)
 
-router.get('/theme/:user_id', userController.getUserTheme.bind(userController))
+router.get('/theme', userController.getUserTheme.bind(userController))
 router.post(
-  '/theme/:user_id/:theme_id',
+  '/theme/:theme_id',
   userController.changeUserTheme.bind(userController)
 )
 

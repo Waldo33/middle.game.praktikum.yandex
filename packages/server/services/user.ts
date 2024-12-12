@@ -1,17 +1,21 @@
 import { USER_ERRORS } from '../models/user'
 import User from '../models/user'
+// import { User as TUser } from '../api/yandexPraktikum'
 import { UserRepository } from '../repositories/user'
-
-interface LocalUser {
-  id: string | number
-  externalId?: string
-}
+import { getYandexUser } from '../api/yandexPraktikum'
 
 export class UserService {
   private userRepository: UserRepository
+  // private getYandexUser: (uuid?: CookieValue, authcookie?: CookieValue) => Promise<TUser>
 
   constructor(userRepository: UserRepository) {
     this.userRepository = userRepository
+    // this.getYandexUser = getYandexUser
+  }
+
+  async getUserFromCache(uuid: string, authCookie: string) {
+    const yandex_user = await getYandexUser(uuid, authCookie)
+    return yandex_user || null
   }
 
   async getUserTheme(userId: number) {
@@ -19,21 +23,15 @@ export class UserService {
     if (themeId === null) {
       throw new Error(USER_ERRORS.THEME_NOT_FOUND)
     }
+
     return themeId
   }
 
   async changeUserTheme(userId: number, themeId: number) {
     return this.userRepository.changeUserTheme(userId, themeId)
   }
-}
 
-export const checkUser = async (yandexUser: LocalUser) => {
-  let res = await User.findOne({ where: { externalId: yandexUser.id } })
-  if (!res) {
-    res = await User.create({
-      externalId: String(yandexUser.id),
-      themeId: 1,
-    })
+  async checkUser(yandexUser: User) {
+    return this.userRepository.getOrCreate(yandexUser.id)
   }
-  return res.id
 }
