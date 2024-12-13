@@ -27,7 +27,6 @@ export class UserController {
       const themeId = await this.userService.getUserTheme(yandexUser.id)
       return res.status(200).json({ theme_id: themeId })
     } catch (error) {
-      console.log(error)
       return res.status(500).json({ error: error || USER_ERRORS.NOT_FOUND })
     }
   }
