@@ -2,13 +2,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 import { sequelize } from './config/db'
 import app from './app'
-
 ;(async () => {
   try {
     await sequelize.authenticate()
     console.log('✅ Database connected successfully')
 
-    await sequelize.sync({ force: true })
+    await sequelize.sync({ force: false })
     console.log('✅ Database synchronized')
 
     const port = Number(process.env.SERVER_PORT)

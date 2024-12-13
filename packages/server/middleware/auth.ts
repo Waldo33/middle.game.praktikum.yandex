@@ -18,6 +18,17 @@ export const isAuthenticated = async (
 
     req.params.yandex_login = data.login
     req.params.yandex_userId = String(data.id)
+    req.params.yandex_uuid = uuid
+    req.params.yandex_auth_cookie = authCookie
+
+    // @ts-expect-error
+    req.customParams = {
+      yandex_login: data.login,
+      yandex_userId: String(data.id),
+      yandex_uuid: uuid,
+      yandex_auth_cookie: authCookie,
+    }
+
     return next()
   } catch (error) {
     return res.status(403).json({ error: 'Unauthorized' })
