@@ -32,7 +32,14 @@ router.post(
   commentController.create.bind(commentController)
 )
 
-router.post('/:topicId/reactions', reactionController.addReaction)
-router.get('/:topicId/reactions', reactionController.getReactions)
+router.post(
+  '/:topicId/reactions',
+  reactionController.addReaction.bind(reactionController)
+)
+
+router.get(
+  '/:topicId/reactions',
+  reactionController.getReactions.bind(reactionController)
+)
 
 export default router
