@@ -5,7 +5,9 @@ import { Message } from './Message'
 import { CommentForm } from './CommentForm'
 import { ROUTES } from '@shared/config/routes'
 import { Menu } from '@widgets/menu/Menu'
+import { getTopicById } from '@processes/forum/api/forumApi'
 
+const topicByIdData = await getTopicById(1)
 const message: Topic = {
   title: 'название топика',
   date: 1729531467,

@@ -4,7 +4,10 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '@shared/config/routes'
 import { z } from 'zod'
-
+import { useToast } from '@shared/hooks/use-toast'
+import { createTopic } from '@processes/forum/api/forumApi'
+import { selectUser } from '@shared/model/selectors'
+import { useSelector } from 'react-redux'
 import {
   FormControl,
   FormField,
@@ -19,24 +22,36 @@ import { validationRules } from '@shared/config/validationRules'
 
 const formSchema = z.object({
   title: validationRules.forum_topic_title,
-  message: validationRules.forum_message,
-  file: validationRules.forum_file,
+  content: validationRules.forum_message,
+  author: validationRules.login,
+  //file: validationRules.forum_file,
 })
 
 export const ForumForm: FC = () => {
+  const { toast } = useToast()
+  const user = useSelector(selectUser)
+  const login = user?.login
   const formMethods = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      message: '',
+      content: '',
+      author: login,
     },
   })
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
-    console.log({ ...values, file })
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const resultAction = await createTopic(values)
+    if (resultAction) {
+      console.log(values)
+      toast({
+        description: 'Успешно',
+      })
+    }
+    /*const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
+    console.log({ ...values, file })*/
   }
 
   useEffect(() => {
@@ -65,7 +80,7 @@ export const ForumForm: FC = () => {
         />
         <FormField
           control={formMethods.control}
-          name="message"
+          name="content"
           render={({ field }) => (
             <FormItem>
               <FormLabel>сообщение</FormLabel>
@@ -76,13 +91,13 @@ export const ForumForm: FC = () => {
             </FormItem>
           )}
         />
-        <FormItem>
+        {/*<FormItem>
           <FormLabel>можно прикрепить файл</FormLabel>
           <FormControl>
             <Input id="file" type="file" ref={fileInputRef} />
           </FormControl>
           <FormMessage />
-        </FormItem>
+        </FormItem>*/}
         <div className="flex flex-row gap-4">
           <Button asChild variant="outline">
             <Link to={ROUTES.FORUM}>← назад к форуму</Link>

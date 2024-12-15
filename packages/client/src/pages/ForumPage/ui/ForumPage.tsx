@@ -8,7 +8,9 @@ import { ForumListItem } from '../model/types'
 import { ForumTable } from './ForumTable'
 import { ForumPagination } from './ForumPagination'
 import { Menu } from '@widgets/menu/Menu'
+import { getAllTopics } from '@processes/forum/api/forumApi'
 
+const allTopicsData = await getAllTopics()
 const mockForumData: ForumListItem[] = [
   {
     id: 1,
