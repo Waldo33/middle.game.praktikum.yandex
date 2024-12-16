@@ -6,6 +6,8 @@ import express from 'express'
 import { CommentService } from '../services/comment'
 import { CommentController } from '../controllers/comment'
 import { ReactionController } from '../controllers/reaction'
+import { ReactionService } from '../services/reaction'
+import { SequelizeReactionRepository } from '../repositories/reaction'
 
 const router = express.Router()
 
@@ -16,7 +18,10 @@ const topicController = new TopicController(topicService)
 const commentRepository = new SequelizeCommentRepository()
 const commentService = new CommentService(commentRepository)
 const commentController = new CommentController(commentService)
-const reactionController = new ReactionController()
+
+const reactionRepository = new SequelizeReactionRepository()
+const reactionService = new ReactionService(reactionRepository)
+const reactionController = new ReactionController(reactionService)
 
 router.get('/', topicController.getAllTopics.bind(topicController))
 router.get('/:id', topicController.getTopicById.bind(topicController))

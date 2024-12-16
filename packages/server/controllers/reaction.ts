@@ -1,24 +1,23 @@
-import sequelize from 'sequelize'
-import Reaction from '../models/reaction'
+import { REACTION_ERRORS } from '../models/reaction'
 import { RESPONSE_ERRORS } from '../constants'
+import { ReactionService } from '../services/reaction'
 
 export class ReactionController {
+  private reactionService: ReactionService
+
+  constructor(reactionService: ReactionService) {
+    this.reactionService = reactionService
+  }
+
   async getReactions(req, res) {
     try {
       const { topicId } = req.params
 
       if (!topicId) {
-        return res.status(400).json({ error: 'Missing topic ID' })
+        return res.status(400).json({ error: REACTION_ERRORS.MISSINT_TOPIC })
       }
 
-      const reactions = await Reaction.findAll({
-        where: { topicId },
-        attributes: [
-          'emoji',
-          [sequelize.fn('COUNT', sequelize.col('emoji')), 'count'],
-        ],
-        group: ['emoji'],
-      })
+      const reactions = await this.reactionService.getAll(topicId)
 
       return res.status(200).json(reactions)
     } catch (error) {
@@ -41,18 +40,20 @@ export class ReactionController {
           .json({ error: RESPONSE_ERRORS.MISSING_REQUIRED_FIELDS })
       }
 
-      const existingReaction = await Reaction.findOne({
-        where: { topicId, userId, emoji },
+      const existingReaction = await this.reactionService.isReactionExists({
+        topicId,
+        userId,
+        emoji,
       })
 
       if (existingReaction) {
-        return res.status(400).json({ error: 'Reaction already exists' })
+        return res.status(400).json({ error: REACTION_ERRORS.ALREADY_EXISTS })
       }
 
-      const reaction = await Reaction.create({
+      const reaction = await this.reactionService.createReaction({
         topicId,
-        emoji,
         userId,
+        emoji,
       })
 
       return res.status(201).json(reaction)

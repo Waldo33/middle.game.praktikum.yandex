@@ -1,5 +1,11 @@
 import { sequelize } from '../config/db'
 import { DataTypes, Model, Optional } from 'sequelize'
+import Topic from './topic'
+
+export const REACTION_ERRORS = {
+  MISSINT_TOPIC: 'Missing topic ID',
+  ALREADY_EXISTS: 'Reaction already exists',
+}
 
 interface ReactionAttributes {
   id: number
@@ -8,7 +14,7 @@ interface ReactionAttributes {
   userId: string
 }
 
-interface ReactionCreationAttributes
+export interface ReactionCreationAttributes
   extends Optional<ReactionAttributes, 'id'> {}
 
 class Reaction
@@ -31,6 +37,10 @@ Reaction.init(
     topicId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Topic,
+        key: 'id',
+      },
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -47,5 +57,7 @@ Reaction.init(
     timestamps: false,
   }
 )
+
+Reaction.belongsTo(Topic, { foreignKey: 'topicId', as: 'topic' })
 
 export default Reaction
