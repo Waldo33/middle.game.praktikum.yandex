@@ -24,9 +24,11 @@ export type CommentsList = {
 }
 
 export type Topic = {
+  id: number
   title: string
-  date: number | string
-  author: string
   content: string
+  author: string
+  createdAt: string
+  updatedAt: string
   comments: Comment[]
 }

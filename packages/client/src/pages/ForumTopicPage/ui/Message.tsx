@@ -13,7 +13,7 @@ export const Message: FC<MessageProps> = ({ topic }) => {
     <>
       <div className="my-12">
         <h1 className="mb-4">{topic.title}</h1>
-        <MessageDetails date={topic.date} author={topic.author} />
+        <MessageDetails date={topic.createdAt} author={topic.author} />
       </div>
       <div className="grid gap-6">
         <div dangerouslySetInnerHTML={{ __html: topic.content }} />

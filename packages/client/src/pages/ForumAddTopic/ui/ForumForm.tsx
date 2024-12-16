@@ -30,8 +30,8 @@ const formSchema = z.object({
 export const ForumForm: FC = () => {
   const { toast } = useToast()
   const navigate = useNavigate()
-  const user = useSelector(selectUser)
-  const login = user?.login
+  const user = useSelector(selectUser),
+    login = user?.login
   const formMethods = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

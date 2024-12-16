@@ -79,28 +79,3 @@ export const commentTopic = async (
 
   return true
 }
-
-export const replyToComment = async (
-  credentials: credentialsCommentProps,
-  topicId: number,
-  commentId: number
-) => {
-  try {
-    const response = await fetch(
-      `${BASE_FORUM_API}/${topicId}/comments/${commentId}/replies`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-        credentials: 'include',
-      }
-    )
-    if (!response.ok) {
-      await response.json()
-    }
-  } catch (err) {
-    console.log(err)
-  }
-
-  return true
-}

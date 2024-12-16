@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react'
+import { useParams } from 'react-router'
 import { z } from 'zod'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   FormControl,
@@ -26,8 +27,11 @@ const formSchema = z.object({
 
 export const CommentForm: FC = () => {
   const { toast } = useToast()
-  const user = useSelector(selectUser)
-  const login = user?.login
+  const routeParams = useParams(),
+    currentRouteParam = routeParams.id
+  console.log(currentRouteParam)
+  const user = useSelector(selectUser),
+    login = user?.login
   const formMethods = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,10 +40,10 @@ export const CommentForm: FC = () => {
     },
   })
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
+  //const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const resultAction = await commentTopic(values, 1)
+    const resultAction = await commentTopic(values, Number(currentRouteParam))
     if (resultAction) {
       console.log(values)
       toast({
@@ -50,11 +54,11 @@ export const CommentForm: FC = () => {
     console.log({ ...values, file })*/
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     return () => {
       fileInputRef.current = null
     }
-  }, [])
+  }, [])*/
 
   return (
     <FormProvider {...formMethods}>
