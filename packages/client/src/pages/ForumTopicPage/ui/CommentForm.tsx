@@ -13,26 +13,41 @@ import { Input } from '@shared/components/ui/input'
 import { Textarea } from '@shared/components/ui/textarea'
 import { Button } from '@shared/components/ui/button'
 import { validationRules } from '@shared/config/validationRules'
-import { commentTopic, replyToComment } from '@processes/forum/api/forumApi'
+import { commentTopic } from '@processes/forum/api/forumApi'
+import { useToast } from '@shared/hooks/use-toast'
+import { useSelector } from 'react-redux'
+import { selectUser } from '@shared/model/selectors'
 
 const formSchema = z.object({
-  message: validationRules.forum_message,
-  file: validationRules.forum_file,
+  content: validationRules.forum_message,
+  author: validationRules.login,
+  //file: validationRules.forum_file,
 })
 
 export const CommentForm: FC = () => {
+  const { toast } = useToast()
+  const user = useSelector(selectUser)
+  const login = user?.login
   const formMethods = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      message: '',
+      content: '',
+      author: login,
     },
   })
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
-    console.log({ ...values, file })
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const resultAction = await commentTopic(values, 1)
+    if (resultAction) {
+      console.log(values)
+      toast({
+        description: 'Успешно',
+      })
+    }
+    /*const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
+    console.log({ ...values, file })*/
   }
 
   useEffect(() => {
@@ -49,7 +64,7 @@ export const CommentForm: FC = () => {
         <h5 className="italic">добавить коммент</h5>
         <FormField
           control={formMethods.control}
-          name="message"
+          name="content"
           render={({ field }) => (
             <FormItem>
               <FormLabel>сообщение</FormLabel>
@@ -60,13 +75,13 @@ export const CommentForm: FC = () => {
             </FormItem>
           )}
         />
-        <FormItem>
+        {/*<FormItem>
           <FormLabel>можно прикрепить файл</FormLabel>
           <FormControl>
             <Input id="file" type="file" ref={fileInputRef} />
           </FormControl>
           <FormMessage />
-        </FormItem>
+        </FormItem>*/}
         <div className="flex flex-row gap-4">
           <Button type="submit">отправить →</Button>
         </div>

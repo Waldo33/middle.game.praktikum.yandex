@@ -1,4 +1,4 @@
-export const BASE_FORUM_API = 'https://localhost:3001/api/topics'
+export const BASE_FORUM_API = 'http://localhost:3001/api/topics'
 
 export interface credentialsTopicProps {
   title: string

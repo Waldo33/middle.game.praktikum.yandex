@@ -11,7 +11,7 @@ import { Menu } from '@widgets/menu/Menu'
 import { getAllTopics } from '@processes/forum/api/forumApi'
 
 const allTopicsData = await getAllTopics()
-const mockForumData: ForumListItem[] = [
+/*const mockForumData: ForumListItem[] = [
   {
     id: 1,
     author: 'арчибальд',
@@ -55,7 +55,7 @@ const mockForumData: ForumListItem[] = [
     title: 'не могу уже',
     date: 1730131467,
   },
-]
+]*/
 
 export const ForumPage: FC = () => {
   return (
@@ -78,8 +78,9 @@ export const ForumPage: FC = () => {
           </Button>
         </div>
       </div>
-      <ForumTable list={mockForumData} />
-      <ForumPagination />
+      {allTopicsData?.length ? <ForumTable list={allTopicsData} /> : ''}
+      {/*<ForumTable list={mockForumData} />
+      <ForumPagination />*/}
     </main>
   )
 }

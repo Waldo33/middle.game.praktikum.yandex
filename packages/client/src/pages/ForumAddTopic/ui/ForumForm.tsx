@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '@shared/config/routes'
 import { z } from 'zod'
 import { useToast } from '@shared/hooks/use-toast'
@@ -29,6 +29,7 @@ const formSchema = z.object({
 
 export const ForumForm: FC = () => {
   const { toast } = useToast()
+  const navigate = useNavigate()
   const user = useSelector(selectUser)
   const login = user?.login
   const formMethods = useForm<z.infer<typeof formSchema>>({
@@ -49,6 +50,7 @@ export const ForumForm: FC = () => {
       toast({
         description: 'Успешно',
       })
+      navigate(ROUTES.FORUM)
     }
     /*const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
     console.log({ ...values, file })*/

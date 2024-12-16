@@ -2,7 +2,8 @@ export interface ForumListItem {
   id: number
   author: string
   title: string
-  date: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type ForumTopicList = {

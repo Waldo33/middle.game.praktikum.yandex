@@ -11,10 +11,12 @@ export type Image = {
 
 export type Comment = {
   id: number
-  date: number | string
   author: string
-  message: string
-  image?: Image
+  content: string
+  topicId: number
+  parentId: number
+  createdAt: string
+  updatedAt: string
 }
 
 export type CommentsList = {
@@ -25,6 +27,6 @@ export type Topic = {
   title: string
   date: number | string
   author: string
-  image?: Image
   content: string
+  comments: Comment[]
 }
