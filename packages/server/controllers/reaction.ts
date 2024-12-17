@@ -1,6 +1,7 @@
 import { REACTION_ERRORS } from '../models/reaction'
 import { RESPONSE_ERRORS } from '../constants'
 import { ReactionService } from '../services/reaction'
+import { Request, Response } from 'express'
 
 export class ReactionController {
   private reactionService: ReactionService
@@ -9,7 +10,7 @@ export class ReactionController {
     this.reactionService = reactionService
   }
 
-  async getReactions(req, res) {
+  async getReactions(req: Request, res: Response) {
     try {
       const { topicId } = req.params
 
@@ -17,7 +18,7 @@ export class ReactionController {
         return res.status(400).json({ error: REACTION_ERRORS.MISSINT_TOPIC })
       }
 
-      const reactions = await this.reactionService.getAll(topicId)
+      const reactions = await this.reactionService.getAll(Number(topicId))
 
       return res.status(200).json(reactions)
     } catch (error) {
@@ -28,11 +29,12 @@ export class ReactionController {
     }
   }
 
-  async addReaction(req, res) {
+  async addReaction(req: Request, res: Response) {
     try {
       const { topicId } = req.params
       const { emoji } = req.body
-      const userId = req.user.id
+      // @ts-expect-error подумать как доработать типы
+      const userId = req.customParams.userId
 
       if (!topicId || !emoji) {
         return res
