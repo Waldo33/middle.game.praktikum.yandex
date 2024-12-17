@@ -24,7 +24,6 @@ const formSchema = z.object({
   title: validationRules.forum_topic_title,
   content: validationRules.forum_message,
   author: validationRules.login,
-  //file: validationRules.forum_file,
 })
 
 export const ForumForm: FC = () => {
@@ -46,14 +45,11 @@ export const ForumForm: FC = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const resultAction = await createTopic(values)
     if (resultAction) {
-      console.log(values)
       toast({
         description: 'Успешно',
       })
       navigate(ROUTES.FORUM)
     }
-    /*const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
-    console.log({ ...values, file })*/
   }
 
   useEffect(() => {
@@ -93,13 +89,6 @@ export const ForumForm: FC = () => {
             </FormItem>
           )}
         />
-        {/*<FormItem>
-          <FormLabel>можно прикрепить файл</FormLabel>
-          <FormControl>
-            <Input id="file" type="file" ref={fileInputRef} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>*/}
         <div className="flex flex-row gap-4">
           <Button asChild variant="outline">
             <Link to={ROUTES.FORUM}>← назад к форуму</Link>

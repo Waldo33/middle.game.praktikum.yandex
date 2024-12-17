@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC } from 'react'
 import { useParams } from 'react-router'
 import { z } from 'zod'
 import { useForm, FormProvider } from 'react-hook-form'
@@ -10,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@shared/components/ui/form'
-import { Input } from '@shared/components/ui/input'
 import { Textarea } from '@shared/components/ui/textarea'
 import { Button } from '@shared/components/ui/button'
 import { validationRules } from '@shared/config/validationRules'
@@ -22,14 +21,12 @@ import { selectUser } from '@shared/model/selectors'
 const formSchema = z.object({
   content: validationRules.forum_message,
   author: validationRules.login,
-  //file: validationRules.forum_file,
 })
 
 export const CommentForm: FC = () => {
   const { toast } = useToast()
   const routeParams = useParams(),
     currentRouteParam = routeParams.id
-  console.log(currentRouteParam)
   const user = useSelector(selectUser),
     login = user?.login
   const formMethods = useForm<z.infer<typeof formSchema>>({
@@ -40,25 +37,14 @@ export const CommentForm: FC = () => {
     },
   })
 
-  //const fileInputRef = useRef<HTMLInputElement | null>(null)
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const resultAction = await commentTopic(values, Number(currentRouteParam))
     if (resultAction) {
-      console.log(values)
       toast({
         description: 'Успешно',
       })
     }
-    /*const file = fileInputRef.current?.files?.[0] // Доступ к файлу через useRef
-    console.log({ ...values, file })*/
   }
-
-  /*useEffect(() => {
-    return () => {
-      fileInputRef.current = null
-    }
-  }, [])*/
 
   return (
     <FormProvider {...formMethods}>
@@ -79,13 +65,6 @@ export const CommentForm: FC = () => {
             </FormItem>
           )}
         />
-        {/*<FormItem>
-          <FormLabel>можно прикрепить файл</FormLabel>
-          <FormControl>
-            <Input id="file" type="file" ref={fileInputRef} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>*/}
         <div className="flex flex-row gap-4">
           <Button type="submit">отправить →</Button>
         </div>

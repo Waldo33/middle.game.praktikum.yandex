@@ -6,7 +6,6 @@ import { ROUTES } from '@shared/config/routes'
 
 import { ForumListItem } from '../model/types'
 import { ForumTable } from './ForumTable'
-import { ForumPagination } from './ForumPagination'
 import { Menu } from '@widgets/menu/Menu'
 import { getAllTopics } from '@processes/forum/api/forumApi'
 
@@ -43,7 +42,6 @@ export const ForumPage: FC = () => {
         </div>
       </div>
       {allTopicsData?.length ? <ForumTable list={allTopicsData} /> : ''}
-      {/*<ForumPagination />*/}
     </main>
   )
 }

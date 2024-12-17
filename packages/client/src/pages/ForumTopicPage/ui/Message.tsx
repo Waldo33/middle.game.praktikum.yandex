@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { MessageDetails } from './MessageDetails'
-import { Figure } from './Figure'
 import { Topic } from '../model/types'
 import { Card, CardContent, CardHeader } from '@shared/components/ui/card'
 
@@ -15,9 +14,7 @@ export const Message: FC<MessageProps> = ({ topic }) => {
         <h1 className="mb-4">{topic.title}</h1>
         <MessageDetails date={topic.createdAt} author={topic.author} />
       </div>
-      <div className="grid gap-6">
-        <div dangerouslySetInnerHTML={{ __html: topic.content }} />
-      </div>
+      <div className="grid gap-6">{topic.content}</div>
       <div className="mt-12 lg:mt-16">
         <h3 className="bg-primary rounded-lg px-4 pt-2 pb-3">
           комментарии{' '}
@@ -33,9 +30,7 @@ export const Message: FC<MessageProps> = ({ topic }) => {
                   comment
                 />
               </CardHeader>
-              <CardContent className="grid gap-4">
-                <div dangerouslySetInnerHTML={{ __html: item.content }} />
-              </CardContent>
+              <CardContent className="grid gap-4">{item.content}</CardContent>
             </Card>
           ))}
         </div>
