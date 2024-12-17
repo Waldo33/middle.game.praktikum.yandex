@@ -6,32 +6,34 @@ import { Player } from './PlayerClass'
 import { Timer } from './TimerClass'
 
 export class Round {
-  private gameBoard: GameBoard
   private currentRound: number
   private timer: Timer
   private bus: GameEventBusType
   private currentPlayer: Player | Bot
   private players: (Player | Bot)[]
-  private mode: GameModes
 
-  constructor(gameBoard: GameBoard, difficulty: Difficulty, mode: GameModes) {
+  constructor(
+    readonly gameBoard: GameBoard,
+    difficulty: Difficulty,
+    readonly mode: GameModes
+  ) {
     this.bus = GameEventBus.getInstance()
-    this.gameBoard = gameBoard
     this.currentRound = 1
-    this.mode = mode
+
     const player = new Player(1, this.gameBoard, this)
 
     if (mode === GameModes.BOT) {
       this.players = [player, new Bot(2, difficulty, this.gameBoard, this)]
-      this.timer = new Timer(15, mode, this)
+      this.timer = new Timer(15, mode)
     } else {
       this.players = [player]
-      this.timer = new Timer(180, mode, this)
+      this.timer = new Timer(180, mode)
     }
 
     this.currentPlayer = this.players[0]
 
     this.bus.emit('current-player-name', this.currentPlayer.getName())
+    this.bus.on('switch-turn', this.switchTurn)
   }
 
   public start() {
@@ -41,7 +43,7 @@ export class Round {
   }
 
   public reset() {
-    this.timer.stopTimer()
+    this.timer.stop()
     this.currentRound = 1
   }
 
@@ -58,7 +60,7 @@ export class Round {
     this.gameBoard.clean()
 
     if (this.mode === GameModes.BOT) {
-      this.resetTime()
+      this.timer.reset()
     }
 
     if (this.currentPlayer.getId() === this.players.length) {
@@ -74,17 +76,13 @@ export class Round {
     }
 
     if (this.gameBoard.checkAllCardsMatched()) {
-      this.stopRound()
+      this.stop()
     }
   }
 
-  private stopRound() {
+  private stop() {
     this.complete()
-    this.timer.stopTimer()
-  }
-
-  public resetTime() {
-    this.timer.reset()
+    this.timer.stop()
   }
 
   /**
@@ -96,7 +94,7 @@ export class Round {
       this.gameBoard.deleteSelectedCards()
 
       if (this.mode === GameModes.BOT) {
-        this.resetTime()
+        this.timer.reset()
       }
 
       if (this.currentPlayer instanceof Bot) {
@@ -114,7 +112,7 @@ export class Round {
       this.bus.emit('timer-end')
     }
     this.next()
-    this.resetTime()
+    this.timer.reset()
   }
 
   public handleInput = (event: MouseEvent | TouchEvent) => {
@@ -127,7 +125,7 @@ export class Round {
     this.currentPlayer.chooseCards(position)
 
     if (this.gameBoard.checkAllCardsMatched()) {
-      this.stopRound()
+      this.stop()
     }
   }
 
