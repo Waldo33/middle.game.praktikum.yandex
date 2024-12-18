@@ -28,5 +28,4 @@
     "outDir": "dist",
     "typeRoots": ["./types"]
   },
-  "include": ["types"]
 }
