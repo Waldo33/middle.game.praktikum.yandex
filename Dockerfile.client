@@ -25,5 +25,5 @@ COPY --from=builder /app/packages/client/package.json /app/package.json
 RUN yarn install --production=true
 
 EXPOSE $CLIENT_PORT
-CMD [ "node", "/app/server/index.js" ]
+CMD [ "node", "/app/server/index.cjs" ]
 
