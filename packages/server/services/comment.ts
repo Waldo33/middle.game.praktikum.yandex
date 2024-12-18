@@ -9,6 +9,7 @@ export class CommentService {
   }
 
   async isExists(id: number) {
+    if (Number.isNaN(id)) return false
     const comment = await this.commentRepository.get(id)
     return !!comment
   }

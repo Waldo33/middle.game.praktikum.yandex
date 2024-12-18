@@ -6,7 +6,12 @@ import { loggerMiddleware, errorLoggerMiddleware } from './middleware/logger'
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: `${process.env.ORIGIN_URL}`,
+    credentials: true,
+  })
+)
 app.use(express.json())
 app.use(sanitizeMiddleware)
 app.use(loggerMiddleware)

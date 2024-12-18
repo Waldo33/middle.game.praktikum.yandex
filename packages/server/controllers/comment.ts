@@ -33,7 +33,7 @@ export class CommentController {
         content,
         author,
         topicId: Number(topicId),
-        parentId,
+        parentId: parentId || null,
       })
 
       return res.status(200).json(comment)
