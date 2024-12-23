@@ -33,7 +33,7 @@ export const ForumTable: FC<ForumTopicList> = ({ list }) => {
               <small className="block text-gray-500">{item.author}</small>
             </TableCell>
             <TableCell className="text-xs text-gray-500 align-top sm:text-right">
-              {new Date(item.date).toLocaleString('ru-RU')}
+              {new Date(item.updatedAt).toLocaleString('ru-RU')}
             </TableCell>
           </TableRow>
         ))}
