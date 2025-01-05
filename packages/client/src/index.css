@@ -38,7 +38,7 @@
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
+    --card: 0 0% 29%;
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
@@ -79,7 +79,7 @@ body {
   font-style: normal;
 
   @apply relative;
-  @apply py-[30px] min-h-[100dvh] lg:pt-[60px];
+  @apply py-[30px] min-h-[100dvh];
 
   background: rgb(250, 204, 20);
   background: linear-gradient(
@@ -88,6 +88,10 @@ body {
     rgba(5, 165, 237, 1) 100%
   );
 
+  @media (min-width: 1024px) {
+    padding-top: 60px !important;
+  }
+
   &:before {
     @apply block absolute top-0 bottom-0 left-0 right-0;
     content: '';
@@ -95,16 +99,27 @@ body {
     background-size: 500px;
     opacity: 0.1;
   }
+
+  &.dark {
+    background-color: #9a7c04;
+    background: linear-gradient(157deg, rgb(154 124 4) 0%, rgb(15 89 122) 100%);
+  }
 }
 
 .App {
-  @apply relative grid z-10 bg-white max-w-[980px];
+  @apply relative grid z-10 max-w-[980px];
   @apply rounded-2xl lg:rounded-3xl;
-  @apply mx-2 md:mx-5 lg:mx-auto p-4 md:p-8 lg:p-20;
+  @apply mx-2 md:mx-5 lg:mx-auto;
+  background-color: hsl(var(--background));
   min-height: calc(100dvh - 60px);
+  padding: 1rem !important;
 
+  @media (min-width: 768px) {
+    padding: 32px !important;
+  }
   @media (min-width: 1024px) {
     min-height: calc(100dvh - 120px);
+    padding: 80px !important;
   }
 
   /*  for user index */
@@ -117,8 +132,9 @@ body {
 
 h1,
 .h1 {
-  @apply font-black text-black italic text-5xl leading-[1] lg:text-[64px];
+  @apply font-black  italic text-5xl leading-[1] lg:text-[64px];
   @apply mb-12 lg:mb-16;
+  color: hsl(--foreground);
 }
 h2,
 .h2 {

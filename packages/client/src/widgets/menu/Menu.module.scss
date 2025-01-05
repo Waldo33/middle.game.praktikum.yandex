@@ -16,6 +16,7 @@
     }
   }
   a {
-    @apply text-black hover:text-primary underline underline-offset-2 hover:no-underline;
+    @apply hover:text-primary underline underline-offset-2 hover:no-underline;
+    color: hsl(var(--foreground));
   }
 }
