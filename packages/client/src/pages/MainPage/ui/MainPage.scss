@@ -40,7 +40,8 @@
 
     &__descr {
       @apply flex flex-col gap-2 md:gap-4;
-      @apply text-black relative;
+      @apply  relative;
+      color: hsl(var(--foreground));
       font-size: 18px;
       line-height: 1.2;
 
@@ -55,8 +56,9 @@
 
     &__item {
       &_img {
-        @apply rounded-sm bg-primary flex items-center justify-center;
+        @apply rounded-sm flex items-center justify-center;
         @apply w-[90px] h-[90px];
+        background-color: hsl(var(--primary));
       }
 
       &_title {
@@ -66,6 +68,8 @@
   }
 
   .footer {
-    @apply my-2 font-bold text-gray-600 text-sm text-center p-4 bg-secondary rounded-xl;
+    @apply my-2 font-bold text-sm text-center p-4 rounded-xl;
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
   }
 }

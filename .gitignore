@@ -7,3 +7,5 @@ dist
 tmp
 
 *.log
+
+docker-compose.override.yml
