@@ -34,7 +34,7 @@ export class ReactionController {
       const { topicId } = req.params
       const { emoji } = req.body
       // @ts-expect-error подумать как доработать типы
-      const userId = req.customParams.userId
+      const userId = req.customParams.yandex_userId
 
       if (!topicId || !emoji) {
         return res
