@@ -1,4 +1,4 @@
-const BASE_AVATAR_API = `${import.meta.env.VITE_API_URL}/user`
+const BASE_AVATAR_API = `${__API_URL__}/user`
 
 export const changeAvatar = async (data: FormData) => {
   try {

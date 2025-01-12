@@ -1,4 +1,4 @@
-const BASE_PROFILE_API = `${import.meta.env.VITE_API_URL}/user`
+const BASE_PROFILE_API = `${__API_URL__}/user`
 
 export interface Password {
   oldPassword: string

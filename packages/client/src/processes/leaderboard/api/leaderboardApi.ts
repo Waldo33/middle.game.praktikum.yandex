@@ -1,6 +1,4 @@
-export const BASE_LEADERBOARD_API = `${
-  import.meta.env.VITE_API_URL
-}/leaderboard`
+export const BASE_LEADERBOARD_API = `${__API_URL__}/leaderboard`
 
 export interface UserLeaderboardBasicProps {
   bestScore: number
