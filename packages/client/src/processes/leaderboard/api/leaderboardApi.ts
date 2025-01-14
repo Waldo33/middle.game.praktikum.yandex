@@ -1,4 +1,6 @@
-export const BASE_LEADERBOARD_API = `${__API_URL__}/leaderboard`
+import { YANDEX_API_URL } from '../../../constants'
+
+export const BASE_LEADERBOARD_API = `${YANDEX_API_URL}/leaderboard`
 
 export interface UserLeaderboardBasicProps {
   bestScore: number

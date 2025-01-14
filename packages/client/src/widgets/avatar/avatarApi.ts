@@ -1,4 +1,6 @@
-const BASE_AVATAR_API = `${__API_URL__}/user`
+import { YANDEX_API_URL } from '../../constants'
+
+const BASE_AVATAR_API = `${YANDEX_API_URL}/user`
 
 export const changeAvatar = async (data: FormData) => {
   try {
