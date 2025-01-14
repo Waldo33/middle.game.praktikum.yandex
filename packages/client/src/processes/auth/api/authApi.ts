@@ -1,4 +1,4 @@
-import { YANDEX_API_URL } from 'src/constants'
+import { YANDEX_API_URL } from '../../../constants'
 import {
   setAuthenticated,
   setFirstAuthCheck,
