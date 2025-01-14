@@ -1,4 +1,6 @@
-const BASE_PROFILE_API = `${__API_URL__}/user`
+import { YANDEX_API_URL } from 'src/constants'
+
+const BASE_PROFILE_API = `${YANDEX_API_URL}/user`
 
 export interface Password {
   oldPassword: string

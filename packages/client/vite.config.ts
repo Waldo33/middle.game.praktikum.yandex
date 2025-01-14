@@ -20,7 +20,6 @@ export default defineConfig({
   define: {
     __EXTERNAL_SERVER_URL__: JSON.stringify(process.env.EXTERNAL_SERVER_URL),
     __INTERNAL_SERVER_URL__: JSON.stringify(process.env.INTERNAL_SERVER_URL),
-    __API_URL__: 'https://ya-praktikum.tech/api/v2',
   },
   plugins: [
     react(),
