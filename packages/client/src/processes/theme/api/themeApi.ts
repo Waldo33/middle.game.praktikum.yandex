@@ -1,4 +1,4 @@
-import { SERVER_HOST } from 'src/constants'
+import { SERVER_HOST } from '../../../constants'
 
 const BASE_THEME_API = `${SERVER_HOST}/api/user/theme`
 
