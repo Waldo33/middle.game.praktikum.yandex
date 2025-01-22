@@ -7,6 +7,22 @@ import dotenv from 'dotenv'
 dotenv.config()
 import serviceWorkerBuildPlugin from './serviceWorkerBuildPlugin'
 
+const isDev = process.env.NODE_ENV === 'development'
+const proxy = isDev
+  ? {
+      '/api': {
+        target: process.env.API_URL,
+        secure: false,
+        changeOrigin: true,
+        configure: (proxy, options) => {
+          options.cookieDomainRewrite = {
+            '*': '',
+          }
+        },
+      },
+    }
+  : {}
+
 export default defineConfig({
   build: {
     outDir: path.join(__dirname, 'dist/client'),
@@ -16,6 +32,7 @@ export default defineConfig({
   },
   server: {
     port: Number(process.env.CLIENT_PORT) || 3000,
+    proxy,
   },
   define: {
     __EXTERNAL_SERVER_URL__: JSON.stringify(process.env.EXTERNAL_SERVER_URL),
