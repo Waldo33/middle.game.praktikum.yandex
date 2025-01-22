@@ -1,4 +1,6 @@
-export const BASE_FORUM_API = 'http://localhost:3001/api/topics'
+import { SERVER_HOST } from '../../../constants'
+
+export const BASE_FORUM_API = `${SERVER_HOST}/api/topics`
 
 export interface credentialsTopicProps {
   title: string
