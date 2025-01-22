@@ -1,3 +1,4 @@
+import { YANDEX_API_URL } from '../../../constants'
 import {
   setAuthenticated,
   setFirstAuthCheck,
@@ -6,7 +7,7 @@ import {
 } from '../model/authSlice'
 import store from '@app/store'
 
-export const BASE_AUTH_API = `${import.meta.env.VITE_API_URL}/auth`
+export const BASE_AUTH_API = `${YANDEX_API_URL}/auth`
 
 export const signin = async (credentials: Signin) => {
   const response = await fetch(`${BASE_AUTH_API}/signin`, {
@@ -42,9 +43,7 @@ export const signup = async (credentials: User) => {
 
 export const getOAuthServiceId = async (redirectUri: string) => {
   try {
-    const apiUrl = new URL(
-      `${import.meta.env.VITE_API_URL}/oauth/yandex/service-id`
-    )
+    const apiUrl = new URL(`${YANDEX_API_URL}/oauth/yandex/service-id`)
     apiUrl.searchParams.set('redirect_url', redirectUri)
 
     const response = await fetch(apiUrl, {
@@ -69,15 +68,12 @@ export const signinWithOauthToken = async (
   redirectUri: string
 ) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/oauth/yandex`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ code, redirect_uri: redirectUri }),
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      }
-    )
+    const response = await fetch(`${YANDEX_API_URL}/oauth/yandex`, {
+      method: 'POST',
+      body: JSON.stringify({ code, redirect_uri: redirectUri }),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    })
 
     if (!response.ok) {
       throw new Error('Error in signinWithOauthToken')

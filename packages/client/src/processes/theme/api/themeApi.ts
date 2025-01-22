@@ -1,4 +1,6 @@
-const BASE_THEME_API = 'http://localhost:3001/api/user/theme'
+import { SERVER_HOST } from '../../../constants'
+
+const BASE_THEME_API = `${SERVER_HOST}/api/user/theme`
 
 export interface ITheme {
   theme_id: string

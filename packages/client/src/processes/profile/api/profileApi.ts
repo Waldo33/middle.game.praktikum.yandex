@@ -1,4 +1,6 @@
-const BASE_PROFILE_API = `${import.meta.env.VITE_API_URL}/user`
+import { YANDEX_API_URL } from '../../../constants'
+
+const BASE_PROFILE_API = `${YANDEX_API_URL}/user`
 
 export interface Password {
   oldPassword: string
