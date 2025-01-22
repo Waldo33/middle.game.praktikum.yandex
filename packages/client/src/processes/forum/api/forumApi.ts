@@ -1,6 +1,4 @@
-import { SERVER_HOST } from '../../../constants'
-
-export const BASE_FORUM_API = `${SERVER_HOST}/api/topics`
+export const BASE_FORUM_API = `/api/topics`
 
 export interface credentialsTopicProps {
   title: string
